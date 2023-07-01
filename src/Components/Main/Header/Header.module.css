@@ -1,0 +1,49 @@
+@import "../../../constants.css";
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 100%;
+  height: 100px;
+  padding: 1.6rem 3.2rem;
+}
+
+.logo {
+  transition: transform 0.2s;
+  border: none;
+  background-color: white;
+  text-align: center;
+  /* display: inline-block; */
+  position: relative;
+  user-select: none;
+}
+
+.logo:hover {
+  transform: scale(1.01);
+}
+
+/* .logo span {
+  background-size: 100%;
+} */
+
+.logo span:nth-child(1) {
+  font-size: 4.2rem;
+  font-weight: 700;
+  background-image: linear-gradient(45deg, var(--primary), var(--accent));
+  background-size: 150%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo span:nth-child(2) {
+  position: absolute;
+  font-size: 2.8rem;
+  padding: 0rem 0.4rem;
+  transition: all 0.2s;
+}
+
+.logo:hover span:nth-child(2) {
+  transform: rotate3d(0, 1, 0, 180deg) translate(-5%, -20%);
+  transition: transform 0.2s;
+}

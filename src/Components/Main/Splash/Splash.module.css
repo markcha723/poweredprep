@@ -1,0 +1,22 @@
+.splash {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: translate(0%, -5%);
+  margin: 0 auto;
+  flex: 1;
+}
+
+.splash p {
+  font-size: 4.2rem;
+  margin-bottom: 64px;
+}
+
+.selections {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}

@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./index.css";
+
+import About from "./Components/Main/About/About";
+import Header from "./Components/Main/Header/Header";
+import Main from "./Components/Main/Main";
 
 function App() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const dialogCloseHandler = () => {
+    setIsDialogOpen(false);
+  };
+
+  const dialogOpenHandler = () => {
+    setIsDialogOpen(true);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="main-container">
+      {isDialogOpen && <About onDialogClose={dialogCloseHandler}></About>}
+      <Header onDialogOpen={dialogOpenHandler} />
+      <Main />
     </div>
   );
 }

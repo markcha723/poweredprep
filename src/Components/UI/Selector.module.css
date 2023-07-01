@@ -1,0 +1,36 @@
+.selector {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  transform: translate(0%, -5%);
+  margin: 0 auto;
+  flex: 1;
+}
+
+.centered {
+  justify-content: center;
+}
+
+.selector p {
+  font-size: 4.2rem;
+  margin-bottom: 64px;
+}
+
+.selections-few {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.selections-many {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  width: 100%;
+  justify-content: space-around;
+  column-gap: 48px;
+  row-gap: 48px;
+}

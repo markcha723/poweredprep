@@ -1,0 +1,55 @@
+@import url(../../constants.css);
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px 48px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 20%;
+  margin: auto;
+  background-color: white;
+  border-radius: var(--rounded-lg);
+  box-shadow: var(--shadow-lg);
+  height: 600px;
+  width: 500px;
+
+  overflow: hidden;
+
+  z-index: 11;
+}
+
+.titleBackground {
+  position: absolute;
+  transform: translateX(-10%);
+  width: 600px;
+  height: 20%;
+  top: 0;
+  background-color: var(--primary);
+}
+
+.dialog h2 {
+  align-self: flex-start;
+  font-size: 3.6rem;
+  z-index: 1;
+}
+
+.dialog p {
+  font-size: 2.4rem;
+  line-height: 2.4rem;
+}
+
+.dialog Button {
+  align-self: center;
+}
+
+.overlay {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.75);
+  opacity: 50%;
+  height: 100vh;
+  width: 100%;
+  z-index: 10;
+}

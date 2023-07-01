@@ -1,0 +1,45 @@
+@import url(../../constants.css);
+
+.container {
+  display: flex;
+  height: 50px;
+  align-items: center;
+}
+
+.container input[type="checkbox"]:not(:checked),
+.container input[type="checkbox"]:checked {
+  position: absolute;
+  left: -9999%;
+}
+
+.container input[type="checkbox"] + label {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 10px;
+  cursor: pointer;
+  border: 1px solid white;
+  border-radius: var(--rounded);
+  background-color: var(--grey);
+  width: 100px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: background-color 0.05s;
+}
+
+.container input[type="checkbox"]:checked + label {
+  background-color: var(--accent);
+  border: 1px solid black;
+  opacity: 100%;
+}
+
+.label {
+  position: relative;
+}
+
+.label span {
+  vertical-align: top;
+  user-select: none;
+}

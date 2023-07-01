@@ -1,0 +1,9 @@
+.multiple-selector {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 250px;
+  margin-bottom: 64px;
+}
