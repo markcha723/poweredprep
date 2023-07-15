@@ -7,7 +7,7 @@ import classes from "./CreatePassages.module.css";
 const CreatePassages = (props) => {
   const options = [
     {
-      optionName: "topic(s)",
+      optionName: "topics",
       optionOptions: [
         "varied",
         "history",
@@ -20,7 +20,7 @@ const CreatePassages = (props) => {
     },
 
     {
-      optionName: "style(s)",
+      optionName: "styles",
       optionOptions: [
         "varied",
         "modern",
@@ -34,13 +34,18 @@ const CreatePassages = (props) => {
   ];
 
   const submitHandler = () => {
-    console.log("lol");
+    console.log(props.configs);
+    props.setActiveConfig("extras");
   };
 
   return (
     <div className={classes["create-passages"]}>
       <p>what types of passages?</p>
-      <MultipleSelector options={options} />
+      <MultipleSelector
+        options={options}
+        updateConfigs={props.updateConfigs}
+        configs={props.configs}
+      />
       <Button size="large" onClick={submitHandler} option="next" color="teal" />
     </div>
   );

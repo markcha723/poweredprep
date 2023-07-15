@@ -1,20 +1,29 @@
 import React from "react";
+import { useState } from "react";
 
 import classes from "./SubSelectorButton.module.css";
 
 const SubSelectorButton = (props) => {
+  const [checked, setChecked] = useState(false);
+
+  const checkedHandler = (event) => {
+    setChecked(event.target.checked);
+    props.setSelection(event);
+  };
+
   return (
     <div className={classes.container}>
       <input
         type="checkbox"
         name={props.name}
         id={props.name}
-        className={`${classes.button} ${
-          props.isSelected ? classes.selected : ""
-        }`}
+        value={props.displayText}
+        checked={checked}
+        onChange={checkedHandler}
+        className={`${classes.button} ${checked ? classes.selected : ""}`}
       ></input>
       <label htmlFor={props.name} className={classes.label}>
-        <span>{props.name}</span>
+        <span>{props.displayText}</span>
       </label>
     </div>
   );

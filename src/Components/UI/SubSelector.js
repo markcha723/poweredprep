@@ -1,17 +1,32 @@
 import React from "react";
+import { useState } from "react";
 
 import SubSelectorButton from "./SubSelectorButton";
 import classes from "./SubSelector.module.css";
 
 const SubSelector = (props) => {
-  console.log(props.optionName);
-  console.log(props.optionOptions);
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  const changeHandler = (event) => {
+    if (event.target.checked) {
+      setSelectedItems([...selectedItems, event.target.value]);
+    } else {
+      setSelectedItems(
+        selectedItems.filter((item) => item !== event.target.value)
+      );
+    }
+  };
 
   const loadSubSelectors = () => {
     return (
       <React.Fragment>
         {props.optionOptions.map((option) => (
-          <SubSelectorButton name={option} key={option} />
+          <SubSelectorButton
+            displayText={option}
+            name={`${props.optionName}-${option}`}
+            key={`${props.optionName}-${option}`}
+            setSelection={changeHandler}
+          />
         ))}
       </React.Fragment>
     );
