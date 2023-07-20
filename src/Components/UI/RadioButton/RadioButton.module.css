@@ -1,0 +1,19 @@
+@import url(../../../constants.css);
+
+.item label {
+  display: inline-block;
+  width: 100px;
+  padding: 10px;
+  text-align: center;
+  border: solid 2px var(--grey);
+  transition: all 0.2s;
+}
+
+.item input[type="radio"] {
+  display: none;
+}
+
+.item input[type="radio"]:checked + label {
+  border: solid 2px;
+  background-color: var(--accent);
+}

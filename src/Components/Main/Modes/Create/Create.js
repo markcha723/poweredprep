@@ -4,6 +4,7 @@ import ProgressBar from "../../../UI/Progress/ProgressBar";
 import CreateSection from "./CreateSection";
 import CreateQuestions from "./CreateQuestions";
 import CreatePassages from "./CreatePassages";
+import CreateExtras from "./CreateExtras";
 import classes from "./Create.module.css";
 
 const Create = (props) => {
@@ -16,8 +17,9 @@ const Create = (props) => {
     numberOfQuestions: null,
     wordsToUse: null,
   });
-
   const [activeConfig, setActiveConfig] = useState("section");
+
+  console.log(configs);
 
   return (
     <React.Fragment>
@@ -51,7 +53,15 @@ const Create = (props) => {
           updateConfigs={updateConfigs}
         />
       )}
-      {activeConfig === "extras" && <div>extras</div>}
+      {activeConfig === "extras" && (
+        <CreateExtras
+          configs={configs}
+          activeConfig={activeConfig}
+          setActiveConfig={setActiveConfig}
+          updateConfigs={updateConfigs}
+        />
+      )}
+      {activeConfig === "confirm" && <div>WORK IN PROGRESS!</div>}
     </React.Fragment>
   );
 };

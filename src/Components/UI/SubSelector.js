@@ -14,8 +14,6 @@ const SubSelector = (props) => {
     }
   };
 
-  console.log(props.selectedItems);
-
   const loadSubSelectors = () => {
     return (
       <React.Fragment>
