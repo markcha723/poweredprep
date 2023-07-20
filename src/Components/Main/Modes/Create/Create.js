@@ -10,20 +10,15 @@ const Create = (props) => {
   const [configs, updateConfigs] = useState({
     section: null,
     questionTypes: null,
-    passageStyleAndSubject: {
-      styles: null,
-      subjects: null,
-    },
-    extras: {
-      difficulty: null,
-      number: null,
-      words: null,
-    },
+    passageStyles: null,
+    passageTopics: null,
+    difficulty: null,
+    numberOfQuestions: null,
+    wordsToUse: null,
   });
 
   const [activeConfig, setActiveConfig] = useState("section");
 
-  console.log(configs);
   return (
     <React.Fragment>
       <ProgressBar
