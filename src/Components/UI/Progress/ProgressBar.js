@@ -28,8 +28,15 @@ const ProgressBar = (props) => {
               active={props.active}
               onSelect={props.onSelect}
             />
+            <ProgressButton
+              name="confirm"
+              active={props.active}
+              onSelect={props.onSelect}
+            />
           </React.Fragment>
         );
+      default:
+        return <div></div>;
     }
   };
 

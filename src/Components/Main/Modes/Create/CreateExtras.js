@@ -10,27 +10,26 @@ const CreateExtras = (props) => {
     optionName: "difficulty",
     optionOptions: ["varied", "easy", "medium", "hard"],
   };
-  const vocabInput = useRef("");
+  const vocabRef = useRef("");
 
   const [difficulty, setDifficulty] = useState([]);
   const [questionNum, setQuestionNum] = useState(5);
-  const [vocabList, setVocabList] = useState([]);
 
   const parseVocabInput = () => {
-    return vocabInput.current.value.split(",");
+    return vocabRef.current.value.split(",");
   };
 
+  // realistically, this part will need some form validation.
   const submitHandler = () => {
-    setVocabList(parseVocabInput());
-    console.log(`difficulty: ${difficulty}`);
-    console.log(`questionnum: ${questionNum}`);
-    console.log(`vocab list: ${vocabList}`);
-    console.log("clicked");
+    // console.log(`difficulty: ${difficulty}`);
+    // console.log(`questionnum: ${questionNum}`);
+    // console.log(`vocab ref: ${vocabRef}`);
+    // console.log("clicked");
     props.updateConfigs({
       ...props.configs,
       difficulty: difficulty,
       numberOfQuestions: questionNum,
-      wordsToUse: vocabList,
+      wordsToUse: parseVocabInput(),
     });
     props.setActiveConfig("confirm");
   };
@@ -73,7 +72,7 @@ const CreateExtras = (props) => {
             className={classes["text-input"]}
             maxLength={50}
             type="text"
-            ref={vocabInput}
+            ref={vocabRef}
             placeholder="words you'd like to practice reading?"
           />
         </div>

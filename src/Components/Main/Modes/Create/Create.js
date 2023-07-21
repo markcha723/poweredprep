@@ -5,6 +5,7 @@ import CreateSection from "./CreateSection";
 import CreateQuestions from "./CreateQuestions";
 import CreatePassages from "./CreatePassages";
 import CreateExtras from "./CreateExtras";
+import ConfirmRequestForm from "../../../UI/ConfirmRequest/ConfirmRequestForm";
 import classes from "./Create.module.css";
 
 const Create = (props) => {
@@ -61,7 +62,14 @@ const Create = (props) => {
           updateConfigs={updateConfigs}
         />
       )}
-      {activeConfig === "confirm" && <div>WORK IN PROGRESS!</div>}
+      {activeConfig === "confirm" && (
+        <ConfirmRequestForm
+          configs={configs}
+          activeConfig={activeConfig}
+          setActiveConfig={setActiveConfig}
+          updateConfigs={updateConfigs}
+        />
+      )}
     </React.Fragment>
   );
 };
