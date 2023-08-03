@@ -1,11 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 
 import SubSelector from "../../../UI/SubSelector";
 import Button from "../../../UI/Button";
 import RadioButton from "../../../UI/RadioButton/RadioButton";
+import ConfigContext from "../../../../store/config-context";
+
 import classes from "./CreatePassages.module.css";
 
 const CreateExtras = (props) => {
+  const { configs, updateConfigs, setActiveConfig } = useContext(ConfigContext);
   const options = {
     optionName: "difficulty",
     optionOptions: ["varied", "easy", "medium", "hard"],
@@ -21,17 +24,13 @@ const CreateExtras = (props) => {
 
   // realistically, this part will need some form validation.
   const submitHandler = () => {
-    // console.log(`difficulty: ${difficulty}`);
-    // console.log(`questionnum: ${questionNum}`);
-    // console.log(`vocab ref: ${vocabRef}`);
-    // console.log("clicked");
-    props.updateConfigs({
-      ...props.configs,
+    updateConfigs({
+      ...configs,
       difficulty: difficulty,
       numberOfQuestions: questionNum,
       wordsToUse: parseVocabInput(),
     });
-    props.setActiveConfig("confirm");
+    setActiveConfig("confirm");
   };
 
   return (
@@ -39,7 +38,7 @@ const CreateExtras = (props) => {
       <p>what types of passages?</p>
       <div className={classes["multiple-selector"]}>
         <SubSelector
-          configs={props.configs}
+          configs={configs}
           selectedItems={difficulty}
           setSelectedItems={setDifficulty}
           optionName={options.optionName}

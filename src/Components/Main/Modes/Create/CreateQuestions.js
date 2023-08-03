@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import Selector from "../../../UI/Selector";
 import Button from "../../../UI/Button";
+import ConfigContext from "../../../../store/config-context";
 
 const CreateQuestions = (props) => {
+  const { configs, updateConfigs, setActiveConfig } = useContext(ConfigContext);
+
   const readingQuestionTypes = [
     "explicit meaning",
     "main idea",
@@ -54,13 +57,13 @@ const CreateQuestions = (props) => {
   };
 
   const questionTypeHandler = (selection) => {
-    props.updateConfigs({ ...props.configs, questionTypes: selection });
-    props.setActiveConfig("passages");
+    updateConfigs({ ...configs, questionTypes: selection });
+    setActiveConfig("passages");
   };
 
   return (
     <Selector prompt="what question type?" buttonGrid={true}>
-      {renderButtonsFor(props.configs.section)}
+      {renderButtonsFor(configs.section)}
     </Selector>
   );
 };

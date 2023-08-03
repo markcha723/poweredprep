@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import ProgressBar from "../../../UI/Progress/ProgressBar";
 
+import ConfigContext from "../../../../store/config-context";
+import ProgressBar from "../../../UI/Progress/ProgressBar";
 import CreateSection from "./CreateSection";
 import CreateQuestions from "./CreateQuestions";
 import CreatePassages from "./CreatePassages";
@@ -23,7 +24,7 @@ const Create = (props) => {
   console.log(configs);
 
   return (
-    <React.Fragment>
+    <ConfigContext.Provider value={{ configs, updateConfigs, setActiveConfig }}>
       <ProgressBar
         barFor="create"
         active={activeConfig}
@@ -70,7 +71,7 @@ const Create = (props) => {
           updateConfigs={updateConfigs}
         />
       )}
-    </React.Fragment>
+    </ConfigContext.Provider>
   );
 };
 

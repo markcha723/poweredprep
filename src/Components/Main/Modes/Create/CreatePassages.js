@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import SubSelector from "../../../UI/SubSelector";
 import Button from "../../../UI/Button";
-
+import ConfigContext from "../../../../store/config-context";
 import classes from "./CreatePassages.module.css";
 
 const CreatePassages = (props) => {
+  const { configs, updateConfigs, setActiveConfig } = useContext(ConfigContext);
+
   const options = [
     {
       optionName: "topics",
@@ -37,12 +39,12 @@ const CreatePassages = (props) => {
   const [styles, setStyles] = useState([]);
 
   const submitHandler = () => {
-    props.updateConfigs({
-      ...props.configs,
+    updateConfigs({
+      ...configs,
       passageStyles: styles,
       passageTopics: topics,
     });
-    props.setActiveConfig("extras");
+    setActiveConfig("extras");
   };
 
   return (
@@ -50,7 +52,7 @@ const CreatePassages = (props) => {
       <p>what types of passages?</p>
       <div className={classes["multiple-selector"]}>
         <SubSelector
-          configs={props.configs}
+          configs={configs}
           selectedItems={topics}
           setSelectedItems={setTopics}
           optionName={options[0].optionName}
@@ -58,7 +60,7 @@ const CreatePassages = (props) => {
           key={options[0].optionName}
         />
         <SubSelector
-          configs={props.configs}
+          configs={configs}
           selectedItems={styles}
           setSelectedItems={setStyles}
           optionName={options[1].optionName}
