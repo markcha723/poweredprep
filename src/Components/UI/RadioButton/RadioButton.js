@@ -14,7 +14,7 @@ const RadioButton = (props) => {
         id={`questionNum-${props.value}`}
         name={props.name}
         value={props.value}
-        checked={props.checked}
+        checked={props.questionNum === props.value}
         onChange={changeHandler}
       />
       <label htmlFor={`questionNum-${props.value}`}>{props.value}</label>

@@ -18,7 +18,7 @@ const SubSelectorButton = (props) => {
         name={props.name}
         id={props.name}
         value={props.displayText}
-        checked={checked}
+        checked={props.wasSelected.includes(props.displayText)}
         onChange={checkedHandler}
         className={`${classes.button} ${checked ? classes.selected : ""}`}
       ></input>

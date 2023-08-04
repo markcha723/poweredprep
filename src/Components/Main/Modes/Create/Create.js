@@ -13,11 +13,11 @@ const Create = (props) => {
   const [configs, updateConfigs] = useState({
     section: null,
     questionTypes: null,
-    passageStyles: null,
-    passageTopics: null,
-    difficulty: null,
-    numberOfQuestions: null,
-    wordsToUse: null,
+    passageStyles: ["varied"],
+    passageTopics: ["varied"],
+    difficulty: ["varied"],
+    numberOfQuestions: 5,
+    wordsToUse: [],
   });
   const [activeConfig, setActiveConfig] = useState("section");
 
@@ -31,46 +31,11 @@ const Create = (props) => {
         onSelect={setActiveConfig}
         className={classes["progress-bar"]}
       />
-
-      {activeConfig === "section" && (
-        <CreateSection
-          configs={configs}
-          setActiveConfig={setActiveConfig}
-          updateConfigs={updateConfigs}
-        />
-      )}
-      {activeConfig === "questions" && (
-        <CreateQuestions
-          configs={configs}
-          activeConfig={activeConfig}
-          setActiveConfig={setActiveConfig}
-          updateConfigs={updateConfigs}
-        />
-      )}
-      {activeConfig === "passages" && (
-        <CreatePassages
-          configs={configs}
-          activeConfig={activeConfig}
-          setActiveConfig={setActiveConfig}
-          updateConfigs={updateConfigs}
-        />
-      )}
-      {activeConfig === "extras" && (
-        <CreateExtras
-          configs={configs}
-          activeConfig={activeConfig}
-          setActiveConfig={setActiveConfig}
-          updateConfigs={updateConfigs}
-        />
-      )}
-      {activeConfig === "confirm" && (
-        <ConfirmRequestForm
-          configs={configs}
-          activeConfig={activeConfig}
-          setActiveConfig={setActiveConfig}
-          updateConfigs={updateConfigs}
-        />
-      )}
+      {activeConfig === "section" && <CreateSection />}
+      {activeConfig === "questions" && <CreateQuestions />}
+      {activeConfig === "passages" && <CreatePassages />}
+      {activeConfig === "extras" && <CreateExtras />}
+      {activeConfig === "confirm" && <ConfirmRequestForm />}
     </ConfigContext.Provider>
   );
 };

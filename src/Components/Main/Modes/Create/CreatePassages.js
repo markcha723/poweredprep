@@ -35,8 +35,9 @@ const CreatePassages = (props) => {
     },
   ];
 
-  const [topics, setTopics] = useState([]);
-  const [styles, setStyles] = useState([]);
+  const [topics, setTopics] = useState(configs.passageTopics);
+  const [styles, setStyles] = useState(configs.passageStyles);
+  const selectionsAreInvalid = topics.length === 0 || styles.length === 0;
 
   const submitHandler = () => {
     updateConfigs({
@@ -68,7 +69,13 @@ const CreatePassages = (props) => {
           key={options[1].optionName}
         />
       </div>
-      <Button size="large" onClick={submitHandler} option="next" color="teal" />
+      <Button
+        size="large"
+        onClick={submitHandler}
+        option="next"
+        color="teal"
+        disabled={selectionsAreInvalid}
+      />
     </div>
   );
 };

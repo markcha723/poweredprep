@@ -6,16 +6,6 @@ import ConfigContext from "../../../../store/config-context";
 const CreateSection = (props) => {
   const { configs, updateConfigs, setActiveConfig } = useContext(ConfigContext);
 
-  const writingHandler = () => {
-    props.updateConfigs({ ...props.configs, section: "writing" });
-    props.setActiveConfig("questions");
-  };
-
-  const readingHandler = () => {
-    props.updateConfigs({ ...props.configs, section: "reading" });
-    props.setActiveConfig("questions");
-  };
-
   const clickHandler = (selection) => {
     if (selection === "writing") {
       updateConfigs({ ...configs, section: "writing" });

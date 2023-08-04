@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import FormConfigItem from "../FormConfigItem/FormConfigItem";
 import Button from "../Button";
+import ConfigContext from "../../../store/config-context";
 import classes from "./ConfirmRequestForm.module.css";
 
 const ConfirmRequestForm = (props) => {
+  const { configs, updateConfigs, setActiveConfig } = useContext(ConfigContext);
+
   // error handling for items needs to be handled.
   // disables button if any of the forms are invalid!
 
@@ -18,52 +21,52 @@ const ConfirmRequestForm = (props) => {
       <ul className={classes.configs}>
         <FormConfigItem
           optionName="section"
-          inputs={props.configs.section}
+          inputs={configs.section}
           sendTo="section"
-          configs={props.configs}
-          setActiveConfig={props.setActiveConfig}
+          configs={configs}
+          setActiveConfig={setActiveConfig}
         />
         <FormConfigItem
           optionName="question type"
-          inputs={props.configs.questionTypes}
+          inputs={configs.questionTypes}
           sendTo="questions"
-          configs={props.configs}
-          setActiveConfig={props.setActiveConfig}
+          configs={configs}
+          setActiveConfig={setActiveConfig}
         />
         <FormConfigItem
           optionName="topics"
-          inputs={props.configs.passageTopics}
+          inputs={configs.passageTopics}
           sendTo="passages"
-          configs={props.configs}
-          setActiveConfig={props.setActiveConfig}
+          configs={configs}
+          setActiveConfig={setActiveConfig}
         />
         <FormConfigItem
           optionName="styles"
-          inputs={props.configs.passageStyles}
+          inputs={configs.passageStyles}
           sendTo="passages"
-          configs={props.configs}
-          setActiveConfig={props.setActiveConfig}
+          configs={configs}
+          setActiveConfig={setActiveConfig}
         />
         <FormConfigItem
           optionName="difficulty"
-          inputs={props.configs.difficulty}
+          inputs={configs.difficulty}
           sendTo="extras"
-          configs={props.configs}
-          setActiveConfig={props.setActiveConfig}
+          configs={configs}
+          setActiveConfig={setActiveConfig}
         />
         <FormConfigItem
           optionName="number of questions"
-          inputs={props.configs.numberOfQuestions}
+          inputs={configs.numberOfQuestions}
           sendTo="extras"
-          configs={props.configs}
-          setActiveConfig={props.setActiveConfig}
+          configs={configs}
+          setActiveConfig={setActiveConfig}
         />
         <FormConfigItem
           optionName="vocabulary"
-          inputs={props.configs.wordsToUse}
+          inputs={configs.wordsToUse}
           sendTo="extras"
-          configs={props.configs}
-          setActiveConfig={props.setActiveConfig}
+          configs={configs}
+          setActiveConfig={setActiveConfig}
         />
       </ul>
       <Button

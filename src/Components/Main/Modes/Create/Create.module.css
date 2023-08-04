@@ -5,7 +5,7 @@
   align-self: center;
   max-width: 800px;
   width: 800px;
-  transform: translateY(100px);
+  transform: translateY(50%);
   margin-bottom: 150px;
   z-index: 5;
   flex: 0.2;

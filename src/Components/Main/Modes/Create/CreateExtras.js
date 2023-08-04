@@ -15,11 +15,16 @@ const CreateExtras = (props) => {
   };
   const vocabRef = useRef("");
 
-  const [difficulty, setDifficulty] = useState([]);
-  const [questionNum, setQuestionNum] = useState(5);
+  const [difficulty, setDifficulty] = useState(configs.difficulty);
+  const [questionNum, setQuestionNum] = useState(configs.numberOfQuestions);
+  const [vocabulary, setVocabulary] = useState(configs.wordsToUse.toString());
 
   const parseVocabInput = () => {
     return vocabRef.current.value.split(",");
+  };
+
+  const vocabChangeHandler = (event) => {
+    setVocabulary(event.target.value);
   };
 
   // realistically, this part will need some form validation.
@@ -44,6 +49,7 @@ const CreateExtras = (props) => {
           optionName={options.optionName}
           optionOptions={options.optionOptions}
           key={options.optionName}
+          wasSelected={difficulty}
         />
         <div className={classes["sub-selector"]}>
           <p>number:</p>
@@ -52,16 +58,19 @@ const CreateExtras = (props) => {
               name="numberOfQuestions"
               setQuestionNum={setQuestionNum}
               value={5}
+              questionNum={questionNum}
             />
             <RadioButton
               name="numberOfQuestions"
               value={10}
               setQuestionNum={setQuestionNum}
+              questionNum={questionNum}
             />
             <RadioButton
               name="numberOfQuestions"
               setQuestionNum={setQuestionNum}
               value={15}
+              questionNum={questionNum}
             />
           </ul>
         </div>
@@ -72,6 +81,8 @@ const CreateExtras = (props) => {
             maxLength={50}
             type="text"
             ref={vocabRef}
+            value={vocabulary}
+            onChange={vocabChangeHandler}
             placeholder="words you'd like to practice reading?"
           />
         </div>

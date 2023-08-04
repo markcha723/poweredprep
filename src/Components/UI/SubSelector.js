@@ -23,6 +23,7 @@ const SubSelector = (props) => {
             name={`${props.optionName}-${option}`}
             key={`${props.optionName}-${option}`}
             setSelection={changeHandler}
+            wasSelected={props.selectedItems}
           />
         ))}
       </React.Fragment>

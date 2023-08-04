@@ -1,4 +1,5 @@
 @import url(../../../constants.css);
+
 .item {
   display: flex;
   flex-direction: row;
@@ -20,7 +21,17 @@
 }
 
 .item-value {
+  padding-left: 12px;
   flex: 1;
-  font-size: 2.8rem;
   opacity: 60%;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.small-text {
+  font-size: 1.8rem;
+}
+
+.large-text {
+  font-size: 2.8rem;
 }
