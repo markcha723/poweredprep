@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
 
 import About from "./Components/Main/About/About";
@@ -7,6 +7,13 @@ import Main from "./Components/Main/Main";
 
 function App() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dummyData, setDummyData] = useState();
+
+  useEffect(() => {
+    fetch("/api")
+      .then((response) => response.json())
+      .then((data) => setDummyData(data));
+  }, []);
 
   const dialogCloseHandler = () => {
     setIsDialogOpen(false);
