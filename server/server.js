@@ -13,8 +13,23 @@ app.get("/api", (req, res) => {
   res.json({ users: ["userOne", "userTwo", "userThree"] });
 });
 
-app.get("/blog", (req, res) => {
-  res.send("lol!");
+app.get("/questions", async (req, res) => {
+  try {
+    const questions = await Question.find({});
+    res.status(200).json(questions);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/questions/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const question = await Question.findById(id);
+    res.status(200).json(question);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 app.post("/question", async (req, res) => {

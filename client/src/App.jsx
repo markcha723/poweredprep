@@ -16,7 +16,15 @@ function App() {
   }, []);
 
   useEffect(() => {
-    fetch("/blog").then((data) => console.log(data));
+    fetch("/questions/")
+      .then((response) => response.json())
+      .then((data) => setDummyData(data));
+  }, []);
+
+  useEffect(() => {
+    fetch("/questions/64cff4d0e70a7a1add546a9b")
+      .then((response) => response.json())
+      .then((data) => setDummyData(data));
   }, []);
 
   const dialogCloseHandler = () => {
