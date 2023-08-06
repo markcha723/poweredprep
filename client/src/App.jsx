@@ -15,6 +15,10 @@ function App() {
       .then((data) => setDummyData(data));
   }, []);
 
+  useEffect(() => {
+    fetch("/blog").then((data) => console.log(data));
+  }, []);
+
   const dialogCloseHandler = () => {
     setIsDialogOpen(false);
   };
