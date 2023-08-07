@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose, { Document, Schema } from "mongoose";
 
-const questionSchema = mongoose.Schema(
+export const QuestionSchema: Schema = new Schema(
   {
     body: {
       type: String,
@@ -31,9 +31,9 @@ const questionSchema = mongoose.Schema(
       required: [true, "Style has not been set."],
     },
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 
-const Question = mongoose.model("Question", questionSchema);
+const Question = mongoose.model("Question", QuestionSchema);
 
 module.exports = Question;
