@@ -9,24 +9,6 @@ function App() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dummyData, setDummyData] = useState();
 
-  useEffect(() => {
-    fetch("/api")
-      .then((response) => response.json())
-      .then((data) => setDummyData(data));
-  }, []);
-
-  useEffect(() => {
-    fetch("/questions/")
-      .then((response) => response.json())
-      .then((data) => setDummyData(data));
-  }, []);
-
-  useEffect(() => {
-    fetch("/questions/64cff4d0e70a7a1add546a9b")
-      .then((response) => response.json())
-      .then((data) => setDummyData(data));
-  }, []);
-
   const dialogCloseHandler = () => {
     setIsDialogOpen(false);
   };
