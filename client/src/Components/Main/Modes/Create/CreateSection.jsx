@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import Selector from "../../../UI/Selector";
-import Button from "../../../UI/Button";
+import Selector from "../../../UI/Selector/Selector";
+import Button from "../../../UI/Button/Button";
 import ConfigContext from "../../../../store/config-context";
 
 const CreateSection = (props) => {

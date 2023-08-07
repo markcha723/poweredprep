@@ -1,6 +1,6 @@
 import React from "react";
 
-import SubSelectorButton from "./SubSelectorButton";
+import SubSelectorButton from "../SubSelectorButton/SubSelectorButton";
 import classes from "./SubSelector.module.css";
 
 const SubSelector = (props) => {

@@ -1,6 +1,6 @@
 import React from "react";
 
-import Button from "../../UI/Button";
+import Button from "../../UI/Button/Button";
 import classes from "./Header.module.css";
 
 const Header = (props) => {

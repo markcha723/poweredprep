@@ -1,7 +1,7 @@
 import React from "react";
 
-import Selector from "../../UI/Selector";
-import Button from "../../UI/Button";
+import Selector from "../../UI/Selector/Selector";
+import Button from "../../UI/Button/Button";
 
 const Splash = (props) => {
   const selectStudyHandler = () => {

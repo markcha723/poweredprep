@@ -1,7 +1,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
 
-import Button from "./Button";
+import Button from "../Button/Button";
 import classes from "./Dialog.module.css";
 
 const Overlay = (props) => {

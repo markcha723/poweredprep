@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./FormConfigItem.module.css";
-import Button from "../Button";
+import Button from "../Button/Button";
 
 const FormConfigItem = (props) => {
   const sendTo = (location) => {
