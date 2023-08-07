@@ -1,7 +1,7 @@
 import React, { useState, useRef, useContext } from "react";
 
-import SubSelector from "../../../UI/SubSelector";
-import Button from "../../../UI/Button";
+import SubSelector from "../../../UI/SubSelector/SubSelector";
+import Button from "../../../UI/Button/Button";
 import RadioButton from "../../../UI/RadioButton/RadioButton";
 import ConfigContext from "../../../../store/config-context";
 

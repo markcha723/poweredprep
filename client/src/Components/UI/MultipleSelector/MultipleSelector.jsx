@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./MultipleSelector.module.css";
-import SubSelector from "./SubSelector";
+import SubSelector from "../SubSelector/SubSelector";
 
 const MultipleSelector = (props) => {
   const loadSelectors = (options) => {

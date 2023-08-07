@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import FormConfigItem from "../FormConfigItem/FormConfigItem";
-import Button from "../Button";
+import Button from "../Button/Button";
 import ConfigContext from "../../../store/config-context";
 import classes from "./ConfirmRequestForm.module.css";
 

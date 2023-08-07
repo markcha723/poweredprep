@@ -1,5 +1,5 @@
 import React from "react";
-import Dialog from "../../UI/Dialog";
+import Dialog from "../../UI/Dialog/Dialog";
 
 const About = (props) => {
   const description =

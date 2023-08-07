@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import SubSelector from "../../../UI/SubSelector";
-import Button from "../../../UI/Button";
+import SubSelector from "../../../UI/SubSelector/SubSelector";
+import Button from "../../../UI/Button/Button";
 import ConfigContext from "../../../../store/config-context";
 import classes from "./CreatePassages.module.css";
 
