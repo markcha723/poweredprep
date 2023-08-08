@@ -7,6 +7,7 @@ import CreateQuestions from "./CreateQuestions";
 import CreatePassages from "./CreatePassages";
 import CreateExtras from "./CreateExtras";
 import ConfirmRequestForm from "../../../UI/ConfirmRequest/ConfirmRequestForm";
+import Editor from "../../Editor/Editor";
 import classes from "./Create.module.css";
 
 const Create = (props) => {
@@ -25,17 +26,20 @@ const Create = (props) => {
 
   return (
     <ConfigContext.Provider value={{ configs, updateConfigs, setActiveConfig }}>
-      <ProgressBar
-        barFor="create"
-        active={activeConfig}
-        onSelect={setActiveConfig}
-        className={classes["progress-bar"]}
-      />
+      {activeConfig !== "editor" && (
+        <ProgressBar
+          barFor="create"
+          active={activeConfig}
+          onSelect={setActiveConfig}
+          className={classes["progress-bar"]}
+        />
+      )}
       {activeConfig === "section" && <CreateSection />}
       {activeConfig === "questions" && <CreateQuestions />}
       {activeConfig === "passages" && <CreatePassages />}
       {activeConfig === "extras" && <CreateExtras />}
       {activeConfig === "confirm" && <ConfirmRequestForm />}
+      {activeConfig === "editor" && <Editor />}
     </ConfigContext.Provider>
   );
 };

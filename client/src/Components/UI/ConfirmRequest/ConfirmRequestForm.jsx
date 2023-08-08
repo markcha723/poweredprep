@@ -14,6 +14,7 @@ const ConfirmRequestForm = (props) => {
   const submitHandler = (event) => {
     event.preventDefault();
     console.log(props.configs);
+    setActiveConfig("editor");
   };
 
   return (
