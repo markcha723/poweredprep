@@ -6,10 +6,7 @@ const Button = (props) => {
 
   if (props.superBigAndSpecial === true) {
     return (
-      <div
-        className={classes["super-large-and-special-border-1"]}
-        onClick={props.onClick}
-      >
+      <div className={classes["super-large-and-special-border-1"]}>
         <div className={classes["super-large-and-special-border-2"]}>
           <button
             className={classes["super-large-and-special-button"]}

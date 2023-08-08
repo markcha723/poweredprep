@@ -3,6 +3,7 @@ import ConfigContext from "../../../store/config-context";
 
 import QuestionNavigator from "../../UI/QuestionNavigator/QuestionNavigator";
 import PrevNextNavigator from "../../UI/PrevNextNavigator/PrevNextNavigator";
+import EditableQuestion from "../../UI/EditableQuestion/EditableQuestion";
 import Approver from "../../UI/Approver/Approver";
 import DifficultyAdjuster from "../../UI/DifficultyAdjuster/DifficultyAdjuster";
 import Button from "../../UI/Button/Button";
@@ -13,6 +14,7 @@ const Editor = (props) => {
   const [questions, setQuestions] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState(false);
   const [approved, setApproved] = useState(true);
 
@@ -46,7 +48,7 @@ const Editor = (props) => {
   }, [fetchQuestions]);
 
   const clickEditHander = () => {
-    console.log("clicked edit!");
+    setIsEditing(!isEditing);
   };
 
   const submitHandler = () => {
@@ -82,7 +84,7 @@ const Editor = (props) => {
           setActiveIndex={setActiveIndex}
         />
       </div>
-      <article className={classes["question-and-answer"]}>{content}</article>
+      <EditableQuestion isEditing={isEditing}>{content}</EditableQuestion>
       <div className={classes["editing-tools"]}>
         <Approver setApproved={setApproved} approved={approved} />
         <DifficultyAdjuster />
