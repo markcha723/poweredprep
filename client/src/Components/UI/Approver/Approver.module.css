@@ -1,0 +1,30 @@
+@import url(../../../constants.css);
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  align-items: center;
+}
+
+.container label {
+  display: inline-block;
+  text-align: center;
+  font-size: 24px;
+  width: 100px;
+  height: 50px;
+  padding: 10px;
+  text-align: center;
+  border: solid 2px var(--grey);
+  transition: all 0.2s;
+}
+
+.container input[type="radio"] {
+  display: none;
+}
+
+.container input[type="radio"]:checked + label {
+  border: solid 2px;
+  background-color: var(--accent);
+}
