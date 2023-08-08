@@ -14,7 +14,9 @@ const EditableAnswerChoice = (props) => {
       <label className={classes.choice}>
         <span>{`${props.choiceLetter})`}</span>
         <textarea
-          className={classes["answer-text"]}
+          className={`${classes["answer-text"]} ${
+            props.isEditing ? classes.editable : ""
+          }`}
           readOnly={!props.isEditing}
           value={props.text}
         ></textarea>

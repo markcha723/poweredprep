@@ -56,14 +56,18 @@ const EditableQuestion = (props) => {
     <article className={classes["question-and-answer"]}>
       <textarea
         type="text"
-        className={classes["question-body"]}
+        className={`${classes["question-body"]} ${
+          props.isEditing ? classes.editable : ""
+        }`}
         readOnly={!props.isEditing}
         value={questionBody}
         onChange={questionBodyChangeHandler}
       />
       <textarea
         type="text"
-        className={classes.prompt}
+        className={`${classes.prompt} ${
+          props.isEditing ? classes.editable : ""
+        }`}
         readOnly={!props.isEditing}
         value={prompt}
         onChange={promptChangeHandler}

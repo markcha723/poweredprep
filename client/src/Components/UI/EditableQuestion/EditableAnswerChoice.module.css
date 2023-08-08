@@ -22,4 +22,15 @@
   min-width: 400px;
   resize: none;
   flex: 1;
+  border: solid 1px #fff;
+  border-radius: var(--rounded);
+}
+
+.editable {
+  border: solid 1px var(--grey);
+}
+
+.editable:hover,
+.editable:focus {
+  border: solid 1px var(--text);
 }
