@@ -49,6 +49,10 @@ const Editor = (props) => {
     console.log("clicked edit!");
   };
 
+  const submitHandler = () => {
+    console.log("clicked submit!");
+  };
+
   let content;
 
   if (questions.length > 0) {
@@ -87,6 +91,11 @@ const Editor = (props) => {
           size="large"
           onClick={clickEditHander}
           option="edit"
+        />
+        <Button
+          superBigAndSpecial={true}
+          option="submit"
+          onClick={submitHandler}
         />
       </div>
     </main>
