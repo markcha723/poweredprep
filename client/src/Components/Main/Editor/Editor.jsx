@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState, useCallback } from "react";
 import ConfigContext from "../../../store/config-context";
 
 import QuestionNavigator from "../../UI/QuestionNavigator/QuestionNavigator";
+import PrevNextNavigator from "../../UI/PrevNextNavigator/PrevNextNavigator";
 import Approver from "../../UI/Approver/Approver";
 import DifficultyAdjuster from "../../UI/DifficultyAdjuster/DifficultyAdjuster";
 import Button from "../../UI/Button/Button";
@@ -68,6 +69,11 @@ const Editor = (props) => {
         <span className={classes["page-title"]}>editor</span>
         <QuestionNavigator
           questionNumber={13}
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+        />
+        <PrevNextNavigator
+          maxIndex={12}
           activeIndex={activeIndex}
           setActiveIndex={setActiveIndex}
         />
