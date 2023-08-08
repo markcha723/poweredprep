@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import ConfigContext from "../../../store/config-context";
+
+import QuestionNavigator from "../../UI/QuestionNavigator/QuestionNavigator";
 import Approver from "../../UI/Approver/Approver";
 import DifficultyAdjuster from "../../UI/DifficultyAdjuster/DifficultyAdjuster";
 import Button from "../../UI/Button/Button";
@@ -62,7 +64,14 @@ const Editor = (props) => {
 
   return (
     <main className={classes.editor}>
-      <div className={classes.misc}></div>
+      <div className={classes.misc}>
+        <span className={classes["page-title"]}>editor</span>
+        <QuestionNavigator
+          questionNumber={13}
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+        />
+      </div>
       <article className={classes["question-and-answer"]}>{content}</article>
       <div className={classes["editing-tools"]}>
         <Approver setApproved={setApproved} approved={approved} />
