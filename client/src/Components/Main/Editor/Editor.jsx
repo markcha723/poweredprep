@@ -84,6 +84,9 @@ const Editor = (props) => {
     setActiveQuestion(questions[indexTo]);
     setQuestionDifficulty(questions[indexTo].difficulty);
     setApproved(questions[indexTo].approved);
+    setQuestionBody(questions[indexTo].body);
+    setQuestionPrompt(questions[indexTo].question);
+    setAnswerChoices(questions[indexTo].answerChoices);
   };
 
   const updateQuestionHandler = (object) => {
@@ -109,6 +112,8 @@ const Editor = (props) => {
       console.log("clicked submit!");
     }
   };
+
+  console.log(activeQuestion);
 
   return (
     <main className={classes.editor}>
