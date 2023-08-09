@@ -88,3 +88,10 @@
 .red {
   background-color: var(--error);
 }
+
+.disabled {
+  pointer-events: none;
+  opacity: 20%;
+  transition: opacity 0.2s;
+  user-select: none;
+}

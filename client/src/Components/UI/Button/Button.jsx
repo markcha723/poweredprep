@@ -6,7 +6,11 @@ const Button = (props) => {
 
   if (props.superBigAndSpecial === true) {
     return (
-      <div className={classes["super-large-and-special-border-1"]}>
+      <div
+        className={`${classes["super-large-and-special-border-1"]} ${
+          props.disabled ? classes.disabled : ""
+        }`}
+      >
         <div className={classes["super-large-and-special-border-2"]}>
           <button
             className={classes["super-large-and-special-button"]}

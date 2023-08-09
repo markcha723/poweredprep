@@ -19,6 +19,7 @@
 
 .answer-text {
   height: 50px;
+  padding: 2px 4px;
   min-width: 400px;
   resize: none;
   flex: 1;
@@ -27,7 +28,7 @@
 }
 
 .editable {
-  border: solid 1px var(--grey);
+  border: solid 1px var(--text);
 }
 
 .editable:hover,

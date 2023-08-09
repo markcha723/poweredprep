@@ -11,6 +11,7 @@ const Approver = (props) => {
         id="disapprove"
         name="approval"
         onChange={() => props.setApproved(false)}
+        checked={props.approved}
       />
       <label htmlFor="disapprove">
         <span>👎</span>
@@ -21,6 +22,7 @@ const Approver = (props) => {
         id="approve"
         name="approval"
         onChange={() => props.setApproved(true)}
+        checked={props.approved}
       />
       <label htmlFor="approve">
         <span>👍</span>
