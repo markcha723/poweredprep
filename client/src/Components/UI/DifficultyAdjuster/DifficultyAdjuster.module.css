@@ -1,0 +1,46 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 24px;
+}
+
+.main span {
+  font-size: 2.4rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  align-items: center;
+}
+
+.container label {
+  display: inline-block;
+  text-align: center;
+  font-size: 1.8rem;
+  width: 100px;
+  padding: 10px;
+  text-align: center;
+  border: solid 2px var(--grey);
+  transition: all 0.2s;
+}
+
+.container input[type="radio"] {
+  display: none;
+}
+
+.container input[type="radio"]:checked + label {
+  border: solid 2px;
+  background-color: var(--accent);
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 20%;
+  transition: opacity 0.2s;
+  user-select: none;
+}

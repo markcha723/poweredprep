@@ -1,0 +1,55 @@
+.editor {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  padding-left: 36px;
+  padding-right: 36px;
+  padding-bottom: 36px;
+  width: 100vw;
+  height: 100%;
+}
+
+.loading {
+  flex: 1;
+}
+
+.misc {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  min-width: 333px;
+  padding-top: 48px;
+}
+
+.page-title {
+  height: 50px;
+  font-size: 4.2rem;
+  font-weight: 500;
+}
+
+.editing-tools {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 25%;
+  min-width: 333px;
+  height: 100%;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.editing-tools--inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  height: 50%;
+}
+
+.disable-controls {
+  pointer-events: none;
+  opacity: 20%;
+  transition: opacity 0.2s;
+  user-select: none;
+}
