@@ -21,6 +21,11 @@ const Editor = (props) => {
   const [questionPrompt, setQuestionPrompt] = useState("");
   const [answerChoices, setAnswerChoices] = useState([]);
 
+  const [answerA, setAnswerA] = useState({});
+  const [answerB, setAnswerB] = useState({});
+  const [answerC, setAnswerC] = useState({});
+  const [answerD, setAnswerD] = useState({});
+
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState(false);
@@ -56,6 +61,10 @@ const Editor = (props) => {
       setQuestionBody(adjustedData[activeIndex].body);
       setQuestionPrompt(adjustedData[activeIndex].question);
       setAnswerChoices(adjustedData[activeIndex].answerChoices);
+      setAnswerA(adjustedData[activeIndex].answerChoices[0]);
+      setAnswerB(adjustedData[activeIndex].answerChoices[1]);
+      setAnswerC(adjustedData[activeIndex].answerChoices[2]);
+      setAnswerD(adjustedData[activeIndex].answerChoices[3]);
     } catch (error) {
       setError(error.message);
     }
@@ -94,6 +103,10 @@ const Editor = (props) => {
     setQuestionBody(questions[indexTo].body);
     setQuestionPrompt(questions[indexTo].question);
     setAnswerChoices(questions[indexTo].answerChoices);
+    setAnswerA(questions[indexTo].answerChoices[0]);
+    setAnswerB(questions[indexTo].answerChoices[1]);
+    setAnswerC(questions[indexTo].answerChoices[2]);
+    setAnswerD(questions[indexTo].answerChoices[3]);
   };
 
   const updateQuestionHandler = (object) => {
@@ -160,6 +173,10 @@ const Editor = (props) => {
           body={questionBody}
           prompt={questionPrompt}
           answerChoices={answerChoices}
+          answerA={answerA}
+          answerB={answerB}
+          answerC={answerC}
+          answerD={answerD}
           isEditing={isEditing}
           updateQuestion={updateQuestionHandler}
           disabled={approved === false ? true : false}
