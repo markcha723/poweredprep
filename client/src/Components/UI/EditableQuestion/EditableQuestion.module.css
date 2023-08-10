@@ -10,10 +10,10 @@
 
 .question-body {
   padding: 24px;
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 400;
   width: 100%;
-  height: 45%;
+  height: 50%;
   overflow: wrap;
   resize: none;
   border: solid 1px #fff;
@@ -29,7 +29,7 @@
 }
 
 .prompt {
-  font-size: 2.2rem;
+  font-size: 2rem;
   padding: 6px 12px;
   width: 100%;
   height: 10%;
@@ -49,7 +49,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  height: 45%;
+  height: 40%;
 }
 
 .editable {
