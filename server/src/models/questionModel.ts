@@ -10,10 +10,13 @@ export const QuestionSchema: Schema = new Schema(
       type: String,
       required: [true, "There is no question text."],
     },
-    answerChoices: {
-      type: Array,
-      required: [true, "There are no answer choices."],
-    },
+    answerChoices: [
+      {
+        choiceLetter: { type: String, required: "true" },
+        choiceText: { type: String, required: "true" },
+        correct: { type: Boolean, required: true },
+      },
+    ],
     section: {
       type: String,
       required: [true, "Section has not been set."],
@@ -34,6 +37,6 @@ export const QuestionSchema: Schema = new Schema(
   { timestamps: true, versionKey: false }
 );
 
-const Question = mongoose.model("Question", QuestionSchema);
+const Question = mongoose.model("questionsver2", QuestionSchema);
 
-module.exports = Question;
+export default Question;

@@ -3,8 +3,7 @@ import http from "http";
 import mongoose from "mongoose";
 import { config } from "./config/config";
 import Logging from "./library/Logging";
-
-const Question = require("./models/questionModel");
+import Question from "./models/questionModel";
 
 const router = express();
 router.use(express.json());
@@ -42,12 +41,69 @@ const StartServer = () => {
   router.use(express.urlencoded({ extended: true }));
   router.use(express.json());
 
-  /* ROUTES */
+  /**
+   * ROUTES
+   **/
+  router.get(
+    "/questions",
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        Logging.info(`A request was made for all questions.`);
+        const questions = await Question.find({});
+        res.status(200).json(questions);
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
+    }
+  );
+
+  router.get("/questions/:id", async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      Logging.info(`The request was for question of id ${id}`);
+      const question = await Question.findById(id);
+      res.status(200).json(question);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  router.post("/post-question", async (req: Request, res: Response) => {
+    Logging.info("A POST request was made to create a question.");
+    try {
+      const question = await Question.create(req.body);
+      Logging.info(
+        "A POST request was approved, and the question has been added to the database."
+      );
+      res.status(200).json(question);
+    } catch (error) {
+      console.log(error.message);
+      Logging.error("The POST request was denied.");
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  router.delete("/delete-question/:id", async (req: Request, res: Response) => {
+    const { id } = req.params;
+    Logging.info(`A DELETE request was made for the question of ID: ${id}`);
+    try {
+      const text = await Question.deleteOne({ _id: id });
+      Logging.info(
+        "The DELETE request was approved, and one question has been deleted."
+      );
+      res.status(200).json(text);
+    } catch (error) {
+      console.log(error.message);
+      Logging.error("The DELETE request was denied.");
+      res.status(500).json({ message: error.message });
+    }
+  });
 
   /* HEALTHCHECK */
-  router.get("/ping", (req, res, next) =>
-    res.status(200).json({ message: "pong" })
-  );
+  router.get("/ping", (req, res, next) => {
+    res.status(200).json({ message: "pong" });
+    Logging.info("A healthcheck was made.");
+  });
 
   /* ERROR HANDLING */
   router.use((req, res, next) => {
@@ -63,40 +119,3 @@ const StartServer = () => {
       Logging.info(`Server is running on port ${config.server.port}`)
     );
 };
-
-/* 
-  ROUTES
-*/
-router.get(
-  "/questions",
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      Logging.info(`A request was made for all questions.`);
-      const questions = await Question.find({});
-      res.status(200).json(questions);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  }
-);
-
-router.get("/questions/:id", async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    Logging.info(`The request was for question of id ${id}`);
-    const question = await Question.findById(id);
-    res.status(200).json(question);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-router.post("/question", async (req: Request, res: Response) => {
-  try {
-    const question = await Question.create(req.body);
-    res.status(200).json(question);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ message: error.message });
-  }
-});
