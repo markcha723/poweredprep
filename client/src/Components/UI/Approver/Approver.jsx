@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import classes from "./Approver.module.css";
 
 const Approver = (props) => {
-  const [approved, setApproved] = useState();
+  console.log(`approver remounted: ${props.approved}`);
+  console.log(props.questions);
 
   return (
     <form className={classes.container}>
@@ -10,8 +11,8 @@ const Approver = (props) => {
         type="radio"
         id="disapprove"
         name="approval"
-        onChange={() => props.setApproved(false)}
-        checked={props.approved}
+        onClick={() => props.updateApproved(false)}
+        checked={props.approved ? false : true}
       />
       <label htmlFor="disapprove">
         <span>👎</span>
@@ -21,8 +22,8 @@ const Approver = (props) => {
         type="radio"
         id="approve"
         name="approval"
-        onChange={() => props.setApproved(true)}
-        checked={props.approved}
+        onClick={() => props.updateApproved(true)}
+        checked={props.approved ? true : false}
       />
       <label htmlFor="approve">
         <span>👍</span>

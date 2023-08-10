@@ -3,8 +3,6 @@ import EditableAnswerChoice from "./EditableAnswerChoice";
 import classes from "./EditableQuestion.module.css";
 
 const EditableQuestion = (props) => {
-  console.log("EditableQuestion remounted");
-
   const DUMMY_DATA = {
     questionBody:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -41,7 +39,7 @@ const EditableQuestion = (props) => {
   const [answerD, setAnswerD] = useState(DUMMY_DATA.answerChoices[3]);
 
   const questionBodyChangeHandler = (event) => {
-    setQuestionBody(event.target.value);
+    props.updateQuestion(event.target.value);
   };
 
   const promptChangeHandler = (event) => {

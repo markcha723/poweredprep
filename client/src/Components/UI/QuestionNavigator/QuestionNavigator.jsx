@@ -11,7 +11,7 @@ const QuestionNavigator = (props) => {
           className={`${classes.button} ${
             i === props.activeIndex ? classes.active : ""
           }`}
-          onClick={() => props.setActiveIndex(i)}
+          onClick={() => props.indexShiftHandler(i)}
           key={`buttonForQuestionNumber${i}`}
         >
           {i + 1}

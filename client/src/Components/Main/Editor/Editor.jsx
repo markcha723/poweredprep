@@ -74,12 +74,19 @@ const Editor = (props) => {
    * this will likely need refactoring later (consider useReducer?)
    **/
 
+  const updateQuestionsList = () => {
+    const tempQuestions = questions;
+    tempQuestions.splice(activeIndex, 1, activeQuestion);
+    setQuestions(tempQuestions);
+  };
+
   /* 
     indexShiftHandler()
     takes index as param
     , sets both a new activeIndex and the appropriate activeQuestion
   */
   const indexShiftHandler = (indexTo) => {
+    updateQuestionsList();
     setActiveIndex(indexTo);
     setActiveQuestion(questions[indexTo]);
     setQuestionDifficulty(questions[indexTo].difficulty);
@@ -95,14 +102,26 @@ const Editor = (props) => {
 
   const updateApprovedHandler = (approved) => {
     setApproved(approved);
+    setActiveQuestion({
+      ...activeQuestion,
+      approved: approved,
+    });
   };
 
   const updateQuestionDifficultyHandler = (difficulty) => {
     setQuestionDifficulty(difficulty);
+    setActiveQuestion({
+      ...activeQuestion,
+      difficulty: difficulty,
+    });
   };
 
   const clickEditHander = () => {
-    setIsEditing(!isEditing);
+    if (isEditing) {
+      setIsEditing(false);
+    } else {
+      setIsEditing(true);
+    }
   };
 
   const submitHandler = () => {
@@ -113,7 +132,7 @@ const Editor = (props) => {
     }
   };
 
-  console.log(activeQuestion);
+  console.log(`approved: ${approved}`);
 
   return (
     <main className={classes.editor}>
@@ -148,7 +167,11 @@ const Editor = (props) => {
       )}
       <div className={`${classes["editing-tools"]}`}>
         <div className={`${classes["editing-tools--inner"]}`}>
-          <Approver setApproved={setApproved} approved={approved} />
+          <Approver
+            updateApproved={updateApprovedHandler}
+            approved={approved}
+            questions={questions}
+          />
           <DifficultyAdjuster
             checkedDifficulty={questionDifficulty}
             updateQuestionDifficulty={updateQuestionDifficultyHandler}

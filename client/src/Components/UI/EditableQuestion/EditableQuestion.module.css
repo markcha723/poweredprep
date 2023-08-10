@@ -10,7 +10,8 @@
 
 .question-body {
   padding: 24px;
-  font-size: 1.6rem;
+  font-size: 2rem;
+  font-weight: 400;
   width: 100%;
   height: 45%;
   overflow: wrap;
@@ -28,7 +29,7 @@
 }
 
 .prompt {
-  font-size: 1.6rem;
+  font-size: 2.2rem;
   padding: 6px 12px;
   width: 100%;
   height: 10%;
@@ -44,6 +45,7 @@
 
 .answer-choices {
   padding: 12px 24px;
+  font-size: 1.6rem;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
