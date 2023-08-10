@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import classes from "./Approver.module.css";
 
 const Approver = (props) => {
-  console.log(`approver remounted: ${props.approved}`);
-  console.log(props.questions);
-
   return (
     <form className={classes.container}>
       <input

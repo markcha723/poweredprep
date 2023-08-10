@@ -127,12 +127,11 @@ const Editor = (props) => {
   const submitHandler = () => {
     if (isEditing) {
       console.log("You are currently editing. Close the editing option first.");
-    } else {
-      console.log("clicked submit!");
+      return;
     }
+    console.log("clicked submit!");
+    updateQuestionsList();
   };
-
-  console.log(`approved: ${approved}`);
 
   return (
     <main className={classes.editor}>
@@ -163,6 +162,7 @@ const Editor = (props) => {
           answerChoices={answerChoices}
           isEditing={isEditing}
           updateQuestion={updateQuestionHandler}
+          disabled={approved === false ? true : false}
         />
       )}
       <div className={`${classes["editing-tools"]}`}>
@@ -175,12 +175,14 @@ const Editor = (props) => {
           <DifficultyAdjuster
             checkedDifficulty={questionDifficulty}
             updateQuestionDifficulty={updateQuestionDifficultyHandler}
+            disabled={approved === false ? true : false}
           />
           <Button
-            color="pink"
+            color={approved === false ? "grey" : "pink"}
             size="large"
             onClick={clickEditHander}
             option="edit"
+            disabled={approved === false ? true : false}
           />
         </div>
         <Button

@@ -51,7 +51,11 @@ const EditableQuestion = (props) => {
   };
 
   return (
-    <article className={classes["question-and-answer"]}>
+    <article
+      className={`${classes["question-and-answer"]} ${
+        props.disabled ? classes.disabled : ""
+      }`}
+    >
       <textarea
         type="text"
         className={`${classes["question-body"]} ${

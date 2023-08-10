@@ -3,7 +3,9 @@ import classes from "./DifficultyAdjuster.module.css";
 
 const DifficultyAdjuster = (props) => {
   return (
-    <div className={classes.main}>
+    <div
+      className={`${classes.main} ${props.disabled ? classes.disabled : ""}`}
+    >
       <span>difficulty:</span>
       <div className={classes.container}>
         <input
