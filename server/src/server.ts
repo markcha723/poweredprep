@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { config } from "./config/config";
 import Logging from "./library/Logging";
 import Question from "./models/questionModel";
+import CreateConfig from "./models/createConfigModel";
 
 const router = express();
 router.use(express.json());
@@ -76,6 +77,21 @@ const StartServer = () => {
         "A POST request was approved, and the question has been added to the database."
       );
       res.status(200).json(question);
+    } catch (error) {
+      console.log(error.message);
+      Logging.error("The POST request was denied.");
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  router.post("/create-requests", async (req: Request, res: Response) => {
+    Logging.info(
+      "A POST request was made to generate a set of questions (WIP, will return dummy set of data for now)."
+    );
+    try {
+      const configs = await CreateConfig.create(req.body);
+      Logging.info("Configs have been saved.");
+      res.status(200).json(configs);
     } catch (error) {
       console.log(error.message);
       Logging.error("The POST request was denied.");
