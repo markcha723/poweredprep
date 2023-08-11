@@ -9,7 +9,7 @@ const EditableAnswerChoice = (props) => {
         name="answers"
         disabled={!props.isEditing}
         checked={props.isCorrect}
-        onChange={props.answerCorrectChangeHandler}
+        onClick={props.changeCorrectAnswer}
       />
       <label className={classes.choice}>
         <span>{`${props.choiceLetter})`}</span>
@@ -18,6 +18,7 @@ const EditableAnswerChoice = (props) => {
             props.isEditing ? classes.editable : ""
           }`}
           readOnly={!props.isEditing}
+          onChange={props.onChange}
           value={props.text}
         ></textarea>
       </label>

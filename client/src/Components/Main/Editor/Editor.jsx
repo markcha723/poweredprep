@@ -10,7 +10,6 @@ import Button from "../../UI/Button/Button";
 import classes from "./Editor.module.css";
 
 const Editor = (props) => {
-  const { configs, updateConfigs, setActiveConfig } = useContext(ConfigContext);
   const [questions, setQuestions] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -95,6 +94,7 @@ const Editor = (props) => {
     , sets both a new activeIndex and the appropriate activeQuestion
   */
   const indexShiftHandler = (indexTo) => {
+    console.log(activeQuestion);
     updateQuestionsList();
     setActiveIndex(indexTo);
     setActiveQuestion(questions[indexTo]);
@@ -109,8 +109,18 @@ const Editor = (props) => {
     setAnswerD(questions[indexTo].answerChoices[3]);
   };
 
-  const updateQuestionHandler = (object) => {
-    console.log("updatequestionhandler fired");
+  /*
+    updateEditableFieldsHandler
+    updates question body, prompt, and answer choices
+    should be called only after the user unclicks the edit button! 
+   */
+  const updateEditableFieldsHandler = () => {
+    setActiveQuestion({
+      ...activeQuestion,
+      body: questionBody,
+      question: questionPrompt,
+      answerChoices: answerChoices,
+    });
   };
 
   const updateApprovedHandler = (approved) => {
@@ -131,6 +141,7 @@ const Editor = (props) => {
 
   const clickEditHander = () => {
     if (isEditing) {
+      updateEditableFieldsHandler();
       setIsEditing(false);
     } else {
       setIsEditing(true);
@@ -171,14 +182,20 @@ const Editor = (props) => {
       ) : (
         <EditableQuestion
           body={questionBody}
+          setBody={setQuestionBody}
           prompt={questionPrompt}
+          setPrompt={setQuestionPrompt}
           answerChoices={answerChoices}
+          setAnswerChoices={setAnswerChoices}
           answerA={answerA}
           answerB={answerB}
           answerC={answerC}
           answerD={answerD}
+          setAnswerA={setAnswerA}
+          setAnswerB={setAnswerB}
+          setAnswerC={setAnswerC}
+          setAnswerD={setAnswerD}
           isEditing={isEditing}
-          updateQuestion={updateQuestionHandler}
           disabled={approved === false ? true : false}
         />
       )}

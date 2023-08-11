@@ -29,6 +29,12 @@
   border-radius: var(--rounded);
 }
 
+.answer-text:focus,
+.answer-text:hover {
+  border: solid 1px #fff;
+  outline: none;
+}
+
 .editable {
   border: solid 1px var(--text);
 }
