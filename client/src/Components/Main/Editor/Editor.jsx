@@ -160,7 +160,7 @@ const Editor = (props) => {
     setIsSending(true);
 
     try {
-      const response = await fetch("/test/test");
+      const response = await fetch("/questions/test");
       if (!response.ok) {
         throw new Error("test failed");
       }

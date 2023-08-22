@@ -19,7 +19,7 @@ export default defineConfig(() => {
           changeOrigin: true,
           secure: false,
         },
-        "/test/": {
+        "/questions/test": {
           target: "http://localhost:8080",
           changeOrigin: true,
           secure: false,

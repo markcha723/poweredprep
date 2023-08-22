@@ -16,7 +16,7 @@ router.get("/", async (req, res, next) => {
 });
 
 // returns a single question by ID (assigned by MongoDB)
-router.get("/:id", async (req, res) => {
+router.get("/question/:id", async (req, res) => {
   try {
     const { id } = req.params;
     Logging.info(`The request was for question of id ${id}`);
@@ -60,8 +60,7 @@ router.delete("/delete/:id", async (req, res) => {
 });
 
 // route for testing. useful to ensure that loading animations on the frontend do what they should.
-router.get("/test/", async (req, res) => {
-  console.log("test");
+router.get("/test", async (req, res) => {
   const question = await Question.findById("64d54281bb92565a518d672d");
   setTimeout(() => {
     res.status(200).json(question);

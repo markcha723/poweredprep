@@ -2,12 +2,11 @@ import classes from "./LoadingSpinner.module.css";
 
 const LoadingSpinner = (props) => {
   return (
-    <div class={classes.container}>
+    <div className={classes.container}>
       <svg
         version="1.1"
         id="loader-1"
         xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
         x="0px"
         y="0px"
         width="40px"
@@ -29,7 +28,7 @@ const LoadingSpinner = (props) => {
         </path>
       </svg>
       {props.optionalText ? (
-        <p class={classes["optional-text"]}>loading...</p>
+        <p className={classes["optional-text"]}>loading...</p>
       ) : (
         []
       )}

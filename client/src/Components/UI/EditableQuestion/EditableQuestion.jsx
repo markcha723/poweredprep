@@ -21,10 +21,6 @@ const EditableQuestion = (props) => {
   };
 
   const answerFieldChangeHandler = (event, changedAnswer) => {
-    console.log(`you changed an answer field's value!`);
-    console.log(
-      `letter ${changedAnswer} now has a value of ${event.target.value}`
-    );
     const tempAnswerArray = props.answerChoices.map((answer) =>
       answer.choiceLetter === changedAnswer
         ? { ...answer, choiceText: event.target.value }
@@ -32,8 +28,6 @@ const EditableQuestion = (props) => {
     );
     props.setAnswerChoices(tempAnswerArray);
   };
-
-  console.log(props.answerChoices);
 
   return (
     <article
