@@ -12,9 +12,6 @@ const LoadingSpinner = (props) => {
         y="0px"
         width="40px"
         height="40px"
-        viewBox="0 0 50 50"
-        style="enable-background:new 0 0 50 50;"
-        xml:space="preserve"
       >
         <path
           fill="#000"
