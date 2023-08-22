@@ -1,0 +1,28 @@
+.super-large-and-special-border-1 {
+  position: relative;
+  background-color: var(--primary);
+  padding: 16px;
+  border-radius: var(--rounded-lg);
+}
+
+.super-large-and-special-border-2 {
+  background-color: var(--accent);
+  border-radius: var(--rounded-lg);
+  padding: 16px;
+}
+
+.super-large-and-special-button {
+  font-size: 3.2rem;
+  border-radius: var(--rounded);
+  background-color: white;
+  border: none;
+  height: 75px;
+  width: 150px;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 20%;
+  transition: opacity 0.2s;
+  user-select: none;
+}

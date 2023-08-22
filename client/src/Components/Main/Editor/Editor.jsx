@@ -7,6 +7,7 @@ import EditableQuestion from "../../UI/EditableQuestion/EditableQuestion";
 import Approver from "../../UI/Approver/Approver";
 import DifficultyAdjuster from "../../UI/DifficultyAdjuster/DifficultyAdjuster";
 import Button from "../../UI/Button/Button";
+import SuperBigAndSpecialButton from "../../UI/SuperBigAndSpecialButton/SuperBigAndSpecialButton";
 import classes from "./Editor.module.css";
 
 const Editor = (props) => {
@@ -26,6 +27,7 @@ const Editor = (props) => {
   const [answerD, setAnswerD] = useState({});
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState(false);
 
@@ -213,15 +215,14 @@ const Editor = (props) => {
           />
           <Button
             color={approved === false ? "grey" : "pink"}
-            size="large"
+            size="medium"
             onClick={clickEditHander}
             option="edit"
             disabled={approved === false ? true : false}
           />
         </div>
-        <Button
-          superBigAndSpecial={true}
-          option="submit"
+        <SuperBigAndSpecialButton
+          option="save"
           onClick={submitHandler}
           disabled={isEditing}
         />

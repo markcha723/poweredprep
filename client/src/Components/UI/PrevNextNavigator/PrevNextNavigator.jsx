@@ -7,18 +7,20 @@ const PrevNextNavigator = (props) => {
   return (
     <div className={classes.container}>
       <Button
-        size="large"
+        size="medium"
         color={props.isEditing ? "grey" : "teal"}
         option="previous"
         onClick={() => props.indexShiftHandler(props.activeIndex - 1)}
         disabled={props.activeIndex <= 0}
+        consistentSizing
       ></Button>
       <Button
-        size="large"
+        size="medium"
         color={props.isEditing ? "grey" : "pink"}
         option="next"
         onClick={() => props.indexShiftHandler(props.activeIndex + 1)}
         disabled={props.activeIndex >= props.maxIndex}
+        consistentSizing
       ></Button>
     </div>
   );
