@@ -8,6 +8,8 @@ import Approver from "../../UI/Approver/Approver";
 import DifficultyAdjuster from "../../UI/DifficultyAdjuster/DifficultyAdjuster";
 import Button from "../../UI/Button/Button";
 import SuperBigAndSpecialButton from "../../UI/SuperBigAndSpecialButton/SuperBigAndSpecialButton";
+import LoadingSpinner from "../../UI/LoadingSpinner/LoadingSpinner";
+
 import classes from "./Editor.module.css";
 
 const Editor = (props) => {
@@ -39,6 +41,7 @@ const Editor = (props) => {
    **/
 
   const fetchQuestions = useCallback(async () => {
+    console.log("fetchQuestions ran!");
     setIsLoading(true);
     setError(false);
 
@@ -75,8 +78,6 @@ const Editor = (props) => {
 
   useEffect(() => {
     fetchQuestions();
-    console.log(questions);
-    console.log(activeQuestion);
   }, [fetchQuestions]);
 
   /**
@@ -150,14 +151,26 @@ const Editor = (props) => {
     }
   };
 
-  const submitHandler = () => {
+  const submitHandler = useCallback(async () => {
     if (isEditing) {
       console.log("You are currently editing. Close the editing option first.");
       return;
     }
-    console.log("clicked submit!");
     updateQuestionsList();
-  };
+    setIsSending(true);
+
+    try {
+      const response = await fetch("/test/test");
+      if (!response.ok) {
+        throw new Error("test failed");
+      }
+      console.log(response.json());
+    } catch (error) {
+      setError(error.message);
+    }
+
+    setIsSending(false);
+  }, []);
 
   return (
     <main className={classes.editor}>
@@ -180,7 +193,7 @@ const Editor = (props) => {
         />
       </div>
       {activeQuestion === null ? (
-        <p>loading...</p>
+        <LoadingSpinner optionalText="generating..." />
       ) : (
         <EditableQuestion
           body={questionBody}
@@ -225,6 +238,7 @@ const Editor = (props) => {
           option="save"
           onClick={submitHandler}
           disabled={isEditing}
+          isWaiting={isSending}
         />
       </div>
     </main>
