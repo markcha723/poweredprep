@@ -1,26 +1,11 @@
 import React from "react";
 import classes from "./Button.module.css";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const Button = (props) => {
   const buttonText = props.option;
 
-  if (props.superBigAndSpecial === true) {
-    return (
-      <div
-        className={`${classes["super-large-and-special-border-1"]} ${
-          props.disabled ? classes.disabled : ""
-        }`}
-      >
-        <div className={classes["super-large-and-special-border-2"]}>
-          <button
-            className={classes["super-large-and-special-button"]}
-            onClick={props.onClick}
-          >
-            {buttonText}
-          </button>
-        </div>
-      </div>
-    );
+  if (props.consistentSizing) {
   }
 
   return (
@@ -31,7 +16,7 @@ const Button = (props) => {
       onClick={props.onClick}
       disabled={props.disabled}
     >
-      {buttonText}
+      {props.isWaiting ? <LoadingSpinner /> : buttonText}
     </button>
   );
 };

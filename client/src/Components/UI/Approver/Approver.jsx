@@ -9,6 +9,7 @@ const Approver = (props) => {
         id="disapprove"
         name="approval"
         onClick={() => props.updateApproved(false)}
+        onChange={() => props.updateApproved(false)}
         checked={props.approved ? false : true}
       />
       <label htmlFor="disapprove">
@@ -20,6 +21,7 @@ const Approver = (props) => {
         id="approve"
         name="approval"
         onClick={() => props.updateApproved(true)}
+        onChange={() => props.updateApproved(true)}
         checked={props.approved ? true : false}
       />
       <label htmlFor="approve">

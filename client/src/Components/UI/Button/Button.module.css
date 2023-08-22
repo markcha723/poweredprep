@@ -31,39 +31,22 @@
   padding: 1.2rem 2.4rem;
 }
 
+.medium {
+  font-size: 3.2rem;
+  padding: 1.6rem 3.2rem;
+}
+
+.large {
+  font-size: 3.8rem;
+  padding: 1.8rem 3.6rem;
+}
+
 .for-options {
   font-size: 1.6rem;
   padding: 1.2rem 2.4rem;
   white-space: normal;
   height: 64px;
   width: 128px;
-}
-
-.large {
-  font-size: 3.2rem;
-  padding: 1.6rem 3.2rem;
-}
-
-.super-large-and-special-border-1 {
-  position: relative;
-  background-color: var(--primary);
-  padding: 16px;
-  border-radius: var(--rounded-lg);
-}
-
-.super-large-and-special-border-2 {
-  background-color: var(--accent);
-  border-radius: var(--rounded-lg);
-  padding: 16px;
-}
-
-.super-large-and-special-button {
-  font-size: 3.2rem;
-  border-radius: var(--rounded);
-  background-color: white;
-  border: none;
-  height: 75px;
-  width: 150px;
 }
 
 /* .button:nth-child(odd) {
