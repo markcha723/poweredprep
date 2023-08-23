@@ -5,7 +5,7 @@ import Logging from "../library/Logging";
 const router = express.Router();
 
 // returns all questions
-router.get("/", async (req, res, next) => {
+router.get("/", async (req, res) => {
   try {
     Logging.info(`A request was made for all questions.`);
     const questions = await Question.find({});
