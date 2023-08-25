@@ -8,7 +8,7 @@ const parseCreateRequest = (incomingRequest: any) => {
     difficulty,
     wordsToUse,
   } = incomingRequest;
-  let prompts: Object;
+  let prompts: any;
   let systemMessage =
     "You are an SAT teacher. Each SAT question contains a paragraph-long excerpt, followed by a prompt, and followed by four answer choices only one of which can be correct. Use the following format:\n<<passage>>\npassage goes here\n<</passage>><<prompt>>\nWhich of the following is true about...\n<</prompt>>\n\n<<answers>>\na)\nb)\nc)\nd)\n<</answers>>\n\nNote that the text inside of <<prompt>> and <<answers>> should be of a consistent tone and style to the SAT, and should NOT follow the style of the <<passage>>.";
   let textForSection = "";
@@ -171,7 +171,7 @@ const parseCreateRequest = (incomingRequest: any) => {
   }
 
   prompts = {
-    systemMessage,
+    system: systemMessage,
     prompt: `${textForSection}${textForQuestionTypes}${textForPassageTopics}${textForPassageStyles}${textForDifficulty}${textForDifficulty}${textForWordsToUse}${textForNumberOfQuestions}`,
   };
 
