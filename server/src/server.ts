@@ -1,12 +1,12 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import http from "http";
 import mongoose from "mongoose";
 import { config } from "./config/config";
 import Logging from "./library/Logging";
-import Question from "./models/questionModel";
 
 import questionsRoutes from "./routes/Questions";
-import checksRoutes from "./routes/checks";
+import checksRoutes from "./routes/Checks";
+import requestsRoutes from "./routes/Requests";
 
 const router = express();
 router.use(express.json());
@@ -47,6 +47,7 @@ const StartServer = () => {
   // routes
   router.use("/questions", questionsRoutes);
   router.use("/checks", checksRoutes);
+  router.use("/requests", requestsRoutes);
 
   // error handling
   router.use((req, res, next) => {

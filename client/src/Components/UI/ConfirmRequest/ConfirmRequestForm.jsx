@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useCallback } from "react";
 import FormConfigItem from "../FormConfigItem/FormConfigItem";
 import Button from "../Button/Button";
 import ConfigContext from "../../../store/config-context";
@@ -77,6 +77,7 @@ const ConfirmRequestForm = (props) => {
         color="pink"
         option="send"
         size="large"
+        isWaiting={true}
       />
     </form>
   );
