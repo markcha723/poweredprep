@@ -3,6 +3,7 @@ import Logging from "../library/Logging";
 import { CreateRequest, StudyRequest } from "../models/requestModel";
 import Question from "../models/questionModel";
 import parseCreateRequest from "../middleware/parseCreateRequest";
+import { parse } from "dotenv";
 
 const router = express.Router();
 
@@ -34,7 +35,8 @@ router.post("/", async (req, res) => {
 
     switch (requestType) {
       case "CREATE":
-        res.status(200).json({ message: "success!" });
+        const prompts = parseCreateRequest(req.body);
+        res.status(200).json(prompts);
         break;
       case "STUDY":
         res.status(200).json({ message: "success!" });
