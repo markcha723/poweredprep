@@ -3,7 +3,9 @@ import OpenAI from "openai";
 import Logging from "../library/Logging";
 import { CreateRequest, StudyRequest } from "../models/requestModel";
 import Question from "../models/questionModel";
-import parseCreateRequest from "../middleware/parseCreateRequest";
+import { QuestionConfigurations } from "../interfaces";
+import { GptPrompt } from "../interfaces";
+import generateGptPrompts from "../middleware/generateGptPrompts";
 import { OPENAI_KEY, OPENAI_MODEL, OPENAI_MAX_TOKENS } from "../config/config";
 
 const router = express.Router();
@@ -39,14 +41,14 @@ router.post("/", async (req, res) => {
 
     switch (requestType) {
       case "CREATE":
-        const prompts = parseCreateRequest(req.body);
-        Logging.info(`parsed -> ${prompts.system} \n-> ${prompts.prompt}`);
+        const prompts = generateGptPrompts(req.body);
+        Logging.info(`parsed -> ${prompts.system} \n-> ${prompts.userPrompt}`);
         Logging.info(`sending request...`);
         let rawResponseText = "";
         const completion = await openai.chat.completions.create({
           messages: [
             { role: "system", content: prompts.system },
-            { role: "user", content: prompts.prompt },
+            { role: "user", content: prompts.userPrompt },
           ],
           model: OPENAI_MODEL,
         });
