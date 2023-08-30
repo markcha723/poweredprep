@@ -1,11 +1,17 @@
 import express from "express";
+import OpenAI from "openai";
 import Logging from "../library/Logging";
 import { CreateRequest, StudyRequest } from "../models/requestModel";
 import Question from "../models/questionModel";
-import parseCreateRequest from "../middleware/parseCreateRequest";
-import { parse } from "dotenv";
+import { QuestionConfigurations } from "../interfaces";
+import { GptPrompt } from "../interfaces";
+import generateGptPrompts from "../middleware/generateGptPrompts";
+import { OPENAI_KEY, OPENAI_MODEL, OPENAI_MAX_TOKENS } from "../config/config";
 
 const router = express.Router();
+const openai = new OpenAI({
+  apiKey: OPENAI_KEY,
+});
 
 // GET
 // returns the number of requests made and which types they were
@@ -30,13 +36,23 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   Logging.info("A POST request was made to /request/");
   try {
-    const { requestType } = req.body;
+    const { requestType, numberOfQuestions } = req.body;
     Logging.info(`The request type is ${requestType}`);
 
     switch (requestType) {
       case "CREATE":
-        const prompts = parseCreateRequest(req.body);
-        res.status(200).json(prompts);
+        const prompts = generateGptPrompts(req.body);
+        Logging.info(`parsed -> ${prompts.system} \n-> ${prompts.userPrompt}`);
+        Logging.info(`sending request...`);
+        let rawResponseText = "";
+        const completion = await openai.chat.completions.create({
+          messages: [
+            { role: "system", content: prompts.system },
+            { role: "user", content: prompts.userPrompt },
+          ],
+          model: OPENAI_MODEL,
+        });
+        res.status(200).json(completion);
         break;
       case "STUDY":
         res.status(200).json({ message: "success!" });

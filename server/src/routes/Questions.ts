@@ -64,7 +64,7 @@ router.get("/test", async (req, res) => {
   const question = await Question.findById("64d54281bb92565a518d672d");
   setTimeout(() => {
     res.status(200).json(question);
-  }, 1000);
+  }, 10000);
 });
 
 export default router;
