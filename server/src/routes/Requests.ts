@@ -2,10 +2,12 @@ import express from "express";
 import OpenAI from "openai";
 import Logging from "../library/Logging";
 import { CreateRequest, StudyRequest } from "../models/requestModel";
+import GptCompletionDB from "../models/gptCompletionModel";
 import Question from "../models/questionModel";
 import { QuestionConfigurations } from "../interfaces";
 import { GptPrompt } from "../interfaces";
 import generateGptPrompts from "../middleware/generateGptPrompts";
+import { parseGptCompletion } from "../middleware/scripts";
 import { OPENAI_KEY, OPENAI_MODEL, OPENAI_MAX_TOKENS } from "../config/config";
 
 const router = express.Router();
@@ -44,7 +46,6 @@ router.post("/", async (req, res) => {
         const prompts = generateGptPrompts(req.body);
         Logging.info(`parsed -> ${prompts.system} \n-> ${prompts.userPrompt}`);
         Logging.info(`sending request...`);
-        let rawResponseText = "";
         const completion = await openai.chat.completions.create({
           messages: [
             { role: "system", content: prompts.system },
@@ -52,7 +53,10 @@ router.post("/", async (req, res) => {
           ],
           model: OPENAI_MODEL,
         });
-        res.status(200).json(completion);
+        GptCompletionDB.create(completion);
+        let parsedCompletion = parseGptCompletion(completion);
+        Logging.info("responding to request...");
+        res.status(200).json(parsedCompletion);
         break;
       case "STUDY":
         res.status(200).json({ message: "success!" });

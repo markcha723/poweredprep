@@ -14,7 +14,7 @@ const generateGptPrompt = (incomingRequest: QuestionConfigurations) => {
   let prompts: GptPrompt;
   let userPrompt = "";
   let systemMessage =
-    "You are an SAT teacher. Each SAT question contains a paragraph-long excerpt, followed by a prompt, and followed by four answer choices only one of which can be correct. Use the following format:\n<<passage>>\npassage goes here\n<</passage>><<prompt>>\nWhich of the following is true about...\n<</prompt>>\n\n<<answers>>\na)\nb)\nc)\nd)\n<</answers>>\n\nNote that the text inside of <<prompt>> and <<answers>> should be of a consistent tone and style to the SAT, and should NOT follow the style of the <<passage>>.";
+    "You are an SAT teacher. Each SAT question contains a paragraph-long (around 6 sentences long) excerpt, followed by a prompt, and followed by four answer choices only one of which can be correct. Strictly adhere to the following format:\n<<passage>>\npassage goes here\n<</passage>><<prompt>>\nWhich of the following is true about...\n<</prompt>>\n\n<<answers>>\na)\nb)\nc)\nd)\n<</answers>>\n\nNote that the text inside of <<prompt>> and <<answers>> should be of a consistent tone and style to the SAT, and should NOT follow the style of the <<passage>>.";
 
   userPrompt += generateSectionText(section);
   userPrompt += generateQuestionTypeText(section, questionTypes);
