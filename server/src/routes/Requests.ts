@@ -52,6 +52,9 @@ router.post("/", async (req, res) => {
             { role: "user", content: prompts.userPrompt },
           ],
           model: OPENAI_MODEL,
+          presence_penalty: 1.5,
+          n: 2,
+          frequency_penalty: 0,
         });
         GptCompletionDB.create(completion);
         let parsedCompletion = parseGptCompletion(completion);

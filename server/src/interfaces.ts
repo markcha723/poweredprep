@@ -39,18 +39,22 @@ export interface GptCompletion {
 export interface Question {
   body: string;
   question: string;
-  answerChoices: {
-    choiceLetter: string;
-    choiceText: string;
-    correct: boolean;
-    _id: string;
-  }[];
+  answerChoices: AnswerChoices;
   section: string;
   difficulty: string;
   subject: string;
   style: string;
-  _id: string;
+  _id?: string;
   createdAt?: string;
   updatedAt?: string;
   fromGptCompletionId?: string;
 }
+
+export interface Answer {
+  choiceLetter: string;
+  choiceText: string;
+  correct: boolean;
+  _id?: string;
+}
+
+export interface AnswerChoices extends Array<Answer> {}
