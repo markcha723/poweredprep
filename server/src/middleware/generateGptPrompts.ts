@@ -13,7 +13,7 @@ const generateGptPrompt = (incomingRequest: RequestConfigurations) => {
   let prompts: GptPrompt;
   let userPrompt = "";
   let systemMessage =
-    "You are an SAT teacher. Each SAT question contains a paragraph-long (around 6 sentences long) excerpt, followed by a prompt, and followed by four answer choices only one of which can be correct. Strictly adhere to the following format, and make sure every tag has a closing tag:\n<<passage>>\npassage goes here\n<</passage>><<prompt>>\nprompt goes here\n<</prompt>>\n\n<<answers>>\na)\nb)\nc)\nd)\n<</answers>>\n<<correct>>\nletter\n<</correct>>\n\nNote that the text inside of <<prompt>> and <<answers>> should be largely clear and precise, and since the test is concerned with reading comprehension, the answer choices should not use overly strict wording from the passage itself. Ensure that responses adhere to format.";
+    "You are an SAT teacher. Each SAT question contains a 50-150 word passage, followed by a prompt, and followed by four answer choices only one of which can be correct. Strictly adhere to the following format, and make sure every tag has a closing tag:\n<<passage>>\npassage goes here\n<</passage>><<prompt>>\nprompt goes here\n<</prompt>>\n\n<<answers>>\na)\nb)\nc)\nd)\n<</answers>>\n<<correct>>\nletter\n<</correct>>\n\nNote that the text inside of <<prompt>> and <<answers>> should be largely clear and precise, and since the test is concerned with reading comprehension, the answer choices should not use overly strict wording from the passage itself. Ensure that responses adhere to format.";
 
   userPrompt += generateSectionText(section);
   userPrompt += generateQuestionTypeText(section, questionTypes);
@@ -22,7 +22,7 @@ const generateGptPrompt = (incomingRequest: RequestConfigurations) => {
   userPrompt += generateDifficultyText(difficulty);
   userPrompt += generateWordsToUseText(wordsToUse);
   // wip, implementation should be rethought. token-heavier approach may be more effective.
-  const textForNumberOfQuestions = `Write a question. `;
+  const textForNumberOfQuestions = `Write a question. Remember format and passage length (50-150 words). `;
   userPrompt += textForNumberOfQuestions;
 
   prompts = {

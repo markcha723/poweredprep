@@ -68,7 +68,7 @@ router.post("/", async (req, res) => {
         Logging.info(`pushing parsed questions to the db.`);
         GptQuestionDB.create(parsedCompletion);
         Logging.info("responding to request with parsed completions.");
-        res.status(200).json(parsedCompletion);
+        res.status(200).json([parsedCompletion]);
         break;
       case "STUDY":
         res.status(200).json({ message: "success!" });

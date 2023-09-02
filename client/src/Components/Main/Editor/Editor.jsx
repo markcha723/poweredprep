@@ -47,7 +47,16 @@ const Editor = (props) => {
     setError(false);
 
     try {
-      const response = await fetch("/questions");
+      //const response = await fetch("/questions");
+      const settings = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...configs, requestType: "CREATE" }),
+      };
+      const response = await fetch("/requests/", settings);
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
