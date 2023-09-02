@@ -1,20 +1,19 @@
-import { QuestionConfigurations } from "../interfaces";
+import { RequestConfigurations } from "../interfaces";
 import { GptPrompt } from "../interfaces";
 
-const generateGptPrompt = (incomingRequest: QuestionConfigurations) => {
+const generateGptPrompt = (incomingRequest: RequestConfigurations) => {
   const {
     section,
     questionTypes,
     passageTopics,
     passageStyles,
-    numberOfQuestions,
     difficulty,
     wordsToUse,
   } = incomingRequest;
   let prompts: GptPrompt;
   let userPrompt = "";
   let systemMessage =
-    "You are an SAT teacher. Each SAT question contains a paragraph-long excerpt, followed by a prompt, and followed by four answer choices only one of which can be correct. Use the following format:\n<<passage>>\npassage goes here\n<</passage>><<prompt>>\nWhich of the following is true about...\n<</prompt>>\n\n<<answers>>\na)\nb)\nc)\nd)\n<</answers>>\n\nNote that the text inside of <<prompt>> and <<answers>> should be of a consistent tone and style to the SAT, and should NOT follow the style of the <<passage>>.";
+    "You are an SAT teacher. Each SAT question contains a paragraph-long (around 6 sentences long) excerpt, followed by a prompt, and followed by four answer choices only one of which can be correct. Strictly adhere to the following format, and make sure every tag has a closing tag:\n<<passage>>\npassage goes here\n<</passage>><<prompt>>\nprompt goes here\n<</prompt>>\n\n<<answers>>\na)\nb)\nc)\nd)\n<</answers>>\n<<correct>>\nletter\n<</correct>>\n\nNote that the text inside of <<prompt>> and <<answers>> should be largely clear and precise, and since the test is concerned with reading comprehension, the answer choices should not use overly strict wording from the passage itself. Ensure that responses adhere to format.";
 
   userPrompt += generateSectionText(section);
   userPrompt += generateQuestionTypeText(section, questionTypes);
@@ -132,7 +131,7 @@ const generatePassageTopicsText = (passageTopics: string[]) => {
   let textForPassageTopics = "";
   if (passageTopics.includes("varied")) {
     textForPassageTopics =
-      "The passages should be on a variety of topics including social studies, literature, poetry, psychology, earth science, chemistry, culture, and politics. ";
+      "The passages should be on a variety of topics including social studies, literature, poetry, psychology, earth science, chemistry, culture, and politics. Your passages should range in topic from large-scale to focused.";
   } else {
     switch (passageTopics[0]) {
       case "history":
@@ -185,6 +184,7 @@ const generateDifficultyText = (difficulty: string[]) => {
         break;
     }
   }
+  return textForDifficulty;
 };
 
 const generateWordsToUseText = (wordsToUse: string[]) => {
@@ -198,6 +198,4 @@ const generateWordsToUseText = (wordsToUse: string[]) => {
   return textForWordsToUse;
 };
 
-// unused, might not use this implementation at all.
-const generateQuestionNumberText = (questionNumber: number) => {};
 export default generateGptPrompt;

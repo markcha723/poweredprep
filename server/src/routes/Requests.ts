@@ -2,10 +2,13 @@ import express from "express";
 import OpenAI from "openai";
 import Logging from "../library/Logging";
 import { CreateRequest, StudyRequest } from "../models/requestModel";
-import Question from "../models/questionModel";
-import { QuestionConfigurations } from "../interfaces";
+import GptCompletionDB from "../models/gptCompletionModel";
+import RequestConfigurationsDB from "../models/questionConfigurations";
+import { GptQuestionDB } from "../models/questionModel";
+import { RequestConfigurations } from "../interfaces";
 import { GptPrompt } from "../interfaces";
 import generateGptPrompts from "../middleware/generateGptPrompts";
+import { parseGptCompletion } from "../middleware/scripts";
 import { OPENAI_KEY, OPENAI_MODEL, OPENAI_MAX_TOKENS } from "../config/config";
 
 const router = express.Router();
@@ -41,18 +44,31 @@ router.post("/", async (req, res) => {
 
     switch (requestType) {
       case "CREATE":
+        RequestConfigurationsDB.create(req.body);
+        Logging.info(`storing request configurations in db.`);
         const prompts = generateGptPrompts(req.body);
-        Logging.info(`parsed -> ${prompts.system} \n-> ${prompts.userPrompt}`);
-        Logging.info(`sending request...`);
-        let rawResponseText = "";
+        Logging.info(`parsed request.`);
+        Logging.info(`sending request to openai with prompts.`);
         const completion = await openai.chat.completions.create({
           messages: [
             { role: "system", content: prompts.system },
             { role: "user", content: prompts.userPrompt },
           ],
           model: OPENAI_MODEL,
+          presence_penalty: 1.5,
+          n: 1,
+          frequency_penalty: 0,
         });
-        res.status(200).json(completion);
+        Logging.info(
+          `gpt completion successful. storing completion(s) to the db.`
+        );
+        GptCompletionDB.create(completion);
+        Logging.info(`parsing completion.`);
+        let parsedCompletion = parseGptCompletion(completion);
+        Logging.info(`pushing parsed questions to the db.`);
+        GptQuestionDB.create(parsedCompletion);
+        Logging.info("responding to request with parsed completions.");
+        res.status(200).json(parsedCompletion);
         break;
       case "STUDY":
         res.status(200).json({ message: "success!" });
