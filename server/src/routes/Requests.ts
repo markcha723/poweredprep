@@ -3,8 +3,9 @@ import OpenAI from "openai";
 import Logging from "../library/Logging";
 import { CreateRequest, StudyRequest } from "../models/requestModel";
 import GptCompletionDB from "../models/gptCompletionModel";
-import Question from "../models/questionModel";
-import { QuestionConfigurations } from "../interfaces";
+import RequestConfigurationsDB from "../models/questionConfigurations";
+import { GptQuestionDB } from "../models/questionModel";
+import { RequestConfigurations } from "../interfaces";
 import { GptPrompt } from "../interfaces";
 import generateGptPrompts from "../middleware/generateGptPrompts";
 import { parseGptCompletion } from "../middleware/scripts";
@@ -43,9 +44,11 @@ router.post("/", async (req, res) => {
 
     switch (requestType) {
       case "CREATE":
+        RequestConfigurationsDB.create(req.body);
+        Logging.info(`storing request configurations in db.`);
         const prompts = generateGptPrompts(req.body);
-        Logging.info(`parsed -> ${prompts.system} \n-> ${prompts.userPrompt}`);
-        Logging.info(`sending request...`);
+        Logging.info(`parsed request.`);
+        Logging.info(`sending request to openai with prompts.`);
         const completion = await openai.chat.completions.create({
           messages: [
             { role: "system", content: prompts.system },
@@ -53,12 +56,18 @@ router.post("/", async (req, res) => {
           ],
           model: OPENAI_MODEL,
           presence_penalty: 1.5,
-          n: 2,
+          n: 1,
           frequency_penalty: 0,
         });
+        Logging.info(
+          `gpt completion successful. storing completion(s) to the db.`
+        );
         GptCompletionDB.create(completion);
+        Logging.info(`parsing completion.`);
         let parsedCompletion = parseGptCompletion(completion);
-        Logging.info("responding to request...");
+        Logging.info(`pushing parsed questions to the db.`);
+        GptQuestionDB.create(parsedCompletion);
+        Logging.info("responding to request with parsed completions.");
         res.status(200).json(parsedCompletion);
         break;
       case "STUDY":

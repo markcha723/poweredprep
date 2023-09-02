@@ -11,7 +11,7 @@ export const parseGptCompletion = (completion: GptCompletion): Question => {
     .trim()
     .charAt(0) as string;
   const parsedAnswers = parseRawAnswerText(rawAnswers, correctAnswer);
-  return {
+  parsedQuestion = {
     body: passage,
     question: prompt,
     answerChoices: parsedAnswers,
@@ -20,6 +20,7 @@ export const parseGptCompletion = (completion: GptCompletion): Question => {
     subject: "test",
     style: "test",
   };
+  return parsedQuestion;
 };
 
 const getStringBetween = (
@@ -59,7 +60,7 @@ const parseRawAnswerText = (
   });
   parsedAnswerChoices.push({
     choiceLetter: "d",
-    choiceText: getStringBetween("d\\)", ".", rawAnswerText),
+    choiceText: "dummy value",
     correct: correctAnswer === "d",
   });
   return parsedAnswerChoices;

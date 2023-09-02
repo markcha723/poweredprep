@@ -1,4 +1,4 @@
-export interface QuestionConfigurations {
+export interface RequestConfigurations {
   requestType: string;
   section: string;
   questionTypes: string;

@@ -1,13 +1,12 @@
-import { QuestionConfigurations } from "../interfaces";
+import { RequestConfigurations } from "../interfaces";
 import { GptPrompt } from "../interfaces";
 
-const generateGptPrompt = (incomingRequest: QuestionConfigurations) => {
+const generateGptPrompt = (incomingRequest: RequestConfigurations) => {
   const {
     section,
     questionTypes,
     passageTopics,
     passageStyles,
-    numberOfQuestions,
     difficulty,
     wordsToUse,
   } = incomingRequest;
@@ -199,6 +198,4 @@ const generateWordsToUseText = (wordsToUse: string[]) => {
   return textForWordsToUse;
 };
 
-// unused, might not use this implementation at all.
-const generateQuestionNumberText = (questionNumber: number) => {};
 export default generateGptPrompt;
