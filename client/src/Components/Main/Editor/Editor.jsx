@@ -168,9 +168,17 @@ const Editor = (props) => {
     }
     updateQuestionsList();
     setIsSending(true);
+    const settings = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(questions[0]),
+    };
 
     try {
-      const response = await fetch("/questions/test");
+      const response = await fetch("/questions/create", settings);
       if (!response.ok) {
         throw new Error("test failed");
       }
