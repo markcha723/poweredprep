@@ -16,7 +16,7 @@ export const parseGptCompletion = (completion: GptCompletion): Question => {
     question: prompt,
     answerChoices: parsedAnswers,
     section: "test",
-    difficulty: "test",
+    difficulty: "easy",
     subject: "test",
     style: "test",
   };

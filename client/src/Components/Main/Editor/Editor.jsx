@@ -13,6 +13,7 @@ import LoadingSpinner from "../../UI/LoadingSpinner/LoadingSpinner";
 import classes from "./Editor.module.css";
 
 const Editor = (props) => {
+  const { configs } = useContext(ConfigContext);
   const [questions, setQuestions] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
 

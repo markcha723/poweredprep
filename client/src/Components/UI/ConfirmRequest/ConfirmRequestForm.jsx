@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from "react";
+import React, { useContext, useState, useCallback } from "react";
 import FormConfigItem from "../FormConfigItem/FormConfigItem";
 import Button from "../Button/Button";
 import ConfigContext from "../../../store/config-context";
@@ -6,6 +6,7 @@ import classes from "./ConfirmRequestForm.module.css";
 
 const ConfirmRequestForm = (props) => {
   const { configs, updateConfigs, setActiveConfig } = useContext(ConfigContext);
+  const [isWaiting, setIsWaiting] = useState(false);
 
   // error handling for items needs to be handled.
   // disables button if any of the forms are invalid!
@@ -14,7 +15,18 @@ const ConfirmRequestForm = (props) => {
   const submitHandler = (event) => {
     event.preventDefault();
     console.log(props.configs);
-    setActiveConfig("editor");
+    setIsWaiting(true);
+    // currently only checks to see if server is healthy. needs to occur after state validation!
+    setTimeout(async () => {
+      const response = await fetch("/checks/ping");
+      if (response.status === 200) {
+        setIsWaiting(false);
+        setActiveConfig("editor");
+      } else {
+        setIsWaiting(false);
+        //technically there should be an error message here here
+      }
+    }, 500);
   };
 
   return (
@@ -77,7 +89,7 @@ const ConfirmRequestForm = (props) => {
         color="pink"
         option="send"
         size="large"
-        isWaiting={true}
+        isWaiting={isWaiting}
       />
     </form>
   );
