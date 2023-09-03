@@ -32,6 +32,7 @@ router.post("/create", async (req, res) => {
   Logging.info("A POST request was made to create a question.");
   try {
     const question = await Question.create(req.body);
+    Logging.info(question);
     Logging.info(
       "A POST request was approved, and the question has been added to the database."
     );

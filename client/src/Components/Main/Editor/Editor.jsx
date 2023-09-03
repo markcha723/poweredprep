@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
+import { isEqual } from "lodash";
+
 import ConfigContext from "../../../store/config-context";
 
 import QuestionNavigator from "../../UI/QuestionNavigator/QuestionNavigator";
@@ -68,6 +70,7 @@ const Editor = (props) => {
           approved: true,
         };
       });
+
       setQuestions(adjustedData);
       setActiveQuestion(adjustedData[activeIndex]);
       setQuestionDifficulty(adjustedData[activeIndex].difficulty);
@@ -96,8 +99,14 @@ const Editor = (props) => {
    **/
 
   const updateQuestionsList = () => {
-    const tempQuestions = questions;
-    tempQuestions.splice(activeIndex, 1, activeQuestion);
+    const tempQuestions = questions.map((question, index) => {
+      if (index === activeIndex) {
+        console.log("success?");
+        return activeQuestion;
+      } else {
+        return question;
+      }
+    });
     setQuestions(tempQuestions);
   };
 
@@ -107,7 +116,6 @@ const Editor = (props) => {
     , sets both a new activeIndex and the appropriate activeQuestion
   */
   const indexShiftHandler = (indexTo) => {
-    console.log(activeQuestion);
     updateQuestionsList();
     setActiveIndex(indexTo);
     setActiveQuestion(questions[indexTo]);
@@ -134,6 +142,7 @@ const Editor = (props) => {
       question: questionPrompt,
       answerChoices: answerChoices,
     });
+    updateQuestionsList();
   };
 
   const updateApprovedHandler = (approved) => {
@@ -142,6 +151,7 @@ const Editor = (props) => {
       ...activeQuestion,
       approved: approved,
     });
+    updateQuestionsList();
   };
 
   const updateQuestionDifficultyHandler = (difficulty) => {
@@ -150,23 +160,25 @@ const Editor = (props) => {
       ...activeQuestion,
       difficulty: difficulty,
     });
+    updateQuestionsList();
   };
 
   const clickEditHander = () => {
     if (isEditing) {
       updateEditableFieldsHandler();
+      updateQuestionsList();
       setIsEditing(false);
     } else {
       setIsEditing(true);
     }
   };
 
-  const submitHandler = useCallback(async () => {
+  const submitHandler = async () => {
+    console.log(questions);
     if (isEditing) {
       console.log("You are currently editing. Close the editing option first.");
       return;
     }
-    updateQuestionsList();
     setIsSending(true);
     const settings = {
       method: "POST",
@@ -188,7 +200,7 @@ const Editor = (props) => {
     }
 
     setIsSending(false);
-  }, []);
+  };
 
   return (
     <main className={classes.editor}>
