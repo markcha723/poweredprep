@@ -172,7 +172,6 @@ const Editor = (props) => {
   };
 
   const submitHandler = async () => {
-    console.log(questions);
     if (isEditing) {
       console.log("You are currently editing. Close the editing option first.");
       return;
@@ -190,11 +189,13 @@ const Editor = (props) => {
     try {
       const response = await fetch("/questions/create", settings);
       if (!response.ok) {
-        throw new Error("test failed");
+        throw new Error(
+          "Failed to upload questions to the database. Contact admin."
+        );
       }
       console.log(response.json());
     } catch (error) {
-      setError(error.message);
+      setError(error);
     }
 
     setIsSending(false);
@@ -221,7 +222,7 @@ const Editor = (props) => {
         />
       </div>
       {activeQuestion === null ? (
-        <LoadingSpinner optionalText="generating..." />
+        <LoadingSpinner optionalText="generating... this might take a while..." />
       ) : (
         <EditableQuestion
           body={questionBody}

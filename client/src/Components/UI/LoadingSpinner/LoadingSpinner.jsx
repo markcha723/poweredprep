@@ -9,8 +9,8 @@ const LoadingSpinner = (props) => {
         xmlns="http://www.w3.org/2000/svg"
         x="0px"
         y="0px"
-        width="40px"
-        height="40px"
+        width="45px"
+        height="45px"
       >
         <path
           fill="#000"
@@ -28,7 +28,7 @@ const LoadingSpinner = (props) => {
         </path>
       </svg>
       {props.optionalText ? (
-        <p className={classes["optional-text"]}>loading...</p>
+        <p className={classes["optional-text"]}>{props.optionalText}</p>
       ) : (
         []
       )}

@@ -1,12 +1,15 @@
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .optional-text {
   font-size: 2.4rem;
+  line-height: 1.2;
 }
