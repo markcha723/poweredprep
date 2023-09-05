@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState, useCallback } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useReducer,
+} from "react";
 import { isEqual } from "lodash";
 
 import ConfigContext from "../../../store/config-context";
@@ -9,45 +15,47 @@ import EditableQuestion from "../../UI/EditableQuestion/EditableQuestion";
 import Approver from "../../UI/Approver/Approver";
 import DifficultyAdjuster from "../../UI/DifficultyAdjuster/DifficultyAdjuster";
 import Button from "../../UI/Button/Button";
-import SuperBigAndSpecialButton from "../../UI/SuperBigAndSpecialButton/SuperBigAndSpecialButton";
 import LoadingSpinner from "../../UI/LoadingSpinner/LoadingSpinner";
+import editorReducer from "./editor-reducer";
+import EditorContext from "../../../store/config-context";
 
 import classes from "./Editor.module.css";
 
+/* 
+  bugs
+
+  1. currently, when "edit" is open, 
+  the user can set approval to false, which locks up navigation because
+  navigation closes when editing is open. 
+  adjust approval state logic? perhaps disable Approver when editing?
+*/
+
 const Editor = (props) => {
   const { configs } = useContext(ConfigContext);
-  const [questions, setQuestions] = useState([]);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const [activeQuestion, setActiveQuestion] = useState(null);
-  const [questionDifficulty, setQuestionDifficulty] = useState();
-  const [approved, setApproved] = useState(false);
-  const [questionBody, setQuestionBody] = useState("");
-  const [questionPrompt, setQuestionPrompt] = useState("");
-  const [answerChoices, setAnswerChoices] = useState([]);
-
-  const [answerA, setAnswerA] = useState({});
-  const [answerB, setAnswerB] = useState({});
-  const [answerC, setAnswerC] = useState({});
-  const [answerD, setAnswerD] = useState({});
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSending, setIsSending] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [error, setError] = useState(false);
-
-  /**
-   * STARTUP NETWORK FETCH
-   * retrieves relevant request data from the backend.
-   * currently configured to work via proxy at localhost:8080
-   *
-   **/
+  const [state, dispatch] = useReducer(editorReducer, {
+    questions: [],
+    activeQuestion: {},
+    activeIndex: 0,
+    isLoading: true,
+    isSending: false,
+    error: {
+      exists: false,
+      message: null,
+    },
+    isEditing: false,
+  });
+  const {
+    questions,
+    activeQuestion,
+    activeIndex,
+    error,
+    isSending,
+    isLoading,
+    isEditing,
+  } = state;
 
   const fetchQuestions = useCallback(async () => {
-    console.log("fetchQuestions ran!");
-    setIsLoading(true);
-    setError(false);
-
+    console.log("fetching questions...");
     try {
       const response = await fetch("/questions");
       // const settings = {
@@ -71,94 +79,15 @@ const Editor = (props) => {
         };
       });
 
-      setQuestions(adjustedData);
-      setActiveQuestion(adjustedData[activeIndex]);
-      setQuestionDifficulty(adjustedData[activeIndex].difficulty);
-      setApproved(adjustedData[activeIndex].approved);
-      setQuestionBody(adjustedData[activeIndex].body);
-      setQuestionPrompt(adjustedData[activeIndex].question);
-      setAnswerChoices(adjustedData[activeIndex].answerChoices);
-      setAnswerA(adjustedData[activeIndex].answerChoices[0]);
-      setAnswerB(adjustedData[activeIndex].answerChoices[1]);
-      setAnswerC(adjustedData[activeIndex].answerChoices[2]);
-      setAnswerD(adjustedData[activeIndex].answerChoices[3]);
+      dispatch({ type: "FETCH_SUCCESS", payload: adjustedData });
     } catch (error) {
-      setError(error.message);
+      dispatch({ type: "FETCH_ERROR", payload: error.message });
     }
-
-    setIsLoading(false);
   }, []);
 
   useEffect(() => {
     fetchQuestions();
   }, [fetchQuestions]);
-
-  /**
-   * FUNCTIONS TO UPDATE QUESTION OBJECTS CORRECTLY
-   * this will likely need refactoring later (consider useReducer?)
-   **/
-
-  const updateQuestionsList = () => {
-    const tempQuestions = questions.map((question, index) => {
-      if (index === activeIndex) {
-        console.log("success?");
-        return activeQuestion;
-      } else {
-        return question;
-      }
-    });
-    setQuestions(tempQuestions);
-  };
-
-  /* 
-    indexShiftHandler()
-    takes index as param
-    , sets both a new activeIndex and the appropriate activeQuestion
-  */
-  const indexShiftHandler = (indexTo) => {
-    updateQuestionsList();
-    setActiveIndex(indexTo);
-    setActiveQuestion(questions[indexTo]);
-    setQuestionDifficulty(questions[indexTo].difficulty);
-    setApproved(questions[indexTo].approved);
-    setQuestionBody(questions[indexTo].body);
-    setQuestionPrompt(questions[indexTo].question);
-    setAnswerChoices(questions[indexTo].answerChoices);
-    setAnswerA(questions[indexTo].answerChoices[0]);
-    setAnswerB(questions[indexTo].answerChoices[1]);
-    setAnswerC(questions[indexTo].answerChoices[2]);
-    setAnswerD(questions[indexTo].answerChoices[3]);
-  };
-
-  /*
-    updateEditableFieldsHandler
-    updates question body, prompt, and answer choices
-    should be called only after the user unclicks the edit button! 
-   */
-  const updateEditableFieldsHandler = () => {
-    setActiveQuestion({
-      ...activeQuestion,
-      body: questionBody,
-      question: questionPrompt,
-      answerChoices: answerChoices,
-    });
-  };
-
-  const updateApprovedHandler = (approved) => {
-    setApproved(approved);
-    setActiveQuestion({
-      ...activeQuestion,
-      approved: approved,
-    });
-  };
-
-  const updateQuestionDifficultyHandler = (difficulty) => {
-    setQuestionDifficulty(difficulty);
-    setActiveQuestion({
-      ...activeQuestion,
-      difficulty: difficulty,
-    });
-  };
 
   const clickEditHander = () => {
     if (isEditing) {
@@ -201,79 +130,74 @@ const Editor = (props) => {
     setIsSending(false);
   };
 
+  console.log(state);
+
   return (
-    <main className={classes.editor}>
-      <div
-        className={`${classes.misc} ${
-          isEditing || isLoading ? classes["disable-controls"] : ""
-        }`}
-      >
-        <span className={classes["page-title"]}>editor</span>
-        <QuestionNavigator
-          questionNumber={questions.length}
-          activeIndex={activeIndex}
-          indexShiftHandler={indexShiftHandler}
-        />
-        <PrevNextNavigator
-          maxIndex={questions.length - 1}
-          activeIndex={activeIndex}
-          indexShiftHandler={indexShiftHandler}
-          isEditing={isEditing}
-        />
-        <Button
-          option="save"
-          size="large"
-          color="pink"
-          onClick={submitHandler}
-          disabled={isEditing}
-          isWaiting={isSending}
-          endPosition
-        />
-      </div>
-      {activeQuestion === null ? (
-        <LoadingSpinner optionalText="generating... this might take a while..." />
-      ) : (
-        <EditableQuestion
-          body={questionBody}
-          setBody={setQuestionBody}
-          prompt={questionPrompt}
-          setPrompt={setQuestionPrompt}
-          answerChoices={answerChoices}
-          setAnswerChoices={setAnswerChoices}
-          answerA={answerA}
-          answerB={answerB}
-          answerC={answerC}
-          answerD={answerD}
-          setAnswerA={setAnswerA}
-          setAnswerB={setAnswerB}
-          setAnswerC={setAnswerC}
-          setAnswerD={setAnswerD}
-          isEditing={isEditing}
-          disabled={approved === false ? true : false}
-        />
-      )}
-      <div className={`${classes["editing-tools"]}`}>
-        <div className={`${classes["editing-tools--inner"]}`}>
-          <Approver
-            updateApproved={updateApprovedHandler}
-            approved={approved}
-            questions={questions}
+    <EditorContext.Provider value={{ state, dispatch }}>
+      <main className={classes.editor}>
+        <div
+          className={`${classes.misc} ${
+            isEditing || isLoading ? classes["disable-controls"] : ""
+          }`}
+        >
+          <span className={classes["page-title"]}>editor</span>
+          <QuestionNavigator
+            questionNumber={questions.length}
+            activeIndex={activeIndex}
+            dispatch={dispatch}
           />
-          <DifficultyAdjuster
-            checkedDifficulty={questionDifficulty}
-            updateQuestionDifficulty={updateQuestionDifficultyHandler}
-            disabled={approved === false ? true : false}
+          <PrevNextNavigator
+            maxIndex={questions.length - 1}
+            activeIndex={activeIndex}
+            dispatch={dispatch}
+            isEditing={isEditing}
           />
           <Button
-            color={approved === false ? "grey" : "pink"}
-            size="medium"
-            onClick={clickEditHander}
-            option="edit"
-            disabled={approved === false ? true : false}
+            option="save"
+            size="large"
+            color="pink"
+            onClick={submitHandler}
+            disabled={isEditing}
+            isWaiting={isSending}
+            endPosition
           />
         </div>
-      </div>
-    </main>
+        <LoadingSpinner optionalText="generating... this might take a while..." />
+        <div className={`${classes["editing-tools"]}`}>
+          <div className={`${classes["editing-tools--inner"]}`}>
+            <Approver
+              dispatch={dispatch}
+              approved={activeQuestion.approved}
+              questions={questions}
+            />
+            <DifficultyAdjuster
+              checkedDifficulty={activeQuestion.difficulty}
+              dispatch={dispatch}
+              disabled={activeQuestion.approved === false ? true : false}
+            />
+            <Button
+              color={activeQuestion.approved === false ? "grey" : "pink"}
+              size="medium"
+              onClick={
+                isEditing
+                  ? () => {
+                      dispatch({
+                        type: "EDIT_CLOSE",
+                      });
+                    }
+                  : () => {
+                      dispatch({
+                        type: "EDIT_OPEN",
+                      });
+                    }
+              }
+              option="edit"
+              disabled={activeQuestion.approved === false ? true : false}
+            />
+          </div>
+        </div>
+      </main>
+    </EditorContext.Provider>
   );
 };
 

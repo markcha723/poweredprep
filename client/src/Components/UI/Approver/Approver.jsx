@@ -8,8 +8,12 @@ const Approver = (props) => {
         type="radio"
         id="disapprove"
         name="approval"
-        onClick={() => props.updateApproved(false)}
-        onChange={() => props.updateApproved(false)}
+        onClick={() =>
+          props.dispatch({ type: "APPROVE_CHANGE", payload: false })
+        }
+        onChange={() =>
+          props.dispatch({ type: "APPROVE_CHANGE", payload: false })
+        }
         checked={props.approved ? false : true}
       />
       <label htmlFor="disapprove">
@@ -20,8 +24,12 @@ const Approver = (props) => {
         type="radio"
         id="approve"
         name="approval"
-        onClick={() => props.updateApproved(true)}
-        onChange={() => props.updateApproved(true)}
+        onClick={() =>
+          props.dispatch({ type: "APPROVE_CHANGE", payload: true })
+        }
+        onChange={() =>
+          props.dispatch({ type: "APPROVE_CHANGE", payload: true })
+        }
         checked={props.approved ? true : false}
       />
       <label htmlFor="approve">

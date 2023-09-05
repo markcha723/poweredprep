@@ -1,13 +1,5 @@
 import React from "react";
 
-const ConfigContext = React.createContext({
-  section: null,
-  questionTypes: null,
-  passageStyles: null,
-  passageTopics: null,
-  difficulty: null,
-  numberOfQuestions: null,
-  wordsToUse: null,
-});
+const EditorContext = React.createContext(null);
 
-export default ConfigContext;
+export default EditorContext;

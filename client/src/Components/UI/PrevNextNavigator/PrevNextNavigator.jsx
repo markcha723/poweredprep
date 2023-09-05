@@ -10,7 +10,12 @@ const PrevNextNavigator = (props) => {
         size="medium"
         color={props.isEditing ? "grey" : "teal"}
         option="previous"
-        onClick={() => props.indexShiftHandler(props.activeIndex - 1)}
+        onClick={() =>
+          props.dispatch({
+            type: "INDEX_CHANGE",
+            index: props.activeIndex - 1,
+          })
+        }
         disabled={props.activeIndex <= 0}
         consistentSizing
       ></Button>
@@ -18,7 +23,12 @@ const PrevNextNavigator = (props) => {
         size="medium"
         color={props.isEditing ? "grey" : "pink"}
         option="next"
-        onClick={() => props.indexShiftHandler(props.activeIndex + 1)}
+        onClick={() =>
+          props.dispatch({
+            type: "INDEX_CHANGE",
+            index: props.activeIndex + 1,
+          })
+        }
         disabled={props.activeIndex >= props.maxIndex}
         consistentSizing
       ></Button>
