@@ -142,7 +142,6 @@ const Editor = (props) => {
       question: questionPrompt,
       answerChoices: answerChoices,
     });
-    updateQuestionsList();
   };
 
   const updateApprovedHandler = (approved) => {
@@ -151,7 +150,6 @@ const Editor = (props) => {
       ...activeQuestion,
       approved: approved,
     });
-    updateQuestionsList();
   };
 
   const updateQuestionDifficultyHandler = (difficulty) => {
@@ -160,7 +158,6 @@ const Editor = (props) => {
       ...activeQuestion,
       difficulty: difficulty,
     });
-    updateQuestionsList();
   };
 
   const clickEditHander = () => {
@@ -169,6 +166,7 @@ const Editor = (props) => {
       updateQuestionsList();
       setIsEditing(false);
     } else {
+      updateQuestionsList();
       setIsEditing(true);
     }
   };
