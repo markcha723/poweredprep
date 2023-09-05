@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
+import { isEqual } from "lodash";
+
 import ConfigContext from "../../../store/config-context";
 
 import QuestionNavigator from "../../UI/QuestionNavigator/QuestionNavigator";
@@ -13,6 +15,7 @@ import LoadingSpinner from "../../UI/LoadingSpinner/LoadingSpinner";
 import classes from "./Editor.module.css";
 
 const Editor = (props) => {
+  const { configs } = useContext(ConfigContext);
   const [questions, setQuestions] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -46,7 +49,16 @@ const Editor = (props) => {
     setError(false);
 
     try {
-      const response = await fetch("/questions");
+      //const response = await fetch("/questions");
+      const settings = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...configs, requestType: "CREATE" }),
+      };
+      const response = await fetch("/requests/", settings);
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
@@ -58,6 +70,7 @@ const Editor = (props) => {
           approved: true,
         };
       });
+
       setQuestions(adjustedData);
       setActiveQuestion(adjustedData[activeIndex]);
       setQuestionDifficulty(adjustedData[activeIndex].difficulty);
@@ -86,8 +99,14 @@ const Editor = (props) => {
    **/
 
   const updateQuestionsList = () => {
-    const tempQuestions = questions;
-    tempQuestions.splice(activeIndex, 1, activeQuestion);
+    const tempQuestions = questions.map((question, index) => {
+      if (index === activeIndex) {
+        console.log("success?");
+        return activeQuestion;
+      } else {
+        return question;
+      }
+    });
     setQuestions(tempQuestions);
   };
 
@@ -97,7 +116,6 @@ const Editor = (props) => {
     , sets both a new activeIndex and the appropriate activeQuestion
   */
   const indexShiftHandler = (indexTo) => {
-    console.log(activeQuestion);
     updateQuestionsList();
     setActiveIndex(indexTo);
     setActiveQuestion(questions[indexTo]);
@@ -145,22 +163,32 @@ const Editor = (props) => {
   const clickEditHander = () => {
     if (isEditing) {
       updateEditableFieldsHandler();
+      updateQuestionsList();
       setIsEditing(false);
     } else {
+      updateQuestionsList();
       setIsEditing(true);
     }
   };
 
-  const submitHandler = useCallback(async () => {
+  const submitHandler = async () => {
+    console.log(questions);
     if (isEditing) {
       console.log("You are currently editing. Close the editing option first.");
       return;
     }
-    updateQuestionsList();
     setIsSending(true);
+    const settings = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(questions[0]),
+    };
 
     try {
-      const response = await fetch("/questions/test");
+      const response = await fetch("/questions/create", settings);
       if (!response.ok) {
         throw new Error("test failed");
       }
@@ -170,7 +198,7 @@ const Editor = (props) => {
     }
 
     setIsSending(false);
-  }, []);
+  };
 
   return (
     <main className={classes.editor}>
