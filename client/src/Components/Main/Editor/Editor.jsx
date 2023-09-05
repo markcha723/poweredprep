@@ -49,16 +49,16 @@ const Editor = (props) => {
     setError(false);
 
     try {
-      //const response = await fetch("/questions");
-      const settings = {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...configs, requestType: "CREATE" }),
-      };
-      const response = await fetch("/requests/", settings);
+      const response = await fetch("/questions");
+      // const settings = {
+      //   method: "POST",
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ ...configs, requestType: "CREATE" }),
+      // };
+      // const response = await fetch("/requests/", settings);
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
@@ -220,6 +220,15 @@ const Editor = (props) => {
           indexShiftHandler={indexShiftHandler}
           isEditing={isEditing}
         />
+        <Button
+          option="save"
+          size="large"
+          color="pink"
+          onClick={submitHandler}
+          disabled={isEditing}
+          isWaiting={isSending}
+          endPosition
+        />
       </div>
       {activeQuestion === null ? (
         <LoadingSpinner optionalText="generating... this might take a while..." />
@@ -263,12 +272,6 @@ const Editor = (props) => {
             disabled={approved === false ? true : false}
           />
         </div>
-        <SuperBigAndSpecialButton
-          option="save"
-          onClick={submitHandler}
-          disabled={isEditing}
-          isWaiting={isSending}
-        />
       </div>
     </main>
   );
