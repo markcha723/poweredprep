@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import classes from "./EditableAnswerChoice.module.css";
 import EditorContext from "../../../store/config-context";
 
 const EditableAnswerChoice = (props) => {
+  const { state, dispatch } = useContext(EditorContext);
+
   return (
     <li className={classes.container}>
       <input
@@ -10,7 +12,12 @@ const EditableAnswerChoice = (props) => {
         name="answers"
         disabled={!props.isEditing}
         checked={props.isCorrect}
-        onClick={props.changeCorrectAnswer}
+        onChange={() =>
+          dispatch({
+            type: "CORRECT_ANSWER_CHANGE",
+            payload: props.choiceLetter,
+          })
+        }
       />
       <label className={classes.choice}>
         <span>{`${props.choiceLetter})`}</span>

@@ -109,23 +109,28 @@ const editorReducer = (state, action) => {
         activeQuestion: promptBodyUpdated[state.activeIndex],
       };
     case "CORRECT_ANSWER_CHANGE":
-      const correctAnswerUpdated = state.questions.map((question, index) => {
+      const previousCorrectAnswers =
+        state.questions[state.activeIndex].answerChoices;
+      console.log(previousCorrectAnswers);
+      const updatedCorrectAnswers = previousCorrectAnswers.map((answer) => {
+        if (answer.choiceLetter === action.payload) {
+          return {
+            ...answer,
+            correct: true,
+          };
+        } else {
+          return {
+            ...answer,
+            correct: false,
+          };
+        }
+      });
+      console.log(updatedCorrectAnswers);
+      const updatedAnswerArray = state.questions.map((question, index) => {
         if (index === state.activeIndex) {
-          console.log(question);
-          const tempAnswerArray = question.answerChoices.map((answer) => {
-            answer.choiceLetter === action.payload
-              ? {
-                  ...answer,
-                  correct: true,
-                }
-              : {
-                  ...answer,
-                  correct: false,
-                };
-          });
           return {
             ...question,
-            answerChoices: tempAnswerArray,
+            answerChoices: updatedCorrectAnswers,
           };
         } else {
           return question;
@@ -133,8 +138,8 @@ const editorReducer = (state, action) => {
       });
       return {
         ...state,
-        questions: correctAnswerUpdated,
-        activeQuestion: state.questions[state.activeIndex],
+        questions: updatedAnswerArray,
+        activeQuestion: updatedAnswerArray[state.activeIndex],
       };
     case "ANSWER_TEXT_CHANGE":
       return {

@@ -76,9 +76,6 @@ const EditableQuestion = (props) => {
           text={answerChoices[0].choiceText}
           isEditing={isEditing}
           isCorrect={answerChoices[0].correct}
-          changeCorrectAnswer={() =>
-            dispatch({ type: "CORRECT_ANSWER_CHANGE", payload: "a" })
-          }
           onChange={(event) => answerFieldChangeHandler(event, "a")}
         />
         <EditableAnswerChoice
@@ -86,9 +83,6 @@ const EditableQuestion = (props) => {
           text={answerChoices[1].choiceText}
           isEditing={isEditing}
           isCorrect={answerChoices[1].correct}
-          changeCorrectAnswer={() =>
-            dispatch({ type: "CORRECT_ANSWER_CHANGE", payload: "b" })
-          }
           onChange={(event) => answerFieldChangeHandler(event, "b")}
         />
         <EditableAnswerChoice
@@ -96,9 +90,6 @@ const EditableQuestion = (props) => {
           text={answerChoices[2].choiceText}
           isEditing={isEditing}
           isCorrect={answerChoices[2].correct}
-          changeCorrectAnswer={() =>
-            dispatch({ type: "CORRECT_ANSWER_CHANGE", payload: "c" })
-          }
           onChange={(event) => answerFieldChangeHandler(event, "c")}
         />
         <EditableAnswerChoice
@@ -106,9 +97,6 @@ const EditableQuestion = (props) => {
           text={answerChoices[3].choiceText}
           isEditing={isEditing}
           isCorrect={answerChoices[3].correct}
-          changeCorrectAnswer={() =>
-            dispatch({ type: "CORRECT_ANSWER_CHANGE", payload: "d" })
-          }
           onChange={(event) => answerFieldChangeHandler(event, "d")}
         />
       </ul>
