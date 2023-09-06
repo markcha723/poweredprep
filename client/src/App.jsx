@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./index.css";
 
 import About from "./Components/Main/About/About";
@@ -7,7 +7,6 @@ import Main from "./Components/Main/Main";
 
 function App() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [dummyData, setDummyData] = useState();
 
   const dialogCloseHandler = () => {
     setIsDialogOpen(false);

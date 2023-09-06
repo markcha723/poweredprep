@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback } from "react";
+import React, { useContext, useState } from "react";
 import FormConfigItem from "../FormConfigItem/FormConfigItem";
 import Button from "../Button/Button";
 import ConfigContext from "../../../store/config-context";
@@ -14,18 +14,22 @@ const ConfirmRequestForm = (props) => {
   // find a way to resize display text if it's above a certain size, probably in FormConfigItem.js
   const submitHandler = (event) => {
     event.preventDefault();
-    setIsWaiting(true);
-    // currently only checks to see if server is healthy. needs to occur after state validation!
-    setTimeout(async () => {
-      const response = await fetch("/checks/ping");
-      if (response.status === 200) {
-        setIsWaiting(false);
-        setActiveConfig("editor");
-      } else {
-        setIsWaiting(false);
-        //technically there should be an error message here here
-      }
-    }, 500);
+    if (isWaiting) {
+      console.log("Try not to spam buttons!");
+    } else {
+      setIsWaiting(true);
+      // currently only checks to see if server is healthy. needs to occur after state validation!
+      setTimeout(async () => {
+        const response = await fetch("/checks/ping");
+        if (response.status === 200) {
+          setIsWaiting(false);
+          setActiveConfig("editor");
+        } else {
+          setIsWaiting(false);
+          //technically there should be an error message here here
+        }
+      }, 2000);
+    }
   };
 
   return (

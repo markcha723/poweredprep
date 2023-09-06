@@ -87,7 +87,6 @@ const Editor = (props) => {
       console.log("You are currently editing. Close the editing option first.");
       return;
     }
-    setIsSending(true);
     const settings = {
       method: "POST",
       headers: {
@@ -105,11 +104,7 @@ const Editor = (props) => {
         );
       }
       console.log(response.json());
-    } catch (error) {
-      setError(error);
-    }
-
-    setIsSending(false);
+    } catch (error) {}
   };
 
   console.log(state);
