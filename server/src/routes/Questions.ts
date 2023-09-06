@@ -1,6 +1,9 @@
 import express from "express";
-import { Question } from "../models/questionModel";
+import { Question, GptQuestionDB } from "../models/questionModel";
+import RequestConfigurationsDB from "../models/questionConfigurations";
+import GptCompletionDB from "../models/gptCompletionModel";
 import Logging from "../library/Logging";
+import { DELETE_PASSWORD } from "../config/config";
 
 const router = express.Router();
 
@@ -57,6 +60,31 @@ router.delete("/delete/:id", async (req, res) => {
     console.log(error.message);
     Logging.error("The DELETE request was denied.");
     res.status(500).json({ message: error.message });
+  }
+});
+
+// a dummy route, used for clearly processing data
+// and making sure that the flow of info from client to the backend is clean.
+// using a POST request because this should take a password to actually delete!
+router.post("/delete/", async (req, res) => {
+  Logging.info(
+    "A POST request was made to wipe the database. Verifying password..."
+  );
+  try {
+    if (DELETE_PASSWORD === req.body.password) {
+      Logging.info("Password confirmed. Deleting...");
+      await GptCompletionDB.deleteMany({});
+      await RequestConfigurationsDB.deleteMany({});
+      await GptQuestionDB.deleteMany({});
+      Logging.info("Deleted all the relevant data.");
+      res.status(200).json({ message: "Successful deletions." });
+    } else {
+      Logging.info("Wrong password. Sending back failure.");
+      res.status(403).json({ message: "Wrong password." });
+    }
+  } catch (error) {
+    Logging.error("Something went wrong.");
+    res.status(500).json({ message: "Something went wrong" });
   }
 });
 
