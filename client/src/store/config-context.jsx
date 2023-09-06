@@ -1,5 +1,5 @@
 import React from "react";
 
-const EditorContext = React.createContext(null);
+const ConfigContext = React.createContext(null);
 
-export default EditorContext;
+export default ConfigContext;

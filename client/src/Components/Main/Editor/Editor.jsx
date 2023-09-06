@@ -17,7 +17,7 @@ import DifficultyAdjuster from "../../UI/DifficultyAdjuster/DifficultyAdjuster";
 import Button from "../../UI/Button/Button";
 import LoadingSpinner from "../../UI/LoadingSpinner/LoadingSpinner";
 import editorReducer from "./editor-reducer";
-import EditorContext from "../../../store/config-context";
+import EditorContext from "../../../store/editor-context";
 
 import classes from "./Editor.module.css";
 
