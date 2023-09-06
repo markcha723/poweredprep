@@ -13,7 +13,12 @@ const DifficultyAdjuster = (props) => {
           id="easy"
           name="difficulty"
           checked={props.checkedDifficulty === "easy"}
-          onChange={() => props.updateQuestionDifficulty("easy")}
+          onChange={() =>
+            props.dispatch({ type: "DIFFICULTY_CHANGE", payload: "easy" })
+          }
+          onClick={() =>
+            props.dispatch({ type: "DIFFICULTY_CHANGE", payload: "easy" })
+          }
         />
         <label htmlFor="easy">easy</label>
 
@@ -22,7 +27,12 @@ const DifficultyAdjuster = (props) => {
           id="medium"
           name="difficulty"
           checked={props.checkedDifficulty === "medium"}
-          onChange={() => props.updateQuestionDifficulty("medium")}
+          onChange={() =>
+            props.dispatch({ type: "DIFFICULTY_CHANGE", payload: "medium" })
+          }
+          onClick={() =>
+            props.dispatch({ type: "DIFFICULTY_CHANGE", payload: "medium" })
+          }
         />
         <label htmlFor="medium">medium</label>
 
@@ -31,7 +41,12 @@ const DifficultyAdjuster = (props) => {
           id="hard"
           name="difficulty"
           checked={props.checkedDifficulty === "hard"}
-          onChange={() => props.updateQuestionDifficulty("hard")}
+          onChange={() =>
+            props.dispatch({ type: "DIFFICULTY_CHANGE", payload: "hard" })
+          }
+          onClick={() =>
+            props.dispatch({ type: "DIFFICULTY_CHANGE", payload: "hard" })
+          }
         />
         <label htmlFor="hard">hard</label>
       </div>

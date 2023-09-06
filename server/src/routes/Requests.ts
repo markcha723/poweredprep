@@ -11,6 +11,9 @@ import generateGptPrompts from "../middleware/generateGptPrompts";
 import { parseGptCompletion } from "../middleware/scripts";
 import { OPENAI_KEY, OPENAI_MODEL, OPENAI_MAX_TOKENS } from "../config/config";
 
+//this is only here for testing
+import { Question } from "../models/questionModel";
+
 const router = express.Router();
 const openai = new OpenAI({
   apiKey: OPENAI_KEY,
