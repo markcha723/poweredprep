@@ -1,11 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-  useReducer,
-} from "react";
-import { isEqual } from "lodash";
+import React, { useContext, useEffect, useCallback, useReducer } from "react";
 
 import ConfigContext from "../../../store/config-context";
 

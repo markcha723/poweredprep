@@ -5,7 +5,7 @@ import ConfigContext from "../../../store/config-context";
 import classes from "./ConfirmRequestForm.module.css";
 
 const ConfirmRequestForm = (props) => {
-  const { configs, updateConfigs, setActiveConfig } = useContext(ConfigContext);
+  const { configs, setActiveConfig } = useContext(ConfigContext);
   const [isWaiting, setIsWaiting] = useState(false);
 
   // error handling for items needs to be handled.
@@ -14,7 +14,6 @@ const ConfirmRequestForm = (props) => {
   // find a way to resize display text if it's above a certain size, probably in FormConfigItem.js
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log(props.configs);
     setIsWaiting(true);
     // currently only checks to see if server is healthy. needs to occur after state validation!
     setTimeout(async () => {

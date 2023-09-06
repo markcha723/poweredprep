@@ -1,6 +1,6 @@
 /* 
   editor reducer
-
+  currently consumed in editor.jsx, 
   note that this should always return a state object of the following shape:
   {
     questions: Question[]
@@ -142,7 +142,6 @@ const editorReducer = (state, action) => {
     case "ANSWER_TEXT_CHANGE":
       const previousAnswerTexts =
         state.questions[state.activeIndex].answerChoices;
-      console.log(previousAnswerTexts);
       const updatedAnswerTexts = previousAnswerTexts.map((answer) => {
         if (answer.choiceLetter === action.payload.letter) {
           return {
@@ -153,7 +152,6 @@ const editorReducer = (state, action) => {
           return answer;
         }
       });
-      console.log(updatedAnswerTexts);
       const updatedAnswerTextArray = state.questions.map((question, index) => {
         if (index === state.activeIndex) {
           return {
