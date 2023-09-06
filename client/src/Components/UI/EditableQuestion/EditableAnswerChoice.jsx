@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./EditableAnswerChoice.module.css";
+import EditorContext from "../../../store/config-context";
 
 const EditableAnswerChoice = (props) => {
   return (

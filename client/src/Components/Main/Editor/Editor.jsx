@@ -89,17 +89,6 @@ const Editor = (props) => {
     fetchQuestions();
   }, [fetchQuestions]);
 
-  const clickEditHander = () => {
-    if (isEditing) {
-      updateEditableFieldsHandler();
-      updateQuestionsList();
-      setIsEditing(false);
-    } else {
-      updateQuestionsList();
-      setIsEditing(true);
-    }
-  };
-
   const submitHandler = async () => {
     if (isEditing) {
       console.log("You are currently editing. Close the editing option first.");
@@ -162,7 +151,11 @@ const Editor = (props) => {
             endPosition
           />
         </div>
-        <LoadingSpinner optionalText="generating... this might take a while..." />
+        {isLoading ? (
+          <LoadingSpinner optionalText="generating... this might take a while..." />
+        ) : (
+          <EditableQuestion />
+        )}
         <div className={`${classes["editing-tools"]}`}>
           <div className={`${classes["editing-tools--inner"]}`}>
             <Approver

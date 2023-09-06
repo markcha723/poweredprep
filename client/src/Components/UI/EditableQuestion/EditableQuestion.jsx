@@ -1,34 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import EditableAnswerChoice from "./EditableAnswerChoice";
 import classes from "./EditableQuestion.module.css";
+import EditorContext from "../../../store/config-context";
 
 const EditableQuestion = (props) => {
-  const questionBodyChangeHandler = (event) => {
-    props.setBody(event.target.value);
-  };
+  const { state, dispatch } = useContext(EditorContext);
+  const { activeQuestion, isEditing } = state;
+  const {
+    answerChoices,
+    question: prompt,
+    body: questionBody,
+  } = activeQuestion;
 
-  const promptChangeHandler = (event) => {
-    props.setPrompt(event.target.value);
-  };
+  // const questionBodyChangeHandler = (event) => {
+  //   props.setBody(event.target.value);
+  // };
 
-  const answerCorrectChangeHandler = (changeTo) => {
-    const tempAnswerArray = props.answerChoices.map((answer) =>
-      answer.choiceLetter === changeTo
-        ? { ...answer, correct: true }
-        : { ...answer, correct: false }
-    );
-    props.setAnswerChoices(tempAnswerArray);
-  };
+  // const promptChangeHandler = (event) => {
+  //   props.setPrompt(event.target.value);
+  // };
 
-  const answerFieldChangeHandler = (event, changedAnswer) => {
-    const tempAnswerArray = props.answerChoices.map((answer) =>
-      answer.choiceLetter === changedAnswer
-        ? { ...answer, choiceText: event.target.value }
-        : answer
-    );
-    props.setAnswerChoices(tempAnswerArray);
-  };
+  // const answerCorrectChangeHandler = (changeTo) => {
+  //   const tempAnswerArray = props.answerChoices.map((answer) =>
+  //     answer.choiceLetter === changeTo
+  //       ? { ...answer, correct: true }
+  //       : { ...answer, correct: false }
+  //   );
+  //   props.setAnswerChoices(tempAnswerArray);
+  // };
 
+  // const answerFieldChangeHandler = (event, changedAnswer) => {
+  //   const tempAnswerArray = props.answerChoices.map((answer) =>
+  //     answer.choiceLetter === changedAnswer
+  //       ? { ...answer, choiceText: event.target.value }
+  //       : answer
+  //   );
+  //   props.setAnswerChoices(tempAnswerArray);
+  // };
+
+  const answerFieldChangeHandler = (event) => {
+    console.log(event);
+  };
   return (
     <article
       className={`${classes["question-and-answer"]} ${
@@ -38,52 +50,65 @@ const EditableQuestion = (props) => {
       <textarea
         type="text"
         className={`${classes["question-body"]} ${
-          props.isEditing ? classes.editable : ""
+          isEditing ? classes.editable : ""
         }`}
-        readOnly={!props.isEditing}
-        value={props.body}
-        onChange={questionBodyChangeHandler}
+        readOnly={!isEditing}
+        value={questionBody}
+        onChange={(event) =>
+          dispatch({
+            type: "QUESTION_BODY_CHANGE",
+            payload: event.target.value,
+          })
+        }
       />
       <textarea
         type="text"
-        className={`${classes.prompt} ${
-          props.isEditing ? classes.editable : ""
-        }`}
-        readOnly={!props.isEditing}
-        value={props.prompt}
-        onChange={promptChangeHandler}
+        className={`${classes.prompt} ${isEditing ? classes.editable : ""}`}
+        readOnly={!isEditing}
+        value={prompt}
+        onChange={(event) =>
+          dispatch({ type: "PROMPT_CHANGE", payload: event.target.value })
+        }
       />
       <ul className={classes["answer-choices"]}>
         <EditableAnswerChoice
-          choiceLetter={props.answerChoices[0].choiceLetter}
-          text={props.answerChoices[0].choiceText}
-          isEditing={props.isEditing}
-          isCorrect={props.answerChoices[0].correct}
-          changeCorrectAnswer={() => answerCorrectChangeHandler("a")}
+          choiceLetter={answerChoices[0].choiceLetter}
+          text={answerChoices[0].choiceText}
+          isEditing={isEditing}
+          isCorrect={answerChoices[0].correct}
+          changeCorrectAnswer={() =>
+            dispatch({ type: "CORRECT_ANSWER_CHANGE", payload: "a" })
+          }
           onChange={(event) => answerFieldChangeHandler(event, "a")}
         />
         <EditableAnswerChoice
-          choiceLetter={props.answerChoices[1].choiceLetter}
-          text={props.answerChoices[1].choiceText}
-          isEditing={props.isEditing}
-          isCorrect={props.answerChoices[1].correct}
-          changeCorrectAnswer={() => answerCorrectChangeHandler("b")}
+          choiceLetter={answerChoices[1].choiceLetter}
+          text={answerChoices[1].choiceText}
+          isEditing={isEditing}
+          isCorrect={answerChoices[1].correct}
+          changeCorrectAnswer={() =>
+            dispatch({ type: "CORRECT_ANSWER_CHANGE", payload: "b" })
+          }
           onChange={(event) => answerFieldChangeHandler(event, "b")}
         />
         <EditableAnswerChoice
-          choiceLetter={props.answerChoices[2].choiceLetter}
-          text={props.answerChoices[2].choiceText}
-          isEditing={props.isEditing}
-          isCorrect={props.answerChoices[2].correct}
-          changeCorrectAnswer={() => answerCorrectChangeHandler("c")}
+          choiceLetter={answerChoices[2].choiceLetter}
+          text={answerChoices[2].choiceText}
+          isEditing={isEditing}
+          isCorrect={answerChoices[2].correct}
+          changeCorrectAnswer={() =>
+            dispatch({ type: "CORRECT_ANSWER_CHANGE", payload: "c" })
+          }
           onChange={(event) => answerFieldChangeHandler(event, "c")}
         />
         <EditableAnswerChoice
-          choiceLetter={props.answerChoices[3].choiceLetter}
-          text={props.answerChoices[3].choiceText}
-          isEditing={props.isEditing}
-          isCorrect={props.answerChoices[3].correct}
-          changeCorrectAnswer={() => answerCorrectChangeHandler("d")}
+          choiceLetter={answerChoices[3].choiceLetter}
+          text={answerChoices[3].choiceText}
+          isEditing={isEditing}
+          isCorrect={answerChoices[3].correct}
+          changeCorrectAnswer={() =>
+            dispatch({ type: "CORRECT_ANSWER_CHANGE", payload: "d" })
+          }
           onChange={(event) => answerFieldChangeHandler(event, "d")}
         />
       </ul>
