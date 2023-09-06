@@ -76,28 +76,24 @@ const EditableQuestion = (props) => {
           text={answerChoices[0].choiceText}
           isEditing={isEditing}
           isCorrect={answerChoices[0].correct}
-          onChange={(event) => answerFieldChangeHandler(event, "a")}
         />
         <EditableAnswerChoice
           choiceLetter={answerChoices[1].choiceLetter}
           text={answerChoices[1].choiceText}
           isEditing={isEditing}
           isCorrect={answerChoices[1].correct}
-          onChange={(event) => answerFieldChangeHandler(event, "b")}
         />
         <EditableAnswerChoice
           choiceLetter={answerChoices[2].choiceLetter}
           text={answerChoices[2].choiceText}
           isEditing={isEditing}
           isCorrect={answerChoices[2].correct}
-          onChange={(event) => answerFieldChangeHandler(event, "c")}
         />
         <EditableAnswerChoice
           choiceLetter={answerChoices[3].choiceLetter}
           text={answerChoices[3].choiceText}
           isEditing={isEditing}
           isCorrect={answerChoices[3].correct}
-          onChange={(event) => answerFieldChangeHandler(event, "d")}
         />
       </ul>
     </article>

@@ -111,7 +111,6 @@ const editorReducer = (state, action) => {
     case "CORRECT_ANSWER_CHANGE":
       const previousCorrectAnswers =
         state.questions[state.activeIndex].answerChoices;
-      console.log(previousCorrectAnswers);
       const updatedCorrectAnswers = previousCorrectAnswers.map((answer) => {
         if (answer.choiceLetter === action.payload) {
           return {
@@ -125,7 +124,6 @@ const editorReducer = (state, action) => {
           };
         }
       });
-      console.log(updatedCorrectAnswers);
       const updatedAnswerArray = state.questions.map((question, index) => {
         if (index === state.activeIndex) {
           return {
@@ -142,10 +140,34 @@ const editorReducer = (state, action) => {
         activeQuestion: updatedAnswerArray[state.activeIndex],
       };
     case "ANSWER_TEXT_CHANGE":
+      const previousAnswerTexts =
+        state.questions[state.activeIndex].answerChoices;
+      console.log(previousAnswerTexts);
+      const updatedAnswerTexts = previousAnswerTexts.map((answer) => {
+        if (answer.choiceLetter === action.payload.letter) {
+          return {
+            ...answer,
+            choiceText: action.payload.text,
+          };
+        } else {
+          return answer;
+        }
+      });
+      console.log(updatedAnswerTexts);
+      const updatedAnswerTextArray = state.questions.map((question, index) => {
+        if (index === state.activeIndex) {
+          return {
+            ...question,
+            answerChoices: updatedAnswerTexts,
+          };
+        } else {
+          return question;
+        }
+      });
       return {
         ...state,
-        questions: correctAnswerUpdated,
-        activeQuestion: correctAnswerUpdated[state.activeIndex],
+        questions: updatedAnswerTextArray,
+        activeQuestion: updatedAnswerTextArray[state.activeIndex],
       };
   }
 };

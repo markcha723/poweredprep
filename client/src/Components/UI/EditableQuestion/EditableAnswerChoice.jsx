@@ -26,7 +26,12 @@ const EditableAnswerChoice = (props) => {
             props.isEditing ? classes.editable : ""
           }`}
           readOnly={!props.isEditing}
-          onChange={props.onChange}
+          onChange={(event) => {
+            dispatch({
+              type: "ANSWER_TEXT_CHANGE",
+              payload: { letter: props.choiceLetter, text: event.target.value },
+            });
+          }}
           value={props.text}
         ></textarea>
       </label>
