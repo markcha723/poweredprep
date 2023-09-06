@@ -42,12 +42,12 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   Logging.info("A POST request was made to /request/");
   try {
-    const { requestType, numberOfQuestions } = req.body;
+    const { requestType, numberOfQuestions, section } = req.body;
     Logging.info(`The request type is ${requestType}`);
 
     switch (requestType) {
       case "CREATE":
-        RequestConfigurationsDB.create(req.body);
+        await RequestConfigurationsDB.create(req.body);
         Logging.info(`storing request configurations in db.`);
         const prompts = generateGptPrompts(req.body);
         Logging.info(`parsed request.`);
@@ -65,11 +65,11 @@ router.post("/", async (req, res) => {
         Logging.info(
           `gpt completion successful. storing completion(s) to the db.`
         );
-        GptCompletionDB.create(completion);
+        await GptCompletionDB.create(completion);
         Logging.info(`parsing completion.`);
-        let parsedCompletion = parseGptCompletion(completion);
+        let parsedCompletion = parseGptCompletion(completion, section);
         Logging.info(`pushing parsed questions to the db.`);
-        GptQuestionDB.create(parsedCompletion);
+        await GptQuestionDB.create(parsedCompletion);
         Logging.info("responding to request with parsed completions.");
         res.status(200).json([parsedCompletion]);
         break;

@@ -1,5 +1,9 @@
 import express from "express";
-import { Question, GptQuestionDB } from "../models/questionModel";
+import {
+  Question,
+  GptQuestionDB,
+  GptQuestionsApprovedDB,
+} from "../models/questionModel";
 import RequestConfigurationsDB from "../models/questionConfigurations";
 import GptCompletionDB from "../models/gptCompletionModel";
 import Logging from "../library/Logging";
@@ -34,7 +38,7 @@ router.get("/question/:id", async (req, res) => {
 router.post("/create", async (req, res) => {
   Logging.info("A POST request was made to create a question.");
   try {
-    const question = await Question.create(req.body);
+    const question = await GptQuestionsApprovedDB.create(req.body);
     Logging.info(question);
     Logging.info(
       "A POST request was approved, and the question has been added to the database."
@@ -73,6 +77,7 @@ router.post("/delete/", async (req, res) => {
   try {
     if (DELETE_PASSWORD === req.body.password) {
       Logging.info("Password confirmed. Deleting...");
+      await GptQuestionsApprovedDB.deleteMany({});
       await GptCompletionDB.deleteMany({});
       await RequestConfigurationsDB.deleteMany({});
       await GptQuestionDB.deleteMany({});

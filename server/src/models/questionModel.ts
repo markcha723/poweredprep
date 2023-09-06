@@ -38,4 +38,8 @@ export const QuestionSchema: Schema = new Schema(
 );
 
 export const Question = mongoose.model("questionsver2", QuestionSchema);
+export const GptQuestionsApprovedDB = mongoose.model(
+  "gpt-questions-approved",
+  QuestionSchema
+);
 export const GptQuestionDB = mongoose.model("gpt-questions", QuestionSchema);

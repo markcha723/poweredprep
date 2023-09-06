@@ -1,24 +1,49 @@
 import Logging from "../library/Logging";
 import { GptCompletion, Question, AnswerChoices, Answer } from "../interfaces";
 
-export const parseGptCompletion = (completion: GptCompletion): Question => {
+export const parseGptCompletion = (
+  completion: GptCompletion,
+  section: string
+): Question => {
   let parsedQuestion: Question;
   const content = completion.choices[0].message.content as string;
-  const passage = getStringBetween("<<passage>>", "<</passage>>", content);
-  const prompt = getStringBetween("<<prompt>>", "<</prompt>>", content);
-  const rawAnswers = getStringBetween("<<answers>>", "<</answers>>", content);
-  const correctAnswer = getStringBetween("<correct>>", "<</correct>>", content)
+  let passage = getStringBetween("<<passage>>", "<</passage>>", content).trim();
+  let prompt = getStringBetween("<<prompt>>", "<</prompt>>", content).trim();
+  let rawAnswers = getStringBetween(
+    "<<answers>>",
+    "<</answers>>",
+    content
+  ).trim();
+  if (rawAnswers === "failed") {
+    try {
+      rawAnswers = content.split("<<answers>>")[1];
+    } catch (error) {
+      rawAnswers = "a)ab)bc)cd)d";
+    }
+  }
+  let correctAnswer = getStringBetween("<correct>>", "<</correct>>", content)
     .trim()
     .charAt(0) as string;
-  const parsedAnswers = parseRawAnswerText(rawAnswers, correctAnswer);
+  let parsedAnswers = parseRawAnswerText(rawAnswers, correctAnswer);
+
+  if (passage === "failed") {
+    passage = getStringBetween("<<passage>>", "<<prompt>>", content).trim();
+  }
+  if (prompt === "failed") {
+    prompt = getStringBetween("<<prompt>>", "<<answers>>", content).trim();
+  }
+  if (correctAnswer === "failed") {
+    correctAnswer = "a";
+  }
+
   parsedQuestion = {
     body: passage,
     question: prompt,
     answerChoices: parsedAnswers,
-    section: "test",
+    section: section,
     difficulty: "easy",
-    subject: "test",
-    style: "test",
+    subject: "wip",
+    style: "wip",
   };
   return parsedQuestion;
 };
@@ -34,7 +59,7 @@ const getStringBetween = (
   try {
     return extractedString![1];
   } catch (error) {
-    return "getStringBetween() failed";
+    return "failed";
   }
 };
 
@@ -60,7 +85,10 @@ const parseRawAnswerText = (
   });
   parsedAnswerChoices.push({
     choiceLetter: "d",
-    choiceText: "dummy value",
+    choiceText: rawAnswerText.substring(
+      rawAnswerText.indexOf("d\\)"),
+      rawAnswerText.length - 1
+    ),
     correct: correctAnswer === "d",
   });
   return parsedAnswerChoices;
