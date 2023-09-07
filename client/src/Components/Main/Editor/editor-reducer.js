@@ -44,6 +44,11 @@ const editorReducer = (state, action) => {
         isEditing: false,
         isSending: false,
       };
+    case "LOADING_ON":
+      return {
+        ...state,
+        isLoading: true,
+      };
     case "INDEX_CHANGE":
       return {
         ...state,

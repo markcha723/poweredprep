@@ -1,6 +1,20 @@
 import classes from "./LoadingSpinner.module.css";
 
 const LoadingSpinner = (props) => {
+  let size = "45px";
+  if (props.size) {
+    switch (props.size) {
+      case "small":
+        break;
+      case "medium":
+        size = "90px";
+        break;
+      case "large":
+        size = "180px";
+        break;
+    }
+  }
+
   return (
     <div className={classes.container}>
       <svg
@@ -9,8 +23,13 @@ const LoadingSpinner = (props) => {
         xmlns="http://www.w3.org/2000/svg"
         x="0px"
         y="0px"
-        width="45px"
-        height="45px"
+        width="48px"
+        height="48px"
+        viewBox="0 0 48 48"
+        style={{
+          width: size,
+          height: size,
+        }}
       >
         <path
           fill="#000"

@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useCallback, useReducer } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useCallback,
+  useReducer,
+  useState,
+} from "react";
 
 import ConfigContext from "../../../store/config-context";
 
@@ -14,14 +20,65 @@ import EditorContext from "../../../store/editor-context";
 
 import classes from "./Editor.module.css";
 
-/* 
-  bugs
+const LoadingScreen = (props) => {
+  const [isRetrying, setIsRetrying] = useState(false);
+  const { error } = props;
 
-  1. currently, when "edit" is open, 
-  the user can set approval to false, which locks up navigation because
-  navigation closes when editing is open. 
-  adjust approval state logic? perhaps disable Approver when editing?
-*/
+  let content = <p>this should not be visible.</p>;
+
+  const testFunction = () => {
+    setIsRetrying(true);
+    props.retryFunction();
+  };
+
+  if (error.exists) {
+    let messageContent = (
+      <React.Fragment>
+        <p>something went wrong.</p>
+        <p>please choose one:</p>
+      </React.Fragment>
+    );
+
+    if (isRetrying) {
+      messageContent = (
+        <React.Fragment>
+          <LoadingSpinner size="large" />
+          <p>retrying...</p>
+        </React.Fragment>
+      );
+    }
+
+    content = (
+      <React.Fragment>
+        {messageContent}
+        <div className={classes["error-options"]}>
+          <Button
+            size="medium"
+            color="grey"
+            option="go back"
+            onClick={() => console.log("clicked go back")}
+          />
+          <Button
+            size="medium"
+            color="pink"
+            option="retry"
+            onClick={testFunction}
+          />
+        </div>
+      </React.Fragment>
+    );
+  } else {
+    content = (
+      <React.Fragment>
+        <LoadingSpinner size="large" />
+        <p>generating...</p>
+        <p>please wait warmly.</p>
+      </React.Fragment>
+    );
+  }
+
+  return <div className={classes["loading-screen"]}>{content}</div>;
+};
 
 const Editor = (props) => {
   const { configs } = useContext(ConfigContext);
@@ -107,6 +164,16 @@ const Editor = (props) => {
   };
 
   console.log(state);
+
+  if (isLoading || error.exists) {
+    return (
+      <LoadingScreen
+        error={error}
+        isLoading={isLoading}
+        retryFunction={fetchQuestions}
+      />
+    );
+  }
 
   return (
     <EditorContext.Provider value={{ state, dispatch }}>
