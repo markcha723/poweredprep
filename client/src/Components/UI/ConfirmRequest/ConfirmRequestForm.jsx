@@ -2,14 +2,38 @@ import React, { useContext, useState } from "react";
 import FormConfigItem from "../FormConfigItem/FormConfigItem";
 import Button from "../Button/Button";
 import ConfigContext from "../../../store/config-context";
+import useConfigValidator from "../../../hooks/use-config-validator";
 import classes from "./ConfirmRequestForm.module.css";
 
 const ConfirmRequestForm = (props) => {
   const { configs, setActiveConfig } = useContext(ConfigContext);
   const [isWaiting, setIsWaiting] = useState(false);
+  const validities = useConfigValidator(configs);
+  const {
+    sectionDisplayText,
+    sectionIsValid,
+    questionTypeDisplayText,
+    questionTypeIsValid,
+    topicsDisplayText,
+    topicsIsValid,
+    stylesDisplayText,
+    stylesIsValid,
+    difficultyDisplayText,
+    difficultyIsValid,
+    questionNumberDisplayText,
+    questionNumberIsValid,
+    vocabularyDisplayText,
+    vocabularyIsValid,
+  } = validities;
 
-  // error handling for items needs to be handled.
-  // disables button if any of the forms are invalid!
+  const allFieldsValid =
+    sectionIsValid &&
+    questionNumberIsValid &&
+    questionTypeIsValid &&
+    topicsIsValid &&
+    difficultyIsValid &&
+    vocabularyIsValid &&
+    stylesIsValid;
 
   // find a way to resize display text if it's above a certain size, probably in FormConfigItem.js
   const submitHandler = (event) => {
@@ -31,6 +55,9 @@ const ConfirmRequestForm = (props) => {
       }, 2000);
     }
   };
+
+  console.log(validities);
+  console.log(allFieldsValid);
 
   return (
     <form id="form" className={classes.form}>
@@ -93,6 +120,7 @@ const ConfirmRequestForm = (props) => {
         option="send"
         size="large"
         isWaiting={isWaiting}
+        disabled={!allFieldsValid}
       />
     </form>
   );
