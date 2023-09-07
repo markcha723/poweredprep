@@ -19,10 +19,10 @@
 }
 
 .answer-text {
-  height: 50px;
+  height: 25%;
   font-size: 1.6rem;
   padding: 2px 4px;
-  min-width: 400px;
+  width: 550px;
   resize: none;
   flex: 1;
   border: solid 1px #fff;

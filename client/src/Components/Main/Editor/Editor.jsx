@@ -21,13 +21,12 @@ import EditorContext from "../../../store/editor-context";
 import classes from "./Editor.module.css";
 
 const LoadingScreen = (props) => {
-  const [isRetrying, setIsRetrying] = useState(false);
-  const { error } = props;
+  const { isLoading, error, dispatch } = props;
 
   let content = <p>this should not be visible.</p>;
 
   const testFunction = () => {
-    setIsRetrying(true);
+    dispatch({ type: "LOADING_ON" });
     props.retryFunction();
   };
 
@@ -39,7 +38,7 @@ const LoadingScreen = (props) => {
       </React.Fragment>
     );
 
-    if (isRetrying) {
+    if (isLoading) {
       messageContent = (
         <React.Fragment>
           <LoadingSpinner size="large" />
@@ -57,12 +56,14 @@ const LoadingScreen = (props) => {
             color="grey"
             option="go back"
             onClick={() => console.log("clicked go back")}
+            disabled={isLoading}
           />
           <Button
             size="medium"
             color="pink"
             option="retry"
             onClick={testFunction}
+            disabled={isLoading}
           />
         </div>
       </React.Fragment>
@@ -80,6 +81,10 @@ const LoadingScreen = (props) => {
   return <div className={classes["loading-screen"]}>{content}</div>;
 };
 
+const SuccessScreen = (props) => {
+  const { isSuccessfullySaved } = props;
+};
+
 const Editor = (props) => {
   const { configs } = useContext(ConfigContext);
   const [state, dispatch] = useReducer(editorReducer, {
@@ -93,6 +98,7 @@ const Editor = (props) => {
       message: null,
     },
     isEditing: false,
+    isSuccessfullySaved: null,
   });
   const {
     questions,
@@ -102,6 +108,7 @@ const Editor = (props) => {
     isSending,
     isLoading,
     isEditing,
+    isSuccessfullySaved,
   } = state;
 
   const fetchQuestions = useCallback(async () => {
@@ -171,8 +178,13 @@ const Editor = (props) => {
         error={error}
         isLoading={isLoading}
         retryFunction={fetchQuestions}
+        dispatch={dispatch}
       />
     );
+  }
+
+  if (isSuccessfullySaved) {
+    return <SuccessScreen />;
   }
 
   return (
