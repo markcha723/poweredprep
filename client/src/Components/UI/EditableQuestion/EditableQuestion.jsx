@@ -12,35 +12,6 @@ const EditableQuestion = (props) => {
     body: questionBody,
   } = activeQuestion;
 
-  // const questionBodyChangeHandler = (event) => {
-  //   props.setBody(event.target.value);
-  // };
-
-  // const promptChangeHandler = (event) => {
-  //   props.setPrompt(event.target.value);
-  // };
-
-  // const answerCorrectChangeHandler = (changeTo) => {
-  //   const tempAnswerArray = props.answerChoices.map((answer) =>
-  //     answer.choiceLetter === changeTo
-  //       ? { ...answer, correct: true }
-  //       : { ...answer, correct: false }
-  //   );
-  //   props.setAnswerChoices(tempAnswerArray);
-  // };
-
-  // const answerFieldChangeHandler = (event, changedAnswer) => {
-  //   const tempAnswerArray = props.answerChoices.map((answer) =>
-  //     answer.choiceLetter === changedAnswer
-  //       ? { ...answer, choiceText: event.target.value }
-  //       : answer
-  //   );
-  //   props.setAnswerChoices(tempAnswerArray);
-  // };
-
-  const answerFieldChangeHandler = (event) => {
-    console.log(event);
-  };
   return (
     <article
       className={`${classes["question-and-answer"]} ${

@@ -82,7 +82,18 @@ const LoadingScreen = (props) => {
 };
 
 const SuccessScreen = (props) => {
-  const { isSuccessfullySaved } = props;
+  return (
+    <div className={classes["loading-screen"]}>
+      <p>your questions have been successfully uploaded.</p>
+      <p>thank you for helping.</p>
+      <Button
+        size="medium"
+        color="pink"
+        option="go to home"
+        onClick={() => window.location.reload()}
+      />
+    </div>
+  );
 };
 
 const Editor = (props) => {
@@ -166,8 +177,20 @@ const Editor = (props) => {
           "Failed to upload questions to the database. Contact admin."
         );
       }
+      if (response.ok) {
+        dispatch({
+          type: "SUCCESSFUL_SAVE",
+          payload: {
+            questionsSaved: response.questionsSaved,
+            questionsDeleted: response.questionsDeleted,
+          },
+        });
+      }
       console.log(response.json());
-    } catch (error) {}
+    } catch (error) {
+      //temporary. needs to be re-evaluated to properly communicate error to user later.
+      console.log(`Error: ${error.message}`);
+    }
   };
 
   console.log(state);
@@ -184,7 +207,7 @@ const Editor = (props) => {
   }
 
   if (isSuccessfullySaved) {
-    return <SuccessScreen />;
+    return <SuccessScreen successMessages={isSuccessfullySaved} />;
   }
 
   return (
