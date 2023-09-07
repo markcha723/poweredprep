@@ -30,6 +30,7 @@ const editorReducer = (state, action) => {
         isLoading: false,
         isEditing: false,
         isSending: false,
+        isSuccessfullySaved: null,
       };
     case "FETCH_ERROR":
       return {
@@ -43,6 +44,12 @@ const editorReducer = (state, action) => {
         isLoading: false,
         isEditing: false,
         isSending: false,
+        isSuccessfullySaved: null,
+      };
+    case "LOADING_ON":
+      return {
+        ...state,
+        isLoading: true,
       };
     case "INDEX_CHANGE":
       return {
@@ -166,6 +173,11 @@ const editorReducer = (state, action) => {
         ...state,
         questions: updatedAnswerTextArray,
         activeQuestion: updatedAnswerTextArray[state.activeIndex],
+      };
+    case "SUCCESSFUL_SAVE":
+      return {
+        ...state,
+        isSuccessfullySaved: action.payload,
       };
   }
 };

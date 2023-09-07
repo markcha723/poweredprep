@@ -1,27 +1,20 @@
 import React, { useContext, useEffect, useCallback, useReducer } from "react";
 
-import ConfigContext from "../../../store/config-context";
-
 import QuestionNavigator from "../../UI/QuestionNavigator/QuestionNavigator";
 import PrevNextNavigator from "../../UI/PrevNextNavigator/PrevNextNavigator";
 import EditableQuestion from "../../UI/EditableQuestion/EditableQuestion";
-import Approver from "../../UI/Approver/Approver";
-import DifficultyAdjuster from "../../UI/DifficultyAdjuster/DifficultyAdjuster";
+import Approver from "../../UI/Editor/Approver/Approver";
+import DifficultyAdjuster from "../../UI/Editor/DifficultyAdjuster/DifficultyAdjuster";
 import Button from "../../UI/Button/Button";
-import LoadingSpinner from "../../UI/LoadingSpinner/LoadingSpinner";
+import LoadingScreen from "../../UI/LoadingScreen/LoadingScreen";
+import SuccessScreen from "../../UI/SuccessScreen/SuccessScreen";
+
 import editorReducer from "./editor-reducer";
+
+import ConfigContext from "../../../store/config-context";
 import EditorContext from "../../../store/editor-context";
 
 import classes from "./Editor.module.css";
-
-/* 
-  bugs
-
-  1. currently, when "edit" is open, 
-  the user can set approval to false, which locks up navigation because
-  navigation closes when editing is open. 
-  adjust approval state logic? perhaps disable Approver when editing?
-*/
 
 const Editor = (props) => {
   const { configs } = useContext(ConfigContext);
@@ -36,6 +29,7 @@ const Editor = (props) => {
       message: null,
     },
     isEditing: false,
+    isSuccessfullySaved: null,
   });
   const {
     questions,
@@ -45,6 +39,7 @@ const Editor = (props) => {
     isSending,
     isLoading,
     isEditing,
+    isSuccessfullySaved,
   } = state;
 
   const fetchQuestions = useCallback(async () => {
@@ -77,10 +72,6 @@ const Editor = (props) => {
     }
   }, []);
 
-  useEffect(() => {
-    fetchQuestions();
-  }, [fetchQuestions]);
-
   const submitHandler = async () => {
     if (isEditing) {
       console.log("You are currently editing. Close the editing option first.");
@@ -102,11 +93,39 @@ const Editor = (props) => {
           "Failed to upload questions to the database. Contact admin."
         );
       }
-      console.log(response.json());
-    } catch (error) {}
+      if (response.ok) {
+        dispatch({
+          type: "SUCCESSFUL_SAVE",
+          payload: {
+            questionsSaved: response.questionsSaved,
+            questionsDeleted: response.questionsDeleted,
+          },
+        });
+      }
+    } catch (error) {
+      //temporary. needs to be re-evaluated to properly communicate error to user later.
+      console.log(`Error: ${error.message}`);
+    }
   };
 
-  console.log(state);
+  useEffect(() => {
+    fetchQuestions();
+  }, [fetchQuestions]);
+
+  if (isLoading || error.exists) {
+    return (
+      <LoadingScreen
+        error={error}
+        isLoading={isLoading}
+        retryFunction={fetchQuestions}
+        dispatch={dispatch}
+      />
+    );
+  }
+
+  if (isSuccessfullySaved) {
+    return <SuccessScreen successMessages={isSuccessfullySaved} />;
+  }
 
   return (
     <EditorContext.Provider value={{ state, dispatch }}>
@@ -138,25 +157,13 @@ const Editor = (props) => {
             endPosition
           />
         </div>
-        {isLoading ? (
-          <LoadingSpinner optionalText="generating... this might take a while..." />
-        ) : (
-          <EditableQuestion />
-        )}
+        <EditableQuestion />
         <div className={`${classes["editing-tools"]}`}>
           <div className={`${classes["editing-tools--inner"]}`}>
-            <Approver
-              dispatch={dispatch}
-              approved={activeQuestion.approved}
-              questions={questions}
-            />
-            <DifficultyAdjuster
-              checkedDifficulty={activeQuestion.difficulty}
-              dispatch={dispatch}
-              disabled={activeQuestion.approved === false ? true : false}
-            />
+            <Approver />
+            <DifficultyAdjuster />
             <Button
-              color={activeQuestion.approved === false ? "grey" : "pink"}
+              color={!activeQuestion.approved ? "grey" : "pink"}
               size="medium"
               onClick={
                 isEditing
@@ -172,7 +179,7 @@ const Editor = (props) => {
                     }
               }
               option="edit"
-              disabled={activeQuestion.approved === false ? true : false}
+              disabled={!activeQuestion.approved ? true : false}
             />
           </div>
         </div>

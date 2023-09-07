@@ -43,7 +43,12 @@ router.post("/create", async (req, res) => {
     Logging.info(
       "A POST request was approved, and the question has been added to the database."
     );
-    res.status(200).json(question);
+    res
+      .status(200)
+      .json({
+        questionsSaved: "Saved one question.",
+        questionsDeleted: "No questions deleted.",
+      });
   } catch (error) {
     console.log(error.message);
     Logging.error("The POST request was denied.");

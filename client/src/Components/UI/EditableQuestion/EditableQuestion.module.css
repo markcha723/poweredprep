@@ -13,7 +13,7 @@
   font-size: 1.8rem;
   font-weight: 400;
   width: 100%;
-  height: 50%;
+  height: 45%;
   overflow: wrap;
   resize: none;
   border: solid 1px #fff;
@@ -30,7 +30,7 @@
 
 .prompt {
   font-size: 2rem;
-  padding: 6px 12px;
+  padding: 12px 24px;
   width: 100%;
   height: 10%;
   resize: none;
@@ -49,7 +49,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  height: 40%;
+  height: 50%;
+  margin-top: -24px;
 }
 
 .editable {
