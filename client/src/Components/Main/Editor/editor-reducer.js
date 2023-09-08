@@ -179,6 +179,30 @@ const editorReducer = (state, action) => {
         ...state,
         isSuccessfullySaved: action.payload,
       };
+    case "SUBJECT_CHANGE":
+      const subjectUpdated = updateQuestionsByKey(
+        state.questions,
+        "subject",
+        action.payload,
+        state.activeIndex
+      );
+      return {
+        ...state,
+        questions: subjectUpdated,
+        activeQuestion: subjectUpdated[state.activeIndex],
+      };
+    case "STYLE_CHANGE":
+      const styleUpdated = updateQuestionsByKey(
+        state.questions,
+        "style",
+        action.payload,
+        state.activeIndex
+      );
+      return {
+        ...state,
+        questions: styleUpdated,
+        activeQuestion: styleUpdated[state.activeIndex],
+      };
   }
 };
 

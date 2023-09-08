@@ -9,6 +9,7 @@
 .choice {
   display: flex;
   align-items: center;
+  width: 100%;
   gap: 12px;
 }
 
@@ -22,7 +23,7 @@
   height: 25%;
   font-size: 1.6rem;
   padding: 2px 4px;
-  width: 550px;
+  width: 100%;
   resize: none;
   flex: 1;
   border: solid 1px #fff;

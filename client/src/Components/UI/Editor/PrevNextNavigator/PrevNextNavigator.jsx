@@ -4,10 +4,16 @@ import Button from "../Button/Button";
 import classes from "./PrevNextNavigator.module.css";
 
 const PrevNextNavigator = (props) => {
+  const customSizing = {
+    fontSize: "2.4rem",
+    width: "150px",
+    padding: "1.2rem 2.4rem",
+  };
+
   return (
     <div className={classes.container}>
       <Button
-        size="medium"
+        customSizing={customSizing}
         color={props.isEditing ? "grey" : "teal"}
         option="previous"
         onClick={() =>
@@ -20,7 +26,7 @@ const PrevNextNavigator = (props) => {
         consistentSizing
       ></Button>
       <Button
-        size="medium"
+        customSizing={customSizing}
         color={props.isEditing ? "grey" : "pink"}
         option="next"
         onClick={() =>

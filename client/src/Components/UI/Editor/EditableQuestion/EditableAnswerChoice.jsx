@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import classes from "./EditableAnswerChoice.module.css";
-import EditorContext from "../../../store/editor-context";
+import EditorContext from "../../../../store/editor-context";
 
 const EditableAnswerChoice = (props) => {
   const { state, dispatch } = useContext(EditorContext);
