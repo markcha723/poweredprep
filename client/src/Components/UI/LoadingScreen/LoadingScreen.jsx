@@ -45,7 +45,7 @@ const LoadingScreen = (props) => {
             size="medium"
             color="grey"
             option="go back"
-            onClick={() => console.log("clicked go back")}
+            onClick={() => window.location.reload()}
             disabled={isLoading}
           />
           <Button

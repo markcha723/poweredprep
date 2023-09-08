@@ -1,5 +1,3 @@
-import React, { useState, useReducer } from "react";
-
 const readingQuestionTypes = [
   "explicit meaning",
   "main idea",
@@ -37,24 +35,11 @@ const styleOptions = [
   "political",
 ];
 const difficultyOptions = ["varied", "easy", "medium", "hard"];
+const invalidString = "invalid entry";
 
 const useConfigValidator = (configs) => {
-  const validities = {
-    sectionDisplayText: "not selected",
-    sectionIsValid: false,
-    questionTypeDisplayText: "not selected",
-    questionTypeIsValid: false,
-    topicsDisplayText: "not selected",
-    topicsIsValid: false,
-    stylesDisplayText: "not selected",
-    stylesIsValid: false,
-    difficultyDisplayText: "not selected",
-    difficultyIsValid: false,
-    questionNumberDisplayText: "not selected",
-    questionNumberIsValid: false,
-    vocabularyDisplayText: "--",
-    vocabularyIsValid: true,
-  };
+  // deconstructs the configuration variable,
+  // allowing each of its properties to be read and validated.
   const {
     section,
     questionTypes,
@@ -64,122 +49,232 @@ const useConfigValidator = (configs) => {
     numberOfQuestions,
     wordsToUse,
   } = configs;
-  const invalid = "invalid entry";
 
-  // evaluates to see if section is valid.
-  if (section === "reading" || "writing") {
-    validities.sectionIsValid = true;
-    validities.sectionDisplayText = section;
-  } else {
-    validities.sectionIsValid = false;
-    validities.sectionDisplayText = invalid;
+  // parse all configs to make sure their data is valid.
+  const {
+    sectionIsValid,
+    sectionDisplayText,
+    questionTypeIsValid,
+    questionTypeDisplayText,
+  } = validateSectionAndQuestion(section, questionTypes);
+
+  const { topicsIsValid, topicsDisplayText } =
+    validatePassageTopics(passageTopics);
+
+  const { stylesIsValid, stylesDisplayText } =
+    validatePassageStyles(passageStyles);
+
+  const { difficultyIsValid, difficultyDisplayText } =
+    validateDifficulty(difficulty);
+
+  const { questionNumberIsValid, questionNumberDisplayText } =
+    validateQuestionNum(numberOfQuestions);
+
+  const { vocabularyIsValid, vocabularyDisplayText } =
+    validateVocabulary(wordsToUse);
+
+  return {
+    sectionIsValid,
+    sectionDisplayText,
+    questionTypeIsValid,
+    questionTypeDisplayText,
+    topicsIsValid,
+    topicsDisplayText,
+    stylesIsValid,
+    stylesDisplayText,
+    difficultyIsValid,
+    difficultyDisplayText,
+    questionNumberDisplayText,
+    questionNumberIsValid,
+    vocabularyIsValid,
+    vocabularyDisplayText,
+  };
+};
+
+const validateSectionAndQuestion = (section, questionTypes) => {
+  let sectionDisplayText = "not selected";
+  let sectionIsValid = false;
+  let questionTypeDisplayText = "not selected";
+  let questionTypeIsValid = false;
+
+  if (section === null) {
+    sectionIsValid = false;
+    sectionDisplayText = "not selected";
   }
 
-  // evaluates to see if questionTypes is valid.
-  if (questionTypes !== null && typeof questionTypes === "string") {
-    if (section === "reading") {
-      if (readingQuestionTypes.includes(questionTypes)) {
-        validities.questionTypeIsValid = true;
-        validities.questionTypeDisplayText = questionTypes;
-      } else {
-        validities.questionTypeIsValid = false;
-        validities.questionTypeDisplayText = invalid;
-      }
+  if (questionTypes === null) {
+    questionTypeIsValid = false;
+    questionTypeIsValid = "not selected";
+  }
+
+  if (typeof section !== "string" || typeof questionTypes !== "string") {
+    sectionIsValid = false;
+    sectionDisplayText = invalidString;
+    questionTypeIsValid = false;
+    questionTypeIsValid = invalidString;
+  }
+
+  if (typeof section === "string" && (section !== "reading" || "writing")) {
+    sectionIsValid = false;
+    sectionDisplayText = invalidString;
+  }
+
+  // happy path evaluation
+  if (section === "reading") {
+    if (readingQuestionTypes.includes(questionTypes)) {
+      sectionIsValid = true;
+      sectionDisplayText = section;
+      questionTypeIsValid = true;
+      questionTypeDisplayText = questionTypes;
+    } else {
+      sectionIsValid = false;
+      sectionDisplayText = section;
+      questionTypeIsValid = false;
+      questionTypeDisplayText = invalidString;
     }
-    if (section === "writing") {
-      if (writingQuestionTypes.includes(questionTypes)) {
-        validities.questionTypeIsValid = true;
-        validities.questionTypeDisplayText = questionTypes;
-      } else {
-        validities.questionTypeIsValid = false;
-        validities.questionTypeDisplayText = invalid;
-      }
+  }
+  if (section === "writing") {
+    if (writingQuestionTypes.includes(questionTypes)) {
+      sectionIsValid = true;
+      sectionDisplayText = section;
+      questionTypeIsValid = true;
+      questionTypeDisplayText = questionTypes;
+    } else {
+      sectionIsValid = false;
+      sectionDisplayText = section;
+      questionTypeIsValid = false;
+      questionTypeDisplayText = invalidString;
     }
   }
 
-  //evaluates to see if passageTopics is valid.
+  return {
+    sectionDisplayText,
+    sectionIsValid,
+    questionTypeDisplayText,
+    questionTypeIsValid,
+  };
+};
+
+const validatePassageTopics = (passageTopics) => {
+  let topicsDisplayText = "not selected";
+  let topicsIsValid = false;
+
   if (Object.prototype.toString.call(passageTopics) === "[object Array]") {
     const isContained = passageTopics.every((item) =>
       topicOptions.includes(item)
     );
     const containsVaried = passageTopics.includes("varied");
     if (isContained) {
-      validities.topicsIsValid = true;
-      validities.topicsDisplayText = containsVaried
-        ? "varied"
-        : passageTopics.join(", ");
+      topicsIsValid = true;
+      topicsDisplayText = containsVaried ? "varied" : passageTopics.join(", ");
     } else {
-      validities.topicsIsValid = false;
-      validities.topicsDisplayText = "invalid entry";
+      topicsIsValid = false;
+      topicsDisplayText = invalidString;
     }
   } else {
-    validities.topicsIsValid = false;
-    validities.topicsDisplayText = "invalid entry";
+    topicsIsValid = false;
+    topicsDisplayText = invalidString;
   }
 
-  //evaluates to see if passageStyles is valid.
+  return {
+    topicsDisplayText,
+    topicsIsValid,
+  };
+};
+
+const validatePassageStyles = (passageStyles) => {
+  let stylesIsValid = false;
+  let stylesDisplayText = "not selected";
+
   if (Object.prototype.toString.call(passageStyles) === "[object Array]") {
     const isContained = passageStyles.every((item) =>
       styleOptions.includes(item)
     );
     const containsVaried = passageStyles.includes("varied");
     if (isContained) {
-      validities.stylesIsValid = true;
-      validities.stylesDisplayText = containsVaried
-        ? "varied"
-        : passageStyles.join(", ");
+      stylesIsValid = true;
+      stylesDisplayText = containsVaried ? "varied" : passageStyles.join(", ");
     } else {
-      validities.stylesIsValid = false;
-      validities.stylesDisplayText = "invalid entry";
+      stylesIsValid = false;
+      stylesDisplayText = invalidString;
     }
   } else {
-    validities.stylesIsValid = false;
-    validities.stylesDisplayText = "invalid entry";
+    stylesIsValid = false;
+    stylesDisplayText = invalidString;
   }
 
-  // evaluates to see if difficulty is valid.
+  return {
+    stylesIsValid,
+    stylesDisplayText,
+  };
+};
+
+const validateDifficulty = (difficulty) => {
+  let difficultyIsValid = false;
+  let difficultyDisplayText = "not selected";
+
   if (Object.prototype.toString.call(difficulty) === "[object Array]") {
     const isContained = difficulty.every((item) =>
       difficultyOptions.includes(item)
     );
     const containsVaried = difficulty.includes("varied");
     if (isContained) {
-      validities.difficultyIsValid = true;
-      validities.difficultyDisplayText = containsVaried
-        ? "varied"
-        : difficulty.join(", ");
+      difficultyIsValid = true;
+      difficultyDisplayText = containsVaried ? "varied" : difficulty.join(", ");
     } else {
-      validities.difficultyIsValid = false;
-      validities.stylesDisplayText = "invalid entry";
+      difficultyIsValid = false;
+      difficultyDisplayText = invalidString;
     }
   } else {
-    validities.difficultyIsValid = false;
-    validities.difficultyDisplayText = "invalid entry";
+    difficultyIsValid = false;
+    difficultyDisplayText = invalidString;
   }
 
-  //evaluates to see if numberOfQuestions is valid.
-  if (numberOfQuestions === 5 || 10 || 15) {
-    validities.questionNumberIsValid = true;
-    validities.questionNumberDisplayText = numberOfQuestions;
+  return {
+    difficultyIsValid,
+    difficultyDisplayText,
+  };
+};
+
+const validateQuestionNum = (questionNum) => {
+  let questionNumberIsValid = false;
+  let questionNumberDisplayText = "not selected";
+
+  if (questionNum === 5 || questionNum === 10 || questionNum === 15) {
+    questionNumberIsValid = true;
+    questionNumberDisplayText = questionNum;
   } else {
-    validities.questionNumberIsValid = false;
-    validities.questionNumberDisplayText = "invalid entry";
+    questionNumberIsValid = false;
+    questionNumberDisplayText = invalidString;
   }
 
-  //evaluates to see if wordsToUse is valid
+  return {
+    questionNumberIsValid,
+    questionNumberDisplayText,
+  };
+};
+
+const validateVocabulary = (wordsToUse) => {
+  let vocabularyIsValid = false;
+  let vocabularyDisplayText = "--";
+
   if (Object.prototype.toString.call(wordsToUse) === "[object Array]") {
     if (wordsToUse.length === 0) {
-      validities.vocabularyIsValid = true;
-      validities.vocabularyDisplayText = "--";
+      vocabularyIsValid = true;
+      vocabularyDisplayText = "--";
     } else {
-      validities.vocabularyIsValid = true;
-      validities.vocabularyDisplayText = wordsToUse.join(", ");
+      vocabularyIsValid = true;
+      vocabularyDisplayText = wordsToUse.join(", ");
     }
   } else {
-    validities.vocabularyIsValid = false;
-    validities.vocabularyDisplayText = "error";
+    vocabularyIsValid = false;
+    vocabularyDisplayText = invalidString;
   }
-  return validities;
+
+  return {
+    vocabularyIsValid,
+    vocabularyDisplayText,
+  };
 };
 
 export default useConfigValidator;

@@ -64,51 +64,51 @@ const ConfirmRequestForm = (props) => {
       <ul className={classes.configs}>
         <FormConfigItem
           optionName="section"
-          inputs={configs.section}
           sendTo="section"
-          configs={configs}
+          isValid={sectionIsValid}
+          displayText={sectionDisplayText}
           setActiveConfig={setActiveConfig}
         />
         <FormConfigItem
           optionName="question type"
-          inputs={configs.questionTypes}
           sendTo="questions"
-          configs={configs}
+          isValid={questionTypeIsValid}
+          displayText={questionTypeDisplayText}
           setActiveConfig={setActiveConfig}
         />
         <FormConfigItem
           optionName="topics"
-          inputs={configs.passageTopics}
           sendTo="passages"
-          configs={configs}
+          isValid={topicsIsValid}
+          displayText={topicsDisplayText}
           setActiveConfig={setActiveConfig}
         />
         <FormConfigItem
           optionName="styles"
-          inputs={configs.passageStyles}
           sendTo="passages"
-          configs={configs}
+          isValid={stylesIsValid}
+          displayText={stylesDisplayText}
           setActiveConfig={setActiveConfig}
         />
         <FormConfigItem
           optionName="difficulty"
-          inputs={configs.difficulty}
           sendTo="extras"
-          configs={configs}
+          isValid={difficultyIsValid}
+          displayText={difficultyDisplayText}
           setActiveConfig={setActiveConfig}
         />
         <FormConfigItem
           optionName="number of questions"
-          inputs={configs.numberOfQuestions}
           sendTo="extras"
-          configs={configs}
+          isValid={questionNumberIsValid}
+          displayText={questionNumberDisplayText}
           setActiveConfig={setActiveConfig}
         />
         <FormConfigItem
           optionName="vocabulary"
-          inputs={configs.wordsToUse}
           sendTo="extras"
-          configs={configs}
+          isValid={vocabularyIsValid}
+          displayText={vocabularyDisplayText}
           setActiveConfig={setActiveConfig}
         />
       </ul>
