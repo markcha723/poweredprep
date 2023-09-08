@@ -7,32 +7,23 @@ const FormConfigItem = (props) => {
     props.setActiveConfig(location);
   };
 
-  let displayText = "";
-
-  if (props.inputs.constructor === Array) {
-    if (props.inputs.length > 1) {
-      for (let i = 0; i < props.inputs.length; i++) {
-        i === props.inputs.length - 1
-          ? (displayText += props.inputs[i])
-          : (displayText += `${props.inputs[i]}, `);
-      }
-    } else {
-      displayText = props.inputs.toString();
-    }
-  }
+  const itemStyling =
+    props.isValid === false
+      ? `${classes.item} ${classes["error-highlight"]}`
+      : classes.item;
 
   return (
-    <li className={classes.item}>
+    <li className={itemStyling}>
       <span className={classes["item-name"]}>{props.optionName}</span>
       <span className={classes.colon}>:</span>
       <span
         className={`${classes["item-value"]} ${
-          displayText.length > 20
+          props.displayText.length > 20
             ? classes["small-text"]
             : classes["large-text"]
         }`}
       >
-        {props.inputs.constructor === Array ? displayText : props.inputs}
+        {props.displayText}
       </span>
       <Button
         size="xsmall"

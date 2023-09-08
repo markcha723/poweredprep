@@ -10,6 +10,12 @@
   gap: 10px;
 }
 
+.error-highlight {
+  border-left: 4px solid var(--error);
+  padding-left: 12px;
+  border-radius: var(--rounded-lg);
+}
+
 .item-name {
   width: 150px;
   font-size: 2.8rem;
