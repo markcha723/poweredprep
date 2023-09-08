@@ -5,6 +5,29 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 const Button = (props) => {
   const buttonText = props.option;
 
+  let styling = `${classes.button} ${
+    props.disabled ? classes["grey"] : classes[props.color]
+  } ${classes[props.size]} ${props.endPosition ? classes["end-position"] : ""}`;
+
+  if (props.customSizing) {
+    styling = `${classes.button} ${
+      props.disabled ? classes["grey"] : classes[props.color]
+    } ${props.customSizing} ${
+      props.endPosition ? classes["end-position"] : ""
+    }`;
+  }
+
+  if (props.disabled) {
+    return (
+      <button
+        className={`${styling} ${classes.disabled}`}
+        onClick={props.onClick}
+      >
+        {props.isWaiting ? <LoadingSpinner /> : buttonText}
+      </button>
+    );
+  }
+
   return (
     <button
       className={`${classes.button} ${classes[props.color]} ${
