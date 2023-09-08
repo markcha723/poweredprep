@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useCallback, useReducer } from "react";
 
-import QuestionNavigator from "../../UI/QuestionNavigator/QuestionNavigator";
+import QuestionNavigator from "../../UI/Editor/QuestionNavigator/QuestionNavigator";
 import PrevNextNavigator from "../../UI/PrevNextNavigator/PrevNextNavigator";
-import EditableQuestion from "../../UI/EditableQuestion/EditableQuestion";
+import EditableQuestion from "../../UI/Editor/EditableQuestion/EditableQuestion";
 import Approver from "../../UI/Editor/Approver/Approver";
 import DifficultyAdjuster from "../../UI/Editor/DifficultyAdjuster/DifficultyAdjuster";
+import TopicSelector from "../../UI/Editor/TopicSelector/TopicSelector";
+import StyleSelector from "../../UI/Editor/StyleSelector/StyleSelector";
 import Button from "../../UI/Button/Button";
 import LoadingScreen from "../../UI/LoadingScreen/LoadingScreen";
 import SuccessScreen from "../../UI/SuccessScreen/SuccessScreen";
@@ -45,15 +47,16 @@ const Editor = (props) => {
   const fetchQuestions = useCallback(async () => {
     console.log("fetching questions...");
     try {
-      const settings = {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...configs, requestType: "CREATE" }),
-      };
-      const response = await fetch("/requests/", settings);
+      const response = await fetch("/questions");
+      // const settings = {
+      //   method: "POST",
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ ...configs, requestType: "CREATE" }),
+      // };
+      // const response = await fetch("/requests/", settings);
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
@@ -159,29 +162,29 @@ const Editor = (props) => {
         </div>
         <EditableQuestion />
         <div className={`${classes["editing-tools"]}`}>
-          <div className={`${classes["editing-tools--inner"]}`}>
-            <Approver />
-            <DifficultyAdjuster />
-            <Button
-              color={!activeQuestion.approved ? "grey" : "pink"}
-              size="medium"
-              onClick={
-                isEditing
-                  ? () => {
-                      dispatch({
-                        type: "EDIT_CLOSE",
-                      });
-                    }
-                  : () => {
-                      dispatch({
-                        type: "EDIT_OPEN",
-                      });
-                    }
-              }
-              option="edit"
-              disabled={!activeQuestion.approved ? true : false}
-            />
-          </div>
+          <Button
+            color={!activeQuestion.approved ? "grey" : "pink"}
+            size="medium"
+            onClick={
+              isEditing
+                ? () => {
+                    dispatch({
+                      type: "EDIT_CLOSE",
+                    });
+                  }
+                : () => {
+                    dispatch({
+                      type: "EDIT_OPEN",
+                    });
+                  }
+            }
+            option="edit"
+            disabled={!activeQuestion.approved ? true : false}
+          />
+          <Approver />
+          <DifficultyAdjuster />
+          <TopicSelector />
+          <StyleSelector />
         </div>
       </main>
     </EditorContext.Provider>

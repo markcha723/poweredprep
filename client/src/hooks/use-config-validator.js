@@ -1,4 +1,4 @@
-const readingQuestionTypes = [
+export const readingQuestionTypes = [
   "explicit meaning",
   "main idea",
   "purpose",
@@ -6,7 +6,7 @@ const readingQuestionTypes = [
   "inference",
   "organization",
 ];
-const writingQuestionTypes = [
+export const writingQuestionTypes = [
   "supporting detail",
   "YYNN",
   "punctuation",
@@ -16,7 +16,7 @@ const writingQuestionTypes = [
   "word choice",
   "organization",
 ];
-const topicOptions = [
+export const topicOptions = [
   "varied",
   "history",
   "earth science",
@@ -25,7 +25,7 @@ const topicOptions = [
   "psychology",
   "literature",
 ];
-const styleOptions = [
+export const styleOptions = [
   "varied",
   "modern",
   "argument",
@@ -34,10 +34,10 @@ const styleOptions = [
   "flowery",
   "political",
 ];
-const difficultyOptions = ["varied", "easy", "medium", "hard"];
+export const difficultyOptions = ["varied", "easy", "medium", "hard"];
 const invalidString = "invalid entry";
 
-const useConfigValidator = (configs) => {
+export const useConfigValidator = (configs) => {
   // deconstructs the configuration variable,
   // allowing each of its properties to be read and validated.
   const {
@@ -276,5 +276,3 @@ const validateVocabulary = (wordsToUse) => {
     vocabularyDisplayText,
   };
 };
-
-export default useConfigValidator;

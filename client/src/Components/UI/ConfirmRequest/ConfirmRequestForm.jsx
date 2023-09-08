@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import FormConfigItem from "../FormConfigItem/FormConfigItem";
 import Button from "../Button/Button";
 import ConfigContext from "../../../store/config-context";
-import useConfigValidator from "../../../hooks/use-config-validator";
+import { useConfigValidator } from "../../../hooks/use-config-validator";
 import classes from "./ConfirmRequestForm.module.css";
 
 const ConfirmRequestForm = (props) => {

@@ -22,6 +22,7 @@ const Button = (props) => {
       <button
         className={`${styling} ${classes.disabled}`}
         onClick={props.onClick}
+        style={props.customSizing}
       >
         {props.isWaiting ? <LoadingSpinner /> : buttonText}
       </button>
@@ -35,6 +36,7 @@ const Button = (props) => {
       } ${props.endPosition ? classes["end-position"] : ""}`}
       onClick={props.onClick}
       disabled={props.disabled}
+      style={props.customSizing}
     >
       {props.isWaiting ? <LoadingSpinner /> : buttonText}
     </button>

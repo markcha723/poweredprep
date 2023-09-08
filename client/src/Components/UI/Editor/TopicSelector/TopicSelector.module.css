@@ -1,0 +1,27 @@
+@import url(../../../../constants.css);
+
+.topic-selector {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  gap: 24px;
+  width: 90%;
+}
+
+.topic-selector label {
+  font-size: 2.4rem;
+  align-self: center;
+}
+
+.topic-selector select {
+  height: 36px;
+  border: solid 2px var(--grey);
+  border-radius: var(--rounded);
+  font-size: 1.8rem;
+  padding-left: 12px;
+  padding-left: 12px;
+}
+
+.topic-selector option {
+  text-align: center;
+}
