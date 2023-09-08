@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useCallback, useReducer } from "react";
 
 import QuestionNavigator from "../../UI/Editor/QuestionNavigator/QuestionNavigator";
-import PrevNextNavigator from "../../UI/PrevNextNavigator/PrevNextNavigator";
+import PrevNextNavigator from "../../UI/Editor/PrevNextNavigator/PrevNextNavigator";
 import EditableQuestion from "../../UI/Editor/EditableQuestion/EditableQuestion";
 import Approver from "../../UI/Editor/Approver/Approver";
 import DifficultyAdjuster from "../../UI/Editor/DifficultyAdjuster/DifficultyAdjuster";
