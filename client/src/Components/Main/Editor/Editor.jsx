@@ -160,6 +160,7 @@ const Editor = (props) => {
         </div>
         <EditableQuestion />
         <div className={`${classes["editing-tools"]}`}>
+          <Approver />
           <Button
             color={!activeQuestion.approved ? "grey" : "pink"}
             size="medium"
@@ -179,7 +180,6 @@ const Editor = (props) => {
             option="edit"
             disabled={!activeQuestion.approved ? true : false}
           />
-          <Approver />
           <DifficultyAdjuster />
           <TopicSelector />
           <StyleSelector />
