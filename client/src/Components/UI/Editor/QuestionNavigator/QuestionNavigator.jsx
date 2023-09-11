@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import classes from "./QuestionNavigator.module.css";
+import EditorContext from "../../../../store/editor-context";
 
 const QuestionNavigator = (props) => {
+  const { state, dispatch } = useContext(EditorContext);
+  const { activeIndex, questions, questionErrors, isLoading } = state;
+  const questionNumber = questions.length;
+
   const generateButtons = () => {
     let buttonArray = [];
 
-    for (let i = 0; i < props.questionNumber; i++) {
+    for (let i = 0; i < questionNumber; i++) {
       const button = (
         <button
           className={`${classes.button} ${
-            i === props.activeIndex ? classes.active : ""
-          }`}
-          onClick={() => props.dispatch({ type: "INDEX_CHANGE", index: i })}
+            i === activeIndex ? classes.active : ""
+          } ${questionErrors[i].exists ? classes["error-highlight"] : ""}`}
+          onClick={() => dispatch({ type: "INDEX_CHANGE", index: i })}
           key={`buttonForQuestionNumber${i}`}
         >
           {i + 1}

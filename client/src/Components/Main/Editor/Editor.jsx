@@ -23,6 +23,7 @@ const Editor = (props) => {
   const [state, dispatch] = useReducer(editorReducer, {
     questions: [],
     activeQuestion: {},
+    questionErrors: [],
     activeIndex: 0,
     isLoading: true,
     isSending: false,
@@ -36,6 +37,7 @@ const Editor = (props) => {
   const {
     questions,
     activeQuestion,
+    questionErrors,
     activeIndex,
     error,
     isSending,
@@ -47,16 +49,16 @@ const Editor = (props) => {
   const fetchQuestions = useCallback(async () => {
     console.log("fetching questions...");
     try {
-      // const response = await fetch("/questions");
-      const settings = {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...configs, requestType: "CREATE" }),
-      };
-      const response = await fetch("/requests/", settings);
+      const response = await fetch("/questions");
+      // const settings = {
+      //   method: "POST",
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ ...configs, requestType: "CREATE" }),
+      // };
+      // const response = await fetch("/requests/", settings);
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
@@ -139,11 +141,7 @@ const Editor = (props) => {
           }`}
         >
           <span className={classes["page-title"]}>editor</span>
-          <QuestionNavigator
-            questionNumber={questions.length}
-            activeIndex={activeIndex}
-            dispatch={dispatch}
-          />
+          <QuestionNavigator />
           <PrevNextNavigator
             maxIndex={questions.length - 1}
             activeIndex={activeIndex}

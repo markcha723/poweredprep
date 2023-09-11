@@ -22,6 +22,7 @@ const editorReducer = (state, action) => {
       return {
         questions: action.payload,
         activeQuestion: action.payload[0],
+        questionErrors: evaluateAllQuestionsForErrors(action.payload),
         activeIndex: 0,
         error: {
           exists: false,
@@ -36,6 +37,7 @@ const editorReducer = (state, action) => {
       return {
         questions: [],
         activeQuestion: {},
+        questionErrors: [],
         activeIndex: 0,
         error: {
           exists: true,
@@ -49,6 +51,7 @@ const editorReducer = (state, action) => {
     case "LOADING_ON":
       return {
         ...state,
+        questionErrors,
         isLoading: true,
       };
     case "INDEX_CHANGE":
@@ -204,6 +207,64 @@ const editorReducer = (state, action) => {
         activeQuestion: styleUpdated[state.activeIndex],
       };
   }
+};
+
+const evaluateActiveQuestionForErrors = (question) => {
+  const {
+    body,
+    question: prompt,
+    answerChoices,
+    difficulty,
+    subject,
+    style,
+  } = question;
+
+  const evaluatedBody = !body.length > 300;
+  const evaluatedPrompt = !prompt.length > 19;
+  const evaluatedChoiceAText = !answerChoices[0].choiceText.length > 0;
+  const evaluatedChoiceBText = !answerChoices[1].choiceText.length > 0;
+  const evaluatedChoiceCText = !answerChoices[2].choiceText.length > 0;
+  const evaluatedChoiceDText = !answerChoices[3].choiceText.length > 0;
+  const evaluatedSelectedAnswer = !answerChoices.some(
+    (choice) => choice.correct === true
+  );
+  const evaluatedDifficulty = difficulty === null;
+  const evaluatedSubject =
+    subject === "wip" || subject === "test" || subject === "unknown";
+  const evaluatedStyle =
+    style === "wip" || style === "test" || style === "unknown";
+  const inferredExistence =
+    evaluatedBody ||
+    evaluatedPrompt ||
+    evaluatedChoiceAText ||
+    evaluatedChoiceBText ||
+    evaluatedChoiceCText ||
+    evaluatedChoiceDText ||
+    evaluatedSelectedAnswer ||
+    evaluatedDifficulty ||
+    evaluatedSubject ||
+    evaluatedStyle;
+
+  return {
+    exists: inferredExistence,
+    body: evaluatedBody,
+    prompt: evaluatedPrompt,
+    choiceAText: evaluatedChoiceAText,
+    choiceBText: evaluatedChoiceBText,
+    choiceCText: evaluatedChoiceCText,
+    choiceDText: evaluatedChoiceDText,
+    difficulty: evaluatedDifficulty,
+    subject: evaluatedSubject,
+    style: evaluatedStyle,
+    selectedAnswer: evaluatedSelectedAnswer,
+  };
+};
+
+const evaluateAllQuestionsForErrors = (questions) => {
+  const evaluationResults = questions.map((question) =>
+    evaluateActiveQuestionForErrors(question)
+  );
+  return evaluationResults;
 };
 
 const updateQuestionsByKey = (questionsArray, key, payload, activeIndex) => {
