@@ -36,19 +36,19 @@ router.get("/question/:id", async (req, res) => {
 
 // pushes any submitted questions to MongoDB. currently only works for a single question.
 router.post("/create", async (req, res) => {
-  Logging.info("A POST request was made to create a question.");
+  Logging.info(
+    "A POST request was made to push new questions to the database."
+  );
   try {
-    const question = await GptQuestionsApprovedDB.create(req.body);
+    const question = await GptQuestionsApprovedDB.insertMany(req.body);
     Logging.info(question);
     Logging.info(
       "A POST request was approved, and the question has been added to the database."
     );
-    res
-      .status(200)
-      .json({
-        questionsSaved: "Saved one question.",
-        questionsDeleted: "No questions deleted.",
-      });
+    res.status(200).json({
+      questionsSaved: "Saved one question.",
+      questionsDeleted: "No questions deleted.",
+    });
   } catch (error) {
     console.log(error.message);
     Logging.error("The POST request was denied.");

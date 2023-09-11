@@ -4,47 +4,57 @@ import { GptCompletion, Question, AnswerChoices, Answer } from "../interfaces";
 export const parseGptCompletion = (
   completion: GptCompletion,
   section: string
-): Question => {
-  let parsedQuestion: Question;
-  const content = completion.choices[0].message.content as string;
-  let passage = getStringBetween("<<passage>>", "<</passage>>", content).trim();
-  let prompt = getStringBetween("<<prompt>>", "<</prompt>>", content).trim();
-  let rawAnswers = getStringBetween(
-    "<<answers>>",
-    "<</answers>>",
-    content
-  ).trim();
+): Array<Question> => {
+  const contents = completion.choices.map((item) => {
+    return item.message.content as string;
+  });
+
+  const parsedContents: Array<Question> = contents.map((rawText) => {
+    return transformToQuestionFormat(rawText);
+  });
+  return parsedContents;
+};
+
+const transformToQuestionFormat = (text: string): Question => {
+  // attempts to immediately parse the GPT completion assuming that
+  // GPT's response was formatted properly.
+  let passage = getStringBetween("<<passage>>", "<</passage>>", text).trim();
+  let prompt = getStringBetween("<<prompt>>", "<</prompt>>", text).trim();
+  let rawAnswers = getStringBetween("<<answers>>", "<</answers>>", text).trim();
+
+  // the following handles failure cases for each of the major sections of Question
   if (rawAnswers === "failed") {
     try {
-      rawAnswers = content.split("<<answers>>")[1];
+      rawAnswers = text.split("<<answers>>")[1];
     } catch (error) {
       rawAnswers = "a)ab)bc)cd)d";
     }
   }
-  let correctAnswer = getStringBetween("<correct>>", "<</correct>>", content)
+  let correctAnswer = getStringBetween("<correct>>", "<</correct>>", text)
     .trim()
     .charAt(0) as string;
   let parsedAnswers = parseRawAnswerText(rawAnswers, correctAnswer);
 
   if (passage === "failed") {
-    passage = getStringBetween("<<passage>>", "<<prompt>>", content).trim();
+    passage = getStringBetween("<<passage>>", "<<prompt>>", text).trim();
   }
   if (prompt === "failed") {
-    prompt = getStringBetween("<<prompt>>", "<<answers>>", content).trim();
+    prompt = getStringBetween("<<prompt>>", "<<answers>>", text).trim();
   }
   if (correctAnswer === "failed") {
     correctAnswer = "a";
   }
 
-  parsedQuestion = {
+  const parsedQuestion = {
     body: passage,
     question: prompt,
     answerChoices: parsedAnswers,
-    section: section,
+    section: "wip",
     difficulty: "easy",
     subject: "wip",
     style: "wip",
   };
+
   return parsedQuestion;
 };
 
