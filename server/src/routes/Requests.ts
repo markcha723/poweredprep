@@ -59,19 +59,19 @@ router.post("/", async (req, res) => {
           ],
           model: OPENAI_MODEL,
           presence_penalty: 1.5,
-          n: 1,
-          frequency_penalty: 0,
+          n: numberOfQuestions,
+          frequency_penalty: 0.3,
         });
         Logging.info(
           `gpt completion successful. storing completion(s) to the db.`
         );
         await GptCompletionDB.create(completion);
         Logging.info(`parsing completion.`);
-        let parsedCompletion = parseGptCompletion(completion, section);
+        let parsedCompletions = parseGptCompletion(completion, section);
         Logging.info(`pushing parsed questions to the db.`);
-        await GptQuestionDB.create(parsedCompletion);
+        await GptQuestionDB.create(parsedCompletions);
         Logging.info("responding to request with parsed completions.");
-        res.status(200).json([parsedCompletion]);
+        res.status(200).json(parsedCompletions);
         break;
       case "STUDY":
         res.status(200).json({ message: "success!" });
