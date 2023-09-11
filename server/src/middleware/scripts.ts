@@ -80,25 +80,22 @@ const parseRawAnswerText = (
   let parsedAnswerChoices: AnswerChoices = [];
   parsedAnswerChoices.push({
     choiceLetter: "a",
-    choiceText: getStringBetween("a\\)", "b\\)", rawAnswerText),
+    choiceText: getStringBetween("a\\)", "b\\)", rawAnswerText).trim(),
     correct: correctAnswer === "a",
   });
   parsedAnswerChoices.push({
     choiceLetter: "b",
-    choiceText: getStringBetween("b\\)", "c\\)", rawAnswerText),
+    choiceText: getStringBetween("b\\)", "c\\)", rawAnswerText).trim(),
     correct: correctAnswer === "b",
   });
   parsedAnswerChoices.push({
     choiceLetter: "c",
-    choiceText: getStringBetween("c\\)", "d\\)", rawAnswerText),
+    choiceText: getStringBetween("c\\)", "d\\)", rawAnswerText).trim(),
     correct: correctAnswer === "c",
   });
   parsedAnswerChoices.push({
     choiceLetter: "d",
-    choiceText: rawAnswerText.substring(
-      rawAnswerText.indexOf("d\\)"),
-      rawAnswerText.length - 1
-    ),
+    choiceText: rawAnswerText.substring(rawAnswerText.indexOf("d)") + 2).trim(),
     correct: correctAnswer === "d",
   });
   return parsedAnswerChoices;
