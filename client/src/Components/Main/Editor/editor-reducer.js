@@ -1,3 +1,8 @@
+import {
+  topicOptions,
+  styleOptions,
+} from "../../../hooks/use-config-validator";
+
 /* 
   editor reducer
   currently consumed in editor.jsx, 
@@ -90,9 +95,32 @@ const editorReducer = (state, action) => {
         isEditing: true,
       };
     case "EDIT_CLOSE":
+      const check = evaluateActiveQuestionForErrors(
+        state.questions[state.activeIndex]
+      );
+
+      if (check.exists) {
+        return {
+          ...state,
+          questionErrors: state.questionErrors.map((item, index) => {
+            if (index === state.activeIndex) {
+              return check;
+            } else {
+              return item;
+            }
+          }),
+        };
+      }
       return {
         ...state,
         isEditing: false,
+        questionErrors: state.questionErrors.map((item, index) => {
+          if (index === state.activeIndex) {
+            return check;
+          } else {
+            return item;
+          }
+        }),
       };
     case "QUESTION_BODY_CHANGE":
       const questionBodyUpdated = updateQuestionsByKey(
@@ -193,6 +221,15 @@ const editorReducer = (state, action) => {
         ...state,
         questions: subjectUpdated,
         activeQuestion: subjectUpdated[state.activeIndex],
+        questionErrors: state.questionErrors.map((item, index) => {
+          if (index === state.activeIndex) {
+            return evaluateActiveQuestionForErrors(
+              subjectUpdated[state.activeIndex]
+            );
+          } else {
+            return item;
+          }
+        }),
       };
     case "STYLE_CHANGE":
       const styleUpdated = updateQuestionsByKey(
@@ -205,22 +242,25 @@ const editorReducer = (state, action) => {
         ...state,
         questions: styleUpdated,
         activeQuestion: styleUpdated[state.activeIndex],
+        questionErrors: state.questionErrors.map((item, index) => {
+          if (index === state.activeIndex) {
+            return evaluateActiveQuestionForErrors(
+              styleUpdated[state.activeIndex]
+            );
+          } else {
+            return item;
+          }
+        }),
       };
   }
 };
 
-const evaluateActiveQuestionForErrors = (question) => {
-  const {
-    body,
-    question: prompt,
-    answerChoices,
-    difficulty,
-    subject,
-    style,
-  } = question;
+const evaluateActiveQuestionForErrors = (activeQuestion) => {
+  const { body, question, answerChoices, difficulty, subject, style } =
+    activeQuestion;
 
-  const evaluatedBody = !body.length > 300;
-  const evaluatedPrompt = !prompt.length > 19;
+  const evaluatedBody = body.length <= 300 || body.length >= 2500;
+  const evaluatedPrompt = question.length <= 10;
   const evaluatedChoiceAText = !answerChoices[0].choiceText.length > 0;
   const evaluatedChoiceBText = !answerChoices[1].choiceText.length > 0;
   const evaluatedChoiceCText = !answerChoices[2].choiceText.length > 0;
@@ -229,10 +269,8 @@ const evaluateActiveQuestionForErrors = (question) => {
     (choice) => choice.correct === true
   );
   const evaluatedDifficulty = difficulty === null;
-  const evaluatedSubject =
-    subject === "wip" || subject === "test" || subject === "unknown";
-  const evaluatedStyle =
-    style === "wip" || style === "test" || style === "unknown";
+  const evaluatedSubject = !topicOptions.includes(subject);
+  const evaluatedStyle = !styleOptions.includes(style);
   const inferredExistence =
     evaluatedBody ||
     evaluatedPrompt ||

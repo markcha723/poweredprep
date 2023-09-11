@@ -5,7 +5,7 @@ import { topicOptions } from "../../../../hooks/use-config-validator";
 
 const TopicSelector = (props) => {
   const { state, dispatch } = useContext(EditorContext);
-  const { subject } = state.activeQuestion;
+  const { subject, approved } = state.activeQuestion;
 
   // dynamically generate these options based on another array of possible options.
   const generateOptions = () => {
@@ -32,7 +32,11 @@ const TopicSelector = (props) => {
   };
 
   return (
-    <div className={classes["topic-selector"]}>
+    <div
+      className={`${classes["topic-selector"]} ${
+        approved ? "" : classes.disabled
+      }`}
+    >
       <label htmlFor="subject-selector">subject:</label>
       <select
         name="subject-selector"

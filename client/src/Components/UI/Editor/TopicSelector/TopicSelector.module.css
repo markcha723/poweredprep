@@ -26,3 +26,10 @@
 .topic-selector option {
   text-align: center;
 }
+
+.disabled {
+  pointer-events: none;
+  opacity: 20%;
+  transition: opacity 0.2s;
+  user-select: none;
+}

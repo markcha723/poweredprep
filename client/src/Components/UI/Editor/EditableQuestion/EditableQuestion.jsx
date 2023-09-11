@@ -8,6 +8,7 @@ const EditableQuestion = (props) => {
   const { activeQuestion, isEditing } = state;
   const {
     answerChoices,
+    approved,
     question: prompt,
     body: questionBody,
   } = activeQuestion;
@@ -15,7 +16,7 @@ const EditableQuestion = (props) => {
   return (
     <article
       className={`${classes["question-and-answer"]} ${
-        props.disabled ? classes.disabled : ""
+        approved ? "" : classes.disabled
       }`}
     >
       <textarea

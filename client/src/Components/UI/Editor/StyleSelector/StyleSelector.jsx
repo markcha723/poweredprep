@@ -5,7 +5,7 @@ import { styleOptions } from "../../../../hooks/use-config-validator";
 
 const StyleSelector = (props) => {
   const { state, dispatch } = useContext(EditorContext);
-  const { style } = state.activeQuestion;
+  const { style, approved } = state.activeQuestion;
 
   // dynamically generate these options based on another array of possible options.
   const generateStyleOptions = () => {
@@ -32,7 +32,11 @@ const StyleSelector = (props) => {
   };
 
   return (
-    <div className={classes["topic-selector"]}>
+    <div
+      className={`${classes["topic-selector"]} ${
+        approved ? "" : classes.disabled
+      }`}
+    >
       <label htmlFor="style-selector">style:</label>
       <select
         name="style-selector"
