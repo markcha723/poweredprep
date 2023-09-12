@@ -4,6 +4,9 @@ import EditorContext from "../../../../store/editor-context";
 
 const EditableAnswerChoice = (props) => {
   const { state, dispatch } = useContext(EditorContext);
+  const { questionErrors, activeIndex } = state;
+  const { [`choice${props.choiceLetter.toUpperCase()}Text`]: choiceError } =
+    questionErrors[activeIndex];
 
   return (
     <li className={classes.container}>
@@ -24,7 +27,7 @@ const EditableAnswerChoice = (props) => {
         <textarea
           className={`${classes["answer-text"]} ${
             props.isEditing ? classes.editable : ""
-          }`}
+          } ${choiceError ? classes["error-highlight"] : ""}`}
           readOnly={!props.isEditing}
           onChange={(event) => {
             dispatch({
@@ -33,6 +36,7 @@ const EditableAnswerChoice = (props) => {
             });
           }}
           value={props.text}
+          title={choiceError ? "Must be non-empty." : ""}
         ></textarea>
       </label>
     </li>

@@ -5,7 +5,8 @@ import EditorContext from "../../../../store/editor-context";
 
 const EditableQuestion = (props) => {
   const { state, dispatch } = useContext(EditorContext);
-  const { activeQuestion, isEditing } = state;
+  const { activeQuestion, isEditing, activeIndex, questionErrors } = state;
+  const { body: bodyError, prompt: promptError } = questionErrors[activeIndex];
   const {
     answerChoices,
     approved,
@@ -23,7 +24,7 @@ const EditableQuestion = (props) => {
         type="text"
         className={`${classes["question-body"]} ${
           isEditing ? classes.editable : ""
-        }`}
+        } ${bodyError ? classes["error-highlight"] : ""}`}
         readOnly={!isEditing}
         value={questionBody}
         onChange={(event) =>
@@ -32,15 +33,19 @@ const EditableQuestion = (props) => {
             payload: event.target.value,
           })
         }
+        title={bodyError ? "Must be between 250 and 3000 characters." : ""}
       />
       <textarea
         type="text"
-        className={`${classes.prompt} ${isEditing ? classes.editable : ""}`}
+        className={`${classes.prompt} ${isEditing ? classes.editable : ""} ${
+          promptError ? classes["error-highlight"] : ""
+        }`}
         readOnly={!isEditing}
         value={prompt}
         onChange={(event) =>
           dispatch({ type: "PROMPT_CHANGE", payload: event.target.value })
         }
+        title={promptError ? "Must be at least 10 characters long." : ""}
       />
       <ul className={classes["answer-choices"]}>
         <EditableAnswerChoice

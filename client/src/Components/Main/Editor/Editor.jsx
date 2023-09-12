@@ -52,16 +52,16 @@ const Editor = (props) => {
   const fetchQuestions = useCallback(async () => {
     console.log("fetching questions...");
     try {
-      // const response = await fetch("/questions");
-      const settings = {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...configs, requestType: "CREATE" }),
-      };
-      const response = await fetch("/requests/", settings);
+      const response = await fetch("/questions");
+      // const settings = {
+      //   method: "POST",
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ ...configs, requestType: "CREATE" }),
+      // };
+      // const response = await fetch("/requests/", settings);
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
@@ -158,6 +158,11 @@ const Editor = (props) => {
             onClick={submitHandler}
             disabled={isEditing || !allQuestionsValid}
             isWaiting={isSending}
+            title={
+              allQuestionsValid
+                ? "Click to submit."
+                : "Make sure to fill all the questions' fields out, or disapprove of the ones that don't work."
+            }
             endPosition
           />
         </div>
@@ -182,6 +187,9 @@ const Editor = (props) => {
             }
             option="edit"
             disabled={!activeQuestion.approved ? true : false}
+            title={
+              !isEditing ? "Click to start editing." : "Click to stop editing."
+            }
           />
           <DifficultyAdjuster />
           <TopicSelector />

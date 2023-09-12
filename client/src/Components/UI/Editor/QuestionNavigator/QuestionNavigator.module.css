@@ -29,7 +29,9 @@
 
 .error-highlight {
   text-decoration: underline;
-  text-decoration-color: var(--error);
+  text-underline-offset: 4px;
+  color: var(--error);
+  text-decoration-color: var(--error-transparent);
 }
 
 .button:hover {

@@ -44,3 +44,9 @@
 .editable:focus {
   border: solid 1px var(--text);
 }
+
+.error-highlight {
+  border-radius: var(--rounded);
+  border: solid 1px var(--error);
+  box-shadow: 0 0 2px 2px var(--error-transparent);
+}
