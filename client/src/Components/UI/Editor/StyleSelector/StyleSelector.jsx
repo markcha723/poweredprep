@@ -5,7 +5,9 @@ import { styleOptions } from "../../../../hooks/use-config-validator";
 
 const StyleSelector = (props) => {
   const { state, dispatch } = useContext(EditorContext);
-  const { style } = state.activeQuestion;
+  const { questionErrors, activeIndex } = state;
+  const { style: styleSelectedError } = questionErrors[activeIndex];
+  const { style, approved } = state.activeQuestion;
 
   // dynamically generate these options based on another array of possible options.
   const generateStyleOptions = () => {
@@ -32,8 +34,17 @@ const StyleSelector = (props) => {
   };
 
   return (
-    <div className={classes["topic-selector"]}>
-      <label htmlFor="style-selector">style:</label>
+    <div
+      className={`${classes["topic-selector"]} ${
+        approved ? "" : classes.disabled
+      } ${styleSelectedError ? classes["error-highlight"] : ""}`}
+    >
+      <label
+        htmlFor="style-selector"
+        title="Select what style the passage is closest to."
+      >
+        style:
+      </label>
       <select
         name="style-selector"
         id="style-selector"

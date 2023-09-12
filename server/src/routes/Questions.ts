@@ -3,6 +3,7 @@ import {
   Question,
   GptQuestionDB,
   GptQuestionsApprovedDB,
+  QuestionsWithErrorsDB,
 } from "../models/questionModel";
 import RequestConfigurationsDB from "../models/questionConfigurations";
 import GptCompletionDB from "../models/gptCompletionModel";

@@ -4,6 +4,7 @@
   --primary: #fd96ab;
   --accent: #47ffea;
   --error: #ef4444;
+  --error-transparent: rgba(239, 68, 68, 0.5);
   --nice: #22c55e;
 
   /* border-radius */

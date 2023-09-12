@@ -23,6 +23,7 @@ const Editor = (props) => {
   const [state, dispatch] = useReducer(editorReducer, {
     questions: [],
     activeQuestion: {},
+    questionErrors: [],
     activeIndex: 0,
     isLoading: true,
     isSending: false,
@@ -36,6 +37,7 @@ const Editor = (props) => {
   const {
     questions,
     activeQuestion,
+    questionErrors,
     activeIndex,
     error,
     isSending,
@@ -43,20 +45,23 @@ const Editor = (props) => {
     isEditing,
     isSuccessfullySaved,
   } = state;
+  const allQuestionsValid = !questionErrors.some((error, index) => {
+    return error.exists && questions[index].approved;
+  });
 
   const fetchQuestions = useCallback(async () => {
     console.log("fetching questions...");
     try {
-      // const response = await fetch("/questions");
-      const settings = {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...configs, requestType: "CREATE" }),
-      };
-      const response = await fetch("/requests/", settings);
+      const response = await fetch("/questions");
+      // const settings = {
+      //   method: "POST",
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ ...configs, requestType: "CREATE" }),
+      // };
+      // const response = await fetch("/requests/", settings);
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
@@ -139,11 +144,7 @@ const Editor = (props) => {
           }`}
         >
           <span className={classes["page-title"]}>editor</span>
-          <QuestionNavigator
-            questionNumber={questions.length}
-            activeIndex={activeIndex}
-            dispatch={dispatch}
-          />
+          <QuestionNavigator />
           <PrevNextNavigator
             maxIndex={questions.length - 1}
             activeIndex={activeIndex}
@@ -155,13 +156,19 @@ const Editor = (props) => {
             size="large"
             color="pink"
             onClick={submitHandler}
-            disabled={isEditing}
+            disabled={isEditing || !allQuestionsValid}
             isWaiting={isSending}
+            title={
+              allQuestionsValid
+                ? "Click to submit."
+                : "Make sure to fill all the questions' fields out, or disapprove of the ones that don't work."
+            }
             endPosition
           />
         </div>
         <EditableQuestion />
         <div className={`${classes["editing-tools"]}`}>
+          <Approver />
           <Button
             color={!activeQuestion.approved ? "grey" : "pink"}
             size="medium"
@@ -180,8 +187,10 @@ const Editor = (props) => {
             }
             option="edit"
             disabled={!activeQuestion.approved ? true : false}
+            title={
+              !isEditing ? "Click to start editing." : "Click to stop editing."
+            }
           />
-          <Approver />
           <DifficultyAdjuster />
           <TopicSelector />
           <StyleSelector />

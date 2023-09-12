@@ -19,7 +19,10 @@ const DifficultyAdjuster = (props) => {
   };
 
   return (
-    <div className={`${classes.main} ${!approved ? classes.disabled : ""}`}>
+    <div
+      className={`${classes.main} ${!approved ? classes.disabled : ""}`}
+      title="Select the difficulty of the passage and its question."
+    >
       <span>difficulty:</span>
       <div className={classes.container}>
         <input

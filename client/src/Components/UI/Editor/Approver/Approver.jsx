@@ -25,7 +25,10 @@ const Approver = () => {
         onChange={disapproveHandler}
         checked={!approved}
       />
-      <label htmlFor="disapprove">
+      <label
+        htmlFor="disapprove"
+        title="Click to drop this question. Will disable editing, but you can approve of the question to enable editing again."
+      >
         <span>👎</span>
       </label>
 
@@ -37,7 +40,10 @@ const Approver = () => {
         onChange={approveHandler}
         checked={approved}
       />
-      <label htmlFor="approve">
+      <label
+        htmlFor="approve"
+        title="Click to approve of this question. Will enable editing."
+      >
         <span>👍</span>
       </label>
     </form>

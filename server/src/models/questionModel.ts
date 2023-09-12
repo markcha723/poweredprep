@@ -42,4 +42,8 @@ export const GptQuestionsApprovedDB = mongoose.model(
   "gpt-questions-approved",
   QuestionSchema
 );
+export const QuestionsWithErrorsDB = mongoose.model(
+  "questions-with-errors",
+  QuestionSchema
+);
 export const GptQuestionDB = mongoose.model("gpt-questions", QuestionSchema);

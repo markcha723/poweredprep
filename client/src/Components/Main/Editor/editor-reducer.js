@@ -1,3 +1,8 @@
+import {
+  topicOptions,
+  styleOptions,
+} from "../../../hooks/use-config-validator";
+
 /* 
   editor reducer
   currently consumed in editor.jsx, 
@@ -22,6 +27,7 @@ const editorReducer = (state, action) => {
       return {
         questions: action.payload,
         activeQuestion: action.payload[0],
+        questionErrors: evaluateAllQuestionsForErrors(action.payload),
         activeIndex: 0,
         error: {
           exists: false,
@@ -36,6 +42,7 @@ const editorReducer = (state, action) => {
       return {
         questions: [],
         activeQuestion: {},
+        questionErrors: [],
         activeIndex: 0,
         error: {
           exists: true,
@@ -49,6 +56,7 @@ const editorReducer = (state, action) => {
     case "LOADING_ON":
       return {
         ...state,
+        questionErrors,
         isLoading: true,
       };
     case "INDEX_CHANGE":
@@ -87,9 +95,32 @@ const editorReducer = (state, action) => {
         isEditing: true,
       };
     case "EDIT_CLOSE":
+      const check = evaluateActiveQuestionForErrors(
+        state.questions[state.activeIndex]
+      );
+
+      if (check.exists) {
+        return {
+          ...state,
+          questionErrors: state.questionErrors.map((item, index) => {
+            if (index === state.activeIndex) {
+              return check;
+            } else {
+              return item;
+            }
+          }),
+        };
+      }
       return {
         ...state,
         isEditing: false,
+        questionErrors: state.questionErrors.map((item, index) => {
+          if (index === state.activeIndex) {
+            return check;
+          } else {
+            return item;
+          }
+        }),
       };
     case "QUESTION_BODY_CHANGE":
       const questionBodyUpdated = updateQuestionsByKey(
@@ -190,6 +221,15 @@ const editorReducer = (state, action) => {
         ...state,
         questions: subjectUpdated,
         activeQuestion: subjectUpdated[state.activeIndex],
+        questionErrors: state.questionErrors.map((item, index) => {
+          if (index === state.activeIndex) {
+            return evaluateActiveQuestionForErrors(
+              subjectUpdated[state.activeIndex]
+            );
+          } else {
+            return item;
+          }
+        }),
       };
     case "STYLE_CHANGE":
       const styleUpdated = updateQuestionsByKey(
@@ -202,8 +242,67 @@ const editorReducer = (state, action) => {
         ...state,
         questions: styleUpdated,
         activeQuestion: styleUpdated[state.activeIndex],
+        questionErrors: state.questionErrors.map((item, index) => {
+          if (index === state.activeIndex) {
+            return evaluateActiveQuestionForErrors(
+              styleUpdated[state.activeIndex]
+            );
+          } else {
+            return item;
+          }
+        }),
       };
   }
+};
+
+const evaluateActiveQuestionForErrors = (activeQuestion) => {
+  const { body, question, answerChoices, difficulty, subject, style } =
+    activeQuestion;
+
+  const evaluatedBody = body.length <= 300 || body.length >= 2500;
+  const evaluatedPrompt = question.length <= 10;
+  const evaluatedChoiceAText = !answerChoices[0].choiceText.length > 0;
+  const evaluatedChoiceBText = !answerChoices[1].choiceText.length > 0;
+  const evaluatedChoiceCText = !answerChoices[2].choiceText.length > 0;
+  const evaluatedChoiceDText = !answerChoices[3].choiceText.length > 0;
+  const evaluatedSelectedAnswer = !answerChoices.some(
+    (choice) => choice.correct === true
+  );
+  const evaluatedDifficulty = difficulty === null;
+  const evaluatedSubject = !topicOptions.includes(subject);
+  const evaluatedStyle = !styleOptions.includes(style);
+  const inferredExistence =
+    evaluatedBody ||
+    evaluatedPrompt ||
+    evaluatedChoiceAText ||
+    evaluatedChoiceBText ||
+    evaluatedChoiceCText ||
+    evaluatedChoiceDText ||
+    evaluatedSelectedAnswer ||
+    evaluatedDifficulty ||
+    evaluatedSubject ||
+    evaluatedStyle;
+
+  return {
+    exists: inferredExistence,
+    body: evaluatedBody,
+    prompt: evaluatedPrompt,
+    choiceAText: evaluatedChoiceAText,
+    choiceBText: evaluatedChoiceBText,
+    choiceCText: evaluatedChoiceCText,
+    choiceDText: evaluatedChoiceDText,
+    difficulty: evaluatedDifficulty,
+    subject: evaluatedSubject,
+    style: evaluatedStyle,
+    selectedAnswer: evaluatedSelectedAnswer,
+  };
+};
+
+const evaluateAllQuestionsForErrors = (questions) => {
+  const evaluationResults = questions.map((question) =>
+    evaluateActiveQuestionForErrors(question)
+  );
+  return evaluationResults;
 };
 
 const updateQuestionsByKey = (questionsArray, key, payload, activeIndex) => {
