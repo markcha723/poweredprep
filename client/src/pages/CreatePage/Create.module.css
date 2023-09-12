@@ -10,3 +10,11 @@
   z-index: 5;
   flex: 0.2;
 }
+
+.main {
+  display: flex;
+  flex: 1;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+}

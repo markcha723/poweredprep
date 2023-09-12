@@ -1,28 +1,37 @@
 import React, { useState } from "react";
+import { createBrowserRouter, Router, RouterProvider } from "react-router-dom";
 import "./index.css";
 
-import About from "./Components/Main/About/About";
-import Header from "./Components/Main/Header/Header";
-import Main from "./Components/Main/Main";
+import MainInterface from "./pages/MainInterface/MainInterface";
+import Main from "./pages/ModeSelectionPage/Main";
+import Create from "./pages/CreatePage/Create";
+
+import ErrorPage from "./pages/ErrorPage/ErrorPage";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: (
+      <div>
+        <p>wip!</p>
+      </div>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/main",
+    element: <MainInterface />,
+    errorElement: <ErrorPage />,
+    children: [
+      { path: "/main", element: <Main /> },
+      { path: "/main/create", element: <Create /> },
+      { path: "/main/study", element: <ErrorPage /> },
+    ],
+  },
+]);
 
 function App() {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const dialogCloseHandler = () => {
-    setIsDialogOpen(false);
-  };
-
-  const dialogOpenHandler = () => {
-    setIsDialogOpen(true);
-  };
-
-  return (
-    <div className="main-container">
-      {isDialogOpen && <About onDialogClose={dialogCloseHandler}></About>}
-      <Header onDialogOpen={dialogOpenHandler} />
-      <Main />
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
