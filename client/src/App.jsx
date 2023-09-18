@@ -8,6 +8,7 @@ import Create from "./pages/CreatePage/Create";
 
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Editor from "./Components/Main/Editor/Editor";
+import SuccessScreen from "./Components/UI/SuccessScreen/SuccessScreen";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,11 @@ const router = createBrowserRouter([
     ),
     errorElement: <ErrorPage />,
   },
+  { path: "/login", element: <p>login is still a wip...</p> },
+  {
+    path: "/dashboard",
+    element: <p>dashboard</p>,
+  },
   {
     path: "/main",
     element: <MainInterface />,
@@ -26,16 +32,25 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Main /> },
       {
-        path: "/main/create",
+        path: "create",
         element: <Create />,
         children: [
           {
             path: "editor",
             element: <Editor />,
           },
+          {
+            path: "success",
+            element: <SuccessScreen />,
+          },
         ],
       },
-      { path: "/main/study", element: <ErrorPage /> },
+      { path: "study", element: <ErrorPage /> },
+      {
+        path: "test",
+        element: <p>wip...</p>,
+        children: [{ path: ":testId", element: <p></p> }],
+      },
     ],
   },
 ]);
