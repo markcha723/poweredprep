@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useCallback, useReducer } from "react";
+import { useNavigate } from "react-router-dom";
 
 import QuestionNavigator from "../../UI/Editor/QuestionNavigator/QuestionNavigator";
 import PrevNextNavigator from "../../UI/Editor/PrevNextNavigator/PrevNextNavigator";
@@ -20,6 +21,16 @@ import classes from "./Editor.module.css";
 
 const Editor = (props) => {
   const { configs } = useContext(ConfigContext);
+  const navigate = useNavigate();
+  if (configs.section === null) {
+    throw {
+      message: "You cannot access this page directly.",
+      sendTo: "/main/create",
+      destinationText: "create",
+      status: 400,
+    };
+  }
+
   const [state, dispatch] = useReducer(editorReducer, {
     questions: [],
     activeQuestion: {},
@@ -102,13 +113,7 @@ const Editor = (props) => {
         );
       }
       if (response.ok) {
-        dispatch({
-          type: "SUCCESSFUL_SAVE",
-          payload: {
-            questionsSaved: response.questionsSaved,
-            questionsDeleted: response.questionsDeleted,
-          },
-        });
+        navigate("success");
       }
     } catch (error) {
       //temporary. needs to be re-evaluated to properly communicate error to user later.
@@ -129,10 +134,6 @@ const Editor = (props) => {
         dispatch={dispatch}
       />
     );
-  }
-
-  if (isSuccessfullySaved) {
-    return <SuccessScreen successMessages={isSuccessfullySaved} />;
   }
 
   return (
@@ -186,7 +187,7 @@ const Editor = (props) => {
                   }
             }
             option="edit"
-            disabled={!activeQuestion.approved ? true : false}
+            disabled={!activeQuestion.approved || isSending ? true : false}
             title={
               !isEditing ? "Click to start editing." : "Click to stop editing."
             }

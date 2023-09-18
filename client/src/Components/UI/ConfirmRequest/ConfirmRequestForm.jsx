@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import FormConfigItem from "../FormConfigItem/FormConfigItem";
 import Button from "../Button/Button";
 import ConfigContext from "../../../store/config-context";
@@ -7,6 +8,7 @@ import classes from "./ConfirmRequestForm.module.css";
 
 const ConfirmRequestForm = (props) => {
   const { configs, setActiveConfig } = useContext(ConfigContext);
+  const navigate = useNavigate();
   const [isWaiting, setIsWaiting] = useState(false);
   const validities = useConfigValidator(configs);
   const {
@@ -35,6 +37,10 @@ const ConfirmRequestForm = (props) => {
     vocabularyIsValid &&
     stylesIsValid;
 
+  const navigateHandler = (route) => {
+    navigate(route);
+  };
+
   // find a way to resize display text if it's above a certain size, probably in FormConfigItem.js
   const submitHandler = (event) => {
     event.preventDefault();
@@ -48,6 +54,7 @@ const ConfirmRequestForm = (props) => {
         if (response.status === 200) {
           setIsWaiting(false);
           setActiveConfig("editor");
+          navigate("/main/create/editor");
         } else {
           setIsWaiting(false);
           //technically there should be an error message here here

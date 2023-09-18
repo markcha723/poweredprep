@@ -56,7 +56,6 @@ const editorReducer = (state, action) => {
     case "LOADING_ON":
       return {
         ...state,
-        questionErrors,
         isLoading: true,
       };
     case "INDEX_CHANGE":
@@ -302,7 +301,7 @@ const evaluateAllQuestionsForErrors = (questions) => {
   const evaluationResults = questions.map((question) =>
     evaluateActiveQuestionForErrors(question)
   );
-  return evaluationResults;
+  return evaluationResults || [];
 };
 
 const updateQuestionsByKey = (questionsArray, key, payload, activeIndex) => {
