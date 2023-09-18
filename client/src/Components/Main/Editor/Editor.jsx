@@ -20,6 +20,15 @@ import classes from "./Editor.module.css";
 
 const Editor = (props) => {
   const { configs } = useContext(ConfigContext);
+  if (configs.section === null) {
+    throw {
+      message: "You cannot access this page directly.",
+      sendTo: "/main/create",
+      destinationText: "create",
+      status: 400,
+    };
+  }
+
   const [state, dispatch] = useReducer(editorReducer, {
     questions: [],
     activeQuestion: {},

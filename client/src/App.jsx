@@ -7,6 +7,7 @@ import Main from "./pages/ModeSelectionPage/Main";
 import Create from "./pages/CreatePage/Create";
 
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
+import Editor from "./Components/Main/Editor/Editor";
 
 const router = createBrowserRouter([
   {
@@ -23,8 +24,17 @@ const router = createBrowserRouter([
     element: <MainInterface />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "/main", element: <Main /> },
-      { path: "/main/create", element: <Create /> },
+      { index: true, element: <Main /> },
+      {
+        path: "/main/create",
+        element: <Create />,
+        children: [
+          {
+            path: "editor",
+            element: <Editor />,
+          },
+        ],
+      },
       { path: "/main/study", element: <ErrorPage /> },
     ],
   },

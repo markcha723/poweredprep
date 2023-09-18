@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Outlet } from "react-router-dom";
 
 import ConfigContext from "../../store/config-context";
 import ProgressBar from "../../Components/UI/Progress/ProgressBar";
@@ -40,7 +41,7 @@ const Create = (props) => {
         {activeConfig === "passages" && <CreatePassages />}
         {activeConfig === "extras" && <CreateExtras />}
         {activeConfig === "confirm" && <ConfirmRequestForm />}
-        {activeConfig === "editor" && <Editor />}
+        <Outlet />
       </div>
     </ConfigContext.Provider>
   );
