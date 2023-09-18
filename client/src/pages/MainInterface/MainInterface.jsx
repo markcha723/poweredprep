@@ -7,6 +7,7 @@ import Header from "../../Components/Main/Header/Header";
 import Main from "../ModeSelectionPage/Main";
 
 const MainInterface = (props) => {
+  // most of this should be removed!
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const dialogCloseHandler = () => {
