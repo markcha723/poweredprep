@@ -39,6 +39,7 @@ const Button = (props) => {
       disabled={props.disabled}
       style={props.customSizing}
       title={props.title}
+      type={props.type || ""}
     >
       {props.isWaiting ? <LoadingSpinner /> : buttonText}
     </button>
