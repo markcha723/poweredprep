@@ -10,6 +10,7 @@ import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Editor from "./Components/Main/Editor/Editor";
 import SuccessScreen from "./Components/UI/SuccessScreen/SuccessScreen";
 import LandingPage from "./pages/LandingPage/LandingPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
     element: <LandingPage />,
     errorElement: <ErrorPage />,
   },
-  { path: "/login", element: <p>login is still a wip...</p> },
+  { path: "/login", element: <LoginPage /> },
   { path: "/sample", element: <p>working on it...</p> },
   {
     path: "/dashboard",
