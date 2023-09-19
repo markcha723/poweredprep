@@ -10,7 +10,7 @@ const Header = (props) => {
   const navigate = useNavigate();
 
   let navigationOptions = <p>placeholder</p>;
-  if (pathname === "/" || pathname === "/login") {
+  if (pathname === "/" || pathname === "/login" || pathname === "/sample") {
     navigationOptions = (
       <React.Fragment>
         <Button

@@ -1,0 +1,40 @@
+.question-and-answer {
+  flex: 1;
+  width: 100%;
+  min-width: 500px;
+  flex-direction: column;
+  border: solid 2px var(--grey);
+}
+
+.question-body {
+  padding: 24px;
+  font-size: 1.8rem;
+  font-weight: 400;
+  width: 100%;
+  height: 45%;
+  overflow: wrap;
+  resize: none;
+  border: solid 1px #fff;
+  border-bottom: solid 1px var(--grey);
+  border-radius: var(--rounded);
+}
+
+.prompt {
+  font-size: 2rem;
+  padding: 12px 24px;
+  width: 100%;
+  height: 10%;
+  resize: none;
+  border: solid 1px #fff;
+  border-radius: var(--rounded);
+}
+
+.answer-choices {
+  padding: 12px 24px;
+  font-size: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 50%;
+  margin-top: -24px;
+}

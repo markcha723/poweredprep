@@ -11,6 +11,9 @@ import Editor from "./Components/Main/Editor/Editor";
 import SuccessScreen from "./Components/UI/SuccessScreen/SuccessScreen";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import SamplePage, {
+  loader as sampleQuestionsLoader,
+} from "./pages/SamplePage/SamplePage";
 
 const router = createBrowserRouter([
   {
@@ -19,7 +22,12 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   { path: "/login", element: <LoginPage /> },
-  { path: "/sample", element: <p>working on it...</p> },
+  {
+    path: "/sample",
+    element: <SamplePage />,
+    id: "sample-page",
+    loader: sampleQuestionsLoader,
+  },
   {
     path: "/dashboard",
     element: <p>dashboard</p>,
