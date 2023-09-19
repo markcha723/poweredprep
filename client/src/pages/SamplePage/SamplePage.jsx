@@ -1,15 +1,17 @@
-import React, { useEffect, useReducer } from "react";
-import { json, defer, useLoaderData } from "react-router-dom";
+import React, { useEffect, useReducer, Suspense } from "react";
+import { json, defer, useLoaderData, Await } from "react-router-dom";
 import Header from "../../Components/Main/Header/Header";
+import LoadingSpinner from "../../Components/UI/LoadingSpinner/LoadingSpinner";
 import Study from "../../Components/Main/StudyView/Study";
+import classes from "./SamplePage.module.css";
 
 const SamplePage = () => {
   const { questions } = useLoaderData("sample-page");
 
   return (
-    <main>
+    <main className={classes.main}>
       <Header />
-      <Study />
+      <Study questionSet={questions} />
     </main>
   );
 };

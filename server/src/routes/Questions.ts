@@ -17,7 +17,9 @@ router.get("/", async (req, res) => {
   try {
     Logging.info(`A request was made for all questions.`);
     const questions = await Question.find({});
-    res.status(200).json(questions);
+    setTimeout(() => {
+      res.status(200).json(questions);
+    }, 500);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

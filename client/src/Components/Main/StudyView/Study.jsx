@@ -1,19 +1,30 @@
-import React, { useReducer, useContext } from "react";
-import editorReducer from "../Editor/editor-reducer";
+import React, { useReducer, useEffect } from "react";
+import studyReducer from "./study-reducer";
+import StudyContext from "../../../store/study-context";
+import Question from "../../UI/Question/Question";
+import classes from "./Study.module.css";
 
-const Study = () => {
-  const [state, dispatch] = useReducer(editorReducer, {
+const Study = (props) => {
+  const [state, dispatch] = useReducer(studyReducer, {
     questions: [],
     activeQuestion: {},
-    questionErrors: [],
     activeIndex: 0,
-    isLoading: true,
   });
 
-  const { questions, activeQuestion, questionErrors, activeIndex, isLoading } =
-    state;
+  useEffect(() => {
+    dispatch({ type: "INITIALIZE", payload: props.questionSet });
+  }, []);
 
-  return <div></div>;
+  console.log(state.questions);
+
+  return (
+    <StudyContext.Provider value={{ state, dispatch }}>
+      <div className={classes.main}>
+        <div className={classes["nav-tools"]}></div>
+        <Question />
+      </div>
+    </StudyContext.Provider>
+  );
 };
 
 export default Study;
