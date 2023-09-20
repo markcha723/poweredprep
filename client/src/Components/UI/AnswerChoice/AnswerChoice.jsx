@@ -10,15 +10,19 @@ const AnswerChoice = (props) => {
       <input
         type="radio"
         name="answers"
+        id={`answer-${props.choiceLetter}`}
         onChange={() =>
           dispatch({
             type: "CHOSEN_ANSWER_CHANGE",
-            payload: props.choiceLetter,
+            choice: props.choiceLetter,
           })
         }
       />
-      <label className={classes.choice}>
-        <span>{props.choiceLetter}</span>
+      <label
+        className={classes.choice}
+        htmlFor={`answer-${props.choiceLetter}`}
+      >
+        <span>{props.choiceLetter})</span>
         <p className={classes["answer-text"]}>{props.text}</p>
       </label>
     </li>
