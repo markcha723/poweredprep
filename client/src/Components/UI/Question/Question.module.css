@@ -10,6 +10,7 @@
   padding: 24px;
   font-size: 1.8rem;
   font-weight: 400;
+  height: 45%;
   width: 100%;
   overflow: wrap;
   resize: none;
@@ -22,6 +23,7 @@
 .prompt {
   font-size: 2rem;
   padding: 12px 24px;
+  line-height: 1.2;
   width: 100%;
   height: 10%;
   resize: none;

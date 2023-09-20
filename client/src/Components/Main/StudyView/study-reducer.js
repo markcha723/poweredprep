@@ -2,12 +2,9 @@
 
 const studyReducer = (state, action) => {
   switch (action.type) {
-    case "INITIALIZE":
-      return {
-        ...state,
-        questions: action.payload,
-        activeQuestion: action.payload[state.activeIndex],
-      };
+    case "CHOSEN_ANSWER_CHANGE":
+      console.log(`you selected ${action.payload}`);
+      return state;
   }
 };
 

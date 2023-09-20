@@ -6,14 +6,10 @@ import classes from "./Study.module.css";
 
 const Study = (props) => {
   const [state, dispatch] = useReducer(studyReducer, {
-    questions: [],
-    activeQuestion: {},
+    questions: props.questionSet,
+    activeQuestion: props.questionSet[0],
     activeIndex: 0,
   });
-
-  useEffect(() => {
-    dispatch({ type: "INITIALIZE", payload: props.questionSet });
-  }, []);
 
   console.log(state.questions);
 

@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
+}
+.choice {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
+}
+
+.choice label {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+}
+.answer-text {
+  height: 25%;
+  font-size: 1.6rem;
+  padding: 2px 4px;
+  width: 100%;
+  resize: none;
+  flex: 1;
+  border: solid 1px #fff;
+  border-radius: var(--rounded);
+}
