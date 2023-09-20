@@ -11,6 +11,7 @@ const AnswerChoice = (props) => {
         type="radio"
         name="answers"
         id={`answer-${props.choiceLetter}`}
+        checked={props.isSelected}
         onChange={() =>
           dispatch({
             type: "CHOSEN_ANSWER_CHANGE",

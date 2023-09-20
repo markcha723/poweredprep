@@ -12,7 +12,7 @@
   font-weight: 400;
   height: 45%;
   width: 100%;
-  overflow: wrap;
+  overflow: auto;
   resize: none;
   border: solid 1px #fff;
   border-bottom: solid 1px var(--grey);

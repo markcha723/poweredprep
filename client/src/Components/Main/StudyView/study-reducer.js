@@ -40,6 +40,24 @@ const studyReducer = (state, action) => {
         activeIndex: action.index,
       };
     }
+    case "HIGHLIGHT_WORD": {
+      return {
+        ...state,
+        tooltipIsActive: true,
+        tooltipXLoc: action.xLoc,
+        tooltipYLoc: action.yLoc,
+        highlightedWord: action.highlighted,
+      };
+    }
+    case "UNHIGHLIGHT": {
+      return {
+        ...state,
+        tooltipIsActive: false,
+        tooltipXLoc: 0,
+        tooltipYLoc: 0,
+        highlightedWord: "",
+      };
+    }
   }
 };
 

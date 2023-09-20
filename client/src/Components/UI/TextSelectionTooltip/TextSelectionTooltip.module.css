@@ -1,0 +1,39 @@
+@import url(../../../constants.css);
+
+.tooltip {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  z-index: 5;
+  background-color: var(--text);
+  border-radius: var(--rounded-lg);
+  border: 1px solid #fff;
+}
+
+.active {
+  padding: 4px 8px;
+  text-align: center;
+  color: #fff;
+}
+
+.icon:hover {
+  cursor: pointer;
+}
+
+.icons-div {
+  background-color: var(--text);
+  display: flex;
+  justify-content: space-evenly;
+  z-index: 5;
+}
+
+.arrow {
+  position: absolute;
+  left: 40%;
+  transform: rotate(45deg) translate(50%, 80%);
+  border-radius: var(--rounded);
+  height: 12px;
+  width: 12px;
+  background-color: var(--text);
+  z-index: 3;
+}
