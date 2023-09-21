@@ -21,11 +21,13 @@
 }
 
 .prompt {
-  font-size: 2rem;
+  font-size: 1.8rem;
+  font-weight: 500;
   padding: 12px 24px;
   line-height: 1.2;
   width: 100%;
-  height: 10%;
+  height: 100px;
+  max-height: 10%;
   resize: none;
   border: solid 1px #fff;
   border-radius: var(--rounded);

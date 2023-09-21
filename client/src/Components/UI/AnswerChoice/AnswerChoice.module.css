@@ -19,6 +19,7 @@
 }
 .answer-text {
   height: 25%;
+  max-height: 50px;
   font-size: 1.6rem;
   padding: 2px 4px;
   width: 100%;

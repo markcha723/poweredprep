@@ -21,7 +21,7 @@ const Button = (props) => {
     return (
       <button
         className={`${styling} ${classes.disabled}`}
-        onClick={props.onClick}
+        onClick={() => {}}
         style={props.customSizing}
         title={props.title}
       >
