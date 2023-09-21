@@ -46,7 +46,7 @@ const studyReducer = (state, action) => {
         tooltipIsActive: true,
         tooltipXLoc: action.xLoc,
         tooltipYLoc: action.yLoc,
-        highlightedWord: action.highlighted,
+        highlightedWord: action.highlightedWord,
       };
     }
     case "UNHIGHLIGHT": {
@@ -56,6 +56,28 @@ const studyReducer = (state, action) => {
         tooltipXLoc: 0,
         tooltipYLoc: 0,
         highlightedWord: "",
+        wordSearchError: "",
+      };
+    }
+    case "DICTIONARY_API_FETCH_SUCCESS": {
+      return {
+        ...state,
+        lookedUpWords: [...state.lookedUpWords, action.word],
+        tooltipIsActive: false,
+        tooltipXLoc: 0,
+        tooltipYLoc: 0,
+        highlightedWord: "",
+        wordSearchError: "",
+      };
+    }
+    case "DICTIONARY_API_FETCH_FAIL": {
+      return {
+        ...state,
+        tooltipIsActive: false,
+        tooltipXLoc: 0,
+        tooltipYLoc: 0,
+        highlightedWord: "",
+        wordSearchError: action.message,
       };
     }
   }
