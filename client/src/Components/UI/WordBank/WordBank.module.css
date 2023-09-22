@@ -25,8 +25,7 @@
 
 .bank {
   display: flex;
-  flex-direction: column;
-  overflow: auto;
+  flex-direction: column-reverse;
   gap: 12px;
   border: solid 2px var(--grey);
   padding: 12px;
@@ -37,6 +36,12 @@
   margin-left: 12px;
 }
 
+.title span {
+  font-size: 1.8rem;
+  opacity: 80%;
+  margin-left: 1rem;
+}
+
 .bank-item {
   display: flex;
   flex-direction: column;
@@ -45,8 +50,13 @@
   max-height: 200px;
 }
 
+.bank-item > *:not(h5) {
+  margin-left: 6px;
+}
+
 .word {
-  font-size: 1.8rem;
+  font-size: 2rem;
+  line-height: 1.2;
   font-weight: 500;
   text-decoration: underline;
 }

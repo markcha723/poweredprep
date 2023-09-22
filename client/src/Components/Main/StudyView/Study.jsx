@@ -6,6 +6,7 @@ import TextSelectionTooltip from "../../UI/TextSelectionTooltip/TextSelectionToo
 import PrevNextNavigator from "../../UI/Editor/PrevNextNavigator/PrevNextNavigator";
 import QuestionNavigator from "../../UI/Editor/QuestionNavigator/QuestionNavigator";
 import WordBank from "../../UI/WordBank/WordBank";
+import Button from "../../UI/Button/Button";
 import classes from "./Study.module.css";
 
 const Study = (props) => {
@@ -67,7 +68,7 @@ const Study = (props) => {
   */
   const selectHandler = (event) => {
     const selection = window.getSelection();
-    const selectedText = window.getSelection().toString().toLowerCase();
+    const selectedText = window.getSelection().toString().toLowerCase().trim();
     console.log(selectedText);
     if (selectedText.includes(" ") || selectedText.length < 3) {
       dispatch({ type: "UNHIGHLIGHT" });
@@ -109,6 +110,16 @@ const Study = (props) => {
             maxIndex={questions.length - 1}
             activeIndex={activeIndex}
             dispatch={dispatch}
+          />
+          <Button
+            option="submit"
+            size="large"
+            color="pink"
+            onClick={() => {
+              console.log("clicked");
+            }}
+            disabled={false}
+            endPosition
           />
         </div>
         <Question onWordHighlight={selectHandler} />
