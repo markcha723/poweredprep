@@ -6,7 +6,7 @@ const AnswerChoice = (props) => {
   const { dispatch } = useContext(StudyContext);
 
   return (
-    <li className={classes.container}>
+    <li className={classes.container} onMouseUp={props.onMouseUp || null}>
       <input
         type="radio"
         name="answers"

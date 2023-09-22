@@ -3,11 +3,31 @@ import StudyContext from "../../../store/study-context";
 import classes from "./WordBank.module.css";
 
 const WordBank = (props) => {
-  const { state, dispatch } = useContext(StudyContext);
+  const { state } = useContext(StudyContext);
   const { lookedUpWords, wordSearchError, activeIndex } = state;
+  const activeWordBank = lookedUpWords[activeIndex];
 
-  if (lookedUpWords.length === 0) {
-    return <div></div>;
+  // evaluates what the word bank should display.
+  // if there are no words searched, it displays a tip.
+  // else it displays the words in the order they were searched.
+  let wordBankContent;
+  if (activeWordBank.length === 0) {
+    wordBankContent = (
+      <div>
+        <p>you can look up words that you highlight.</p>
+      </div>
+    );
+  } else {
+    wordBankContent = activeWordBank.map((word, index) => {
+      return (
+        <WordBankItem
+          word={word.word}
+          meanings={word.meanings}
+          key={`${index}-${word.word}`}
+          wordKey={`${index}-${word.word}`}
+        />
+      );
+    });
   }
 
   return (
@@ -23,15 +43,8 @@ const WordBank = (props) => {
         {wordSearchError.length > 0 ? <span>{wordSearchError}</span> : ""}
       </div>
       <ul className={classes.bank}>
-        {lookedUpWords.map((word, index) => {
-          return (
-            <WordBankItem
-              word={word.word}
-              meanings={word.meanings}
-              wordKey={`${index}-${word.word}`}
-            />
-          );
-        })}
+        {wordBankContent}
+        <div id="overflow-anchor" key="overflow-anchor"></div>
       </ul>
     </aside>
   );
@@ -47,16 +60,10 @@ const WordBankItem = (props) => {
     <p> definition two <p>
   */
   const mappedMeanings = meanings.map((meaning) => {
-    console.log(meaning);
     return (
       <React.Fragment>
-        <h6
-          className={classes["part-of-speech"]}
-          key={`${word}-${meaning.partOfSpeech}`}
-        >
-          {meaning.partOfSpeech}
-        </h6>
-        {meaning.definitions.map(({ definition }) => {
+        <h6 className={classes["part-of-speech"]}>{meaning.partOfSpeech}</h6>
+        {meaning.definitions.map(({ definition }, index) => {
           return <p>-{definition}</p>;
         })}
       </React.Fragment>
@@ -73,7 +80,7 @@ const WordBankItem = (props) => {
     <li>
   */
   return (
-    <li className={classes["bank-item"]} key={wordKey}>
+    <li className={classes["bank-item"]} key={`li-${wordKey}`}>
       <h5 className={classes.word}>{word}</h5>
       {mappedMeanings}
     </li>

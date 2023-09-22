@@ -17,9 +17,6 @@ const SamplePage = () => {
       }),
     };
   });
-
-  console.log(adjustedQuestions);
-
   return (
     <main className={classes.main}>
       <Header />
@@ -47,7 +44,6 @@ const loadQuestions = async () => {
     );
   } else {
     const resData = await response.json();
-    console.log(resData);
     return resData;
   }
 };

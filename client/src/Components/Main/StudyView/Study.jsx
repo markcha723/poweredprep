@@ -9,12 +9,8 @@ import WordBank from "../../UI/WordBank/WordBank";
 import Button from "../../UI/Button/Button";
 import classes from "./Study.module.css";
 
-const Study = (props) => {
-  const [state, dispatch] = useReducer(studyReducer, {
-    questions: props.questionSet,
-    activeQuestion: props.questionSet[0],
-    activeIndex: 0,
-    lookedUpWords: [
+/* 
+
       {
         word: "censor",
         meanings: [
@@ -42,7 +38,16 @@ const Study = (props) => {
           },
         ],
       },
-    ],
+    
+*/
+
+const Study = (props) => {
+  const [state, dispatch] = useReducer(studyReducer, {
+    questions: props.questionSet,
+    activeQuestion: props.questionSet[0],
+    chosenAnswers: props.questionSet.map((item) => null),
+    activeIndex: 0,
+    lookedUpWords: props.questionSet.map((question) => []),
     tooltipIsActive: false,
     tooltipXLoc: 0,
     tooltipYLoc: 0,
@@ -69,7 +74,6 @@ const Study = (props) => {
   const selectHandler = (event) => {
     const selection = window.getSelection();
     const selectedText = window.getSelection().toString().toLowerCase().trim();
-    console.log(selectedText);
     if (selectedText.includes(" ") || selectedText.length < 3) {
       dispatch({ type: "UNHIGHLIGHT" });
     } else {

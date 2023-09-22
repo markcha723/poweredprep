@@ -17,7 +17,12 @@ const TextSelectionTooltip = (props) => {
     if it succeeds, it dispatches an action to update the word bank. 
   */
   const searchWordHandler = async () => {
-    if (lookedUpWords.some((element) => element.word === selectedWord)) {
+    const isWordAlreadySearched = lookedUpWords.some((arrayOfWords) => {
+      return arrayOfWords.some((item) => {
+        return item.word === selectedWord;
+      });
+    });
+    if (isWordAlreadySearched) {
       dispatch({
         type: "DICTIONARY_API_FETCH_FAIL",
         message: `You already looked up the word ${selectedWord}.`,
@@ -36,7 +41,6 @@ const TextSelectionTooltip = (props) => {
         });
       } else {
         const data = await response.json();
-        console.log(data);
         const parsedWordDefinitions = {
           word: data[0].word,
           meanings: data[0].meanings.map((meaning) => {

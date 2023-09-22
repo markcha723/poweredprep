@@ -6,12 +6,13 @@ import StudyContext from "../../../store/study-context";
 
 const Question = (props) => {
   const { state, dispatch } = useContext(StudyContext);
-  const { activeQuestion, activeIndex } = state;
+  const { activeQuestion, chosenAnswers, activeIndex } = state;
   const {
     answerChoices,
     question: prompt,
     body: questionBody,
   } = activeQuestion;
+  const currentChosenAnswer = chosenAnswers[activeIndex];
 
   return (
     <article className={classes["question-and-answer"]}>
@@ -28,22 +29,26 @@ const Question = (props) => {
         <AnswerChoice
           choiceLetter={answerChoices[0].choiceLetter}
           text={answerChoices[0].choiceText}
-          isSelected={answerChoices[0].chosenByStudent}
+          isSelected={currentChosenAnswer === answerChoices[0].choiceLetter}
+          onMouseUp={props.onWordHighlight || null}
         />
         <AnswerChoice
           choiceLetter={answerChoices[1].choiceLetter}
           text={answerChoices[1].choiceText}
-          isSelected={answerChoices[1].chosenByStudent}
+          isSelected={currentChosenAnswer === answerChoices[1].choiceLetter}
+          onMouseUp={props.onWordHighlight || null}
         />
         <AnswerChoice
           choiceLetter={answerChoices[2].choiceLetter}
           text={answerChoices[2].choiceText}
-          isSelected={answerChoices[2].chosenByStudent}
+          isSelected={currentChosenAnswer === answerChoices[2].choiceLetter}
+          onMouseUp={props.onWordHighlight || null}
         />
         <AnswerChoice
           choiceLetter={answerChoices[3].choiceLetter}
           text={answerChoices[3].choiceText}
-          isSelected={answerChoices[3].chosenByStudent}
+          isSelected={currentChosenAnswer === answerChoices[3].choiceLetter}
+          onMouseUp={props.onWordHighlight || null}
         />
       </ul>
     </article>

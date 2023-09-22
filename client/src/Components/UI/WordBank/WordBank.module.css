@@ -2,11 +2,11 @@
 
 .container {
   display: flex;
-  overflow: auto;
   flex: 1;
   flex-direction: column;
   padding-top: 48px;
   gap: 12px;
+  height: 100%;
   max-height: 80vh;
 }
 
@@ -26,9 +26,20 @@
 .bank {
   display: flex;
   flex-direction: column-reverse;
+  overflow: auto;
+  overflow-anchor: auto;
   gap: 12px;
   border: solid 2px var(--grey);
   padding: 12px;
+}
+
+.bank *:not(div) {
+  overflow-anchor: none;
+}
+
+.bank #overflow-anchor {
+  overflow-anchor: auto;
+  height: 1px;
 }
 
 .title {
@@ -47,7 +58,6 @@
   flex-direction: column;
   gap: 6px;
   width: 100%;
-  max-height: 200px;
 }
 
 .bank-item > *:not(h5) {
