@@ -17,3 +17,8 @@
   min-width: 333px;
   padding-top: 48px;
 }
+
+.nav-tools > span {
+  font-size: 2.4rem;
+  margin-left: 1rem;
+}

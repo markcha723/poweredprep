@@ -73,6 +73,7 @@ const Study = (props) => {
           lookedUpWords={lookedUpWords}
         />
         <div className={classes["nav-tools"]}>
+          <span>sample questions</span>
           <QuestionNavigator
             maxIndex={questions.length - 1}
             activeIndex={activeIndex}
