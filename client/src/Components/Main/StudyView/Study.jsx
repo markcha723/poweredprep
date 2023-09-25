@@ -9,38 +9,6 @@ import WordBank from "../../UI/WordBank/WordBank";
 import Button from "../../UI/Button/Button";
 import classes from "./Study.module.css";
 
-/* 
-
-      {
-        word: "censor",
-        meanings: [
-          {
-            partOfSpeech: "noun",
-            definitions: [{ definition: "A person who conceals information" }],
-          },
-          {
-            partOfSpeech: "verb",
-            definitions: [
-              { definition: "To conceal information" },
-              { definition: "To remove information" },
-            ],
-          },
-        ],
-      },
-      {
-        word: "lol",
-        meanings: [
-          {
-            partOfSpeech: "noun",
-            definitions: [
-              { definition: "An internet acronym meaning 'laugh out loud'." },
-            ],
-          },
-        ],
-      },
-    
-*/
-
 const Study = (props) => {
   const [state, dispatch] = useReducer(studyReducer, {
     questions: props.questionSet,
