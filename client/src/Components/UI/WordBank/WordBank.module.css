@@ -67,6 +67,7 @@
 
 .bank-item > *:not(h5) {
   margin-left: 6px;
+  line-height: 1.1;
 }
 
 .word {

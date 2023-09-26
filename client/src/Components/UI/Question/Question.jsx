@@ -6,7 +6,7 @@ import StudyContext from "../../../store/study-context";
 
 const Question = (props) => {
   const { state, dispatch } = useContext(StudyContext);
-  const { activeQuestion, chosenAnswers, activeIndex } = state;
+  const { activeQuestion, chosenAnswers, activeIndex, isReviewing } = state;
   const {
     answerChoices,
     question: prompt,

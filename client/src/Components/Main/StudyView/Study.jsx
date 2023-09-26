@@ -8,8 +8,11 @@ import QuestionNavigator from "../../UI/Editor/QuestionNavigator/QuestionNavigat
 import WordBank from "../../UI/WordBank/WordBank";
 import Button from "../../UI/Button/Button";
 import classes from "./Study.module.css";
+import Dialog from "../../UI/Dialog/Dialog";
+import { useLocation } from "react-router-dom";
 
 const Study = (props) => {
+  const location = useLocation();
   const [state, dispatch] = useReducer(studyReducer, {
     questions: props.questionSet,
     activeQuestion: props.questionSet[0],
@@ -21,6 +24,11 @@ const Study = (props) => {
     tooltipYLoc: 0,
     highlightedWord: "",
     wordSearchError: "",
+    isGrading: false,
+    isReviewing: false,
+    isEveryQuestionAnswered: false,
+    isDialogOpen: false,
+    wasError: false,
   });
   const {
     questions,
@@ -30,6 +38,10 @@ const Study = (props) => {
     tooltipYLoc,
     lookedUpWords,
     highlightedWord,
+    isGrading,
+    isReviewing,
+    isDialogOpen,
+    wasError,
   } = state;
 
   /* 
@@ -61,19 +73,39 @@ const Study = (props) => {
     }
   };
 
+  const submitHandler = () => {
+    if (!isGrading && !isReviewing && isEveryQuestionAnswered) {
+      console.log("not every question is answered. button does not fire.");
+    }
+  };
+
+  let titleText;
+  if (isReviewing) {
+    titleText = "review";
+  } else if (location === "/sample") {
+    titleText = "sample question";
+  } else {
+    titleText = "questions";
+  }
+
   return (
     <StudyContext.Provider value={{ state, dispatch }}>
-      <div className={classes.main}>
-        <TextSelectionTooltip
-          selectedWord={highlightedWord}
-          active={tooltipIsActive}
-          xLocation={tooltipXLoc}
-          yLocation={tooltipYLoc}
-          dispatch={dispatch}
-          lookedUpWords={lookedUpWords}
-        />
+      <TextSelectionTooltip
+        selectedWord={highlightedWord}
+        active={tooltipIsActive}
+        xLocation={tooltipXLoc}
+        yLocation={tooltipYLoc}
+        dispatch={dispatch}
+        lookedUpWords={lookedUpWords}
+      />
+      <div
+        className={classes.main}
+        onMouseDown={() => {
+          dispatch({ type: "UNHIGHLIGHT" });
+        }}
+      >
         <div className={classes["nav-tools"]}>
-          <span>sample questions</span>
+          <span>{titleText}</span>
           <QuestionNavigator
             maxIndex={questions.length - 1}
             activeIndex={activeIndex}
@@ -88,9 +120,7 @@ const Study = (props) => {
             option="submit"
             size="large"
             color="pink"
-            onClick={() => {
-              console.log("clicked");
-            }}
+            onClick={submitHandler}
             disabled={false}
             endPosition
           />
