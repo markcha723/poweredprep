@@ -30,6 +30,23 @@ const Dialog = (props) => {
               OK
             </Button>
           )}
+
+          {props.type === "warning" && (
+            <React.Fragment>
+              <Button
+                color="teal"
+                option="go back"
+                size="medium"
+                onClick={props.onDialogClose}
+              ></Button>
+              <Button
+                color="warning"
+                option="submit anyways"
+                size="small"
+                onClick={props.onProceedAnyways}
+              ></Button>
+            </React.Fragment>
+          )}
         </div>,
         portalElement
       )}

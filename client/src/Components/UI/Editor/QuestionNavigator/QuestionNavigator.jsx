@@ -9,7 +9,6 @@ const QuestionNavigator = (props) => {
   if (props.questionErrors) {
     generateButtons = () => {
       let buttonArray = [];
-
       for (let i = 0; i <= maxIndex; i++) {
         const button = (
           <button
@@ -24,7 +23,6 @@ const QuestionNavigator = (props) => {
             {i + 1}
           </button>
         );
-
         buttonArray.push(button);
       }
       return buttonArray;
@@ -32,7 +30,6 @@ const QuestionNavigator = (props) => {
   } else {
     generateButtons = () => {
       let buttonArray = [];
-
       for (let i = 0; i <= maxIndex; i++) {
         const button = (
           <button
@@ -45,10 +42,8 @@ const QuestionNavigator = (props) => {
             {i + 1}
           </button>
         );
-
         buttonArray.push(button);
       }
-
       return buttonArray;
     };
   }

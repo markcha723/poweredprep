@@ -1,9 +1,16 @@
 .container {
   display: flex;
+  flex-grow: 1;
   flex-direction: row;
   align-items: center;
   width: 100%;
-  gap: 12px;
+  padding: 0px 12px;
+  border: solid 1px #fff;
+  border-radius: 24px;
+}
+
+.container input {
+  width: 48px;
 }
 .choice {
   display: flex;
@@ -13,6 +20,7 @@
 }
 
 .choice label {
+  width: 48px;
   font-size: 2rem;
   font-weight: 600;
   text-align: center;

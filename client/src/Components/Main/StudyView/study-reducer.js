@@ -75,6 +75,43 @@ const studyReducer = (state, action) => {
         wordSearchError: action.message,
       };
     }
+    case "DIALOG_OPEN": {
+      return {
+        ...state,
+        isDialogOpen: true,
+      };
+    }
+    case "DIALOG_CLOSE": {
+      return {
+        ...state,
+        isDialogOpen: false,
+      };
+    }
+    /* 
+      note that this one should be rewritten once it's hooked up properly
+      with a backend.
+    */
+    case "FETCH_ANSWERS_SUCCESS": {
+      console.log("EVALUATE_QUESTIONS is a WIP.");
+      return {
+        ...state,
+        isDialogOpen: false,
+        isReviewing: true,
+        correctAnswers: state.questions.map((question) => {
+          for (const answerChoice of question.answerChoices) {
+            if (answerChoice.correct) {
+              return answerChoice.choiceLetter;
+            } else {
+              continue;
+            }
+          }
+        }),
+      };
+    }
+    case "FINISH_STUDYING": {
+      console.log("FINISH_STUDYING is a WIP.");
+      return state;
+    }
   }
 };
 

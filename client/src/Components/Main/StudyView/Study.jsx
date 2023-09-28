@@ -17,6 +17,8 @@ const Study = (props) => {
     questions: props.questionSet,
     activeQuestion: props.questionSet[0],
     chosenAnswers: props.questionSet.map((item) => null),
+    // this is null bc its expected to come AFTER submission.
+    correctAnswers: props.questionSet.map((item) => null),
     activeIndex: 0,
     lookedUpWords: props.questionSet.map((question) => []),
     tooltipIsActive: false,
@@ -41,6 +43,8 @@ const Study = (props) => {
     isGrading,
     isReviewing,
     isDialogOpen,
+    isEveryQuestionAnswered,
+    correctAnswers,
     wasError,
   } = state;
 
@@ -74,8 +78,9 @@ const Study = (props) => {
   };
 
   const submitHandler = () => {
-    if (!isGrading && !isReviewing && isEveryQuestionAnswered) {
-      console.log("not every question is answered. button does not fire.");
+    if (!isReviewing && !isEveryQuestionAnswered) {
+      console.log("not every question is answered. dialog should appear.");
+      dispatch({ type: "DIALOG_OPEN" });
     }
   };
 
@@ -88,8 +93,22 @@ const Study = (props) => {
     titleText = "questions";
   }
 
+  console.log(correctAnswers);
+
   return (
     <StudyContext.Provider value={{ state, dispatch }}>
+      {isDialogOpen && (
+        <Dialog
+          type="warning"
+          message={
+            !isEveryQuestionAnswered
+              ? "You haven't answered every question. There is no penalty for guessing on the actual exam."
+              : "You should never see this."
+          }
+          onDialogClose={() => dispatch({ type: "DIALOG_CLOSE" })}
+          onProceedAnyways={() => dispatch({ type: "FETCH_ANSWERS_SUCCESS" })}
+        ></Dialog>
+      )}
       <TextSelectionTooltip
         selectedWord={highlightedWord}
         active={tooltipIsActive}
@@ -110,6 +129,7 @@ const Study = (props) => {
             maxIndex={questions.length - 1}
             activeIndex={activeIndex}
             dispatch={dispatch}
+            correctAnswers={isReviewing ? correctAnswers : undefined}
           />
           <PrevNextNavigator
             maxIndex={questions.length - 1}
