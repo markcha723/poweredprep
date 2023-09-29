@@ -2,6 +2,12 @@
 
 const studyReducer = (state, action) => {
   switch (action.type) {
+    case "LOADING_FINISH": {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
     case "CHOSEN_ANSWER_CHANGE":
       const updatedChoiceArray = state.chosenAnswers.map((answer, index) => {
         if (index === state.activeIndex) {
@@ -10,8 +16,10 @@ const studyReducer = (state, action) => {
           return answer;
         }
       });
+      const isAnyAnswersNull = updatedChoiceArray.some((item) => item === null);
       return {
         ...state,
+        isEveryQuestionAnswered: !isAnyAnswersNull,
         chosenAnswers: updatedChoiceArray,
       };
     case "INDEX_CHANGE": {
@@ -108,9 +116,8 @@ const studyReducer = (state, action) => {
         }),
       };
     }
-    case "FINISH_STUDYING": {
-      console.log("FINISH_STUDYING is a WIP.");
-      return state;
+    case "FINISH_REVIEW": {
+      return { ...state, isFinished: true };
     }
   }
 };

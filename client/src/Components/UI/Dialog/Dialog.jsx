@@ -2,6 +2,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 
 import Button from "../Button/Button";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import classes from "./Dialog.module.css";
 
 const Overlay = (props) => {
@@ -47,6 +48,8 @@ const Dialog = (props) => {
               ></Button>
             </React.Fragment>
           )}
+
+          {props.type === "loading" && <LoadingSpinner size="large" />}
         </div>,
         portalElement
       )}

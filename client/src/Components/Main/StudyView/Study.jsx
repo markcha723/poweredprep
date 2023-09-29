@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useReducer, useEffect } from "react";
 import studyReducer from "./study-reducer";
 import StudyContext from "../../../store/study-context";
 import Question from "../../UI/Question/Question";
@@ -9,10 +9,12 @@ import WordBank from "../../UI/WordBank/WordBank";
 import Button from "../../UI/Button/Button";
 import classes from "./Study.module.css";
 import Dialog from "../../UI/Dialog/Dialog";
-import { useLocation } from "react-router-dom";
+import SuccessScreen from "../../UI/SuccessScreen/SuccessScreen";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Study = (props) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [state, dispatch] = useReducer(studyReducer, {
     questions: props.questionSet,
     activeQuestion: props.questionSet[0],
@@ -26,27 +28,72 @@ const Study = (props) => {
     tooltipYLoc: 0,
     highlightedWord: "",
     wordSearchError: "",
+    isLoading: true,
     isGrading: false,
     isReviewing: false,
     isEveryQuestionAnswered: false,
     isDialogOpen: false,
+    isFinished: false,
     wasError: false,
   });
   const {
     questions,
+    activeQuestion,
     activeIndex,
     tooltipIsActive,
     tooltipXLoc,
     tooltipYLoc,
     lookedUpWords,
     highlightedWord,
+    isLoading,
     isGrading,
     isReviewing,
     isDialogOpen,
     isEveryQuestionAnswered,
     correctAnswers,
+    chosenAnswers,
     wasError,
+    isFinished,
   } = state;
+
+  // this part is to-be-developed. as an accessibility issue.
+  // const keyDownHandler = (event) => {
+  //   console.log(event.code);
+  //   switch (event.code) {
+  //     case "ArrowLeft": {
+  //       if (activeIndex - 1 < 0) {
+  //         console.log("ArrowLeft can't go back further.");
+  //       } else {
+  //         console.log("Dispatching INDEX_CHANGE for ArrowLeft.");
+  //         dispatch({ type: "INDEX_CHANGE", index: activeIndex - 1 });
+  //       }
+  //       break;
+  //     }
+  //     case "ArrowRight": {
+  //       if (activeIndex + 1 >= questions.length) {
+  //         console.log("ArrowRight can't go back further.");
+  //       } else {
+  //         console.log("Dispatching INDEX_CHANGE for ArrowRight.");
+  //         dispatch({ type: "INDEX_CHANGE", index: activeIndex + 1 });
+  //       }
+  //       break;
+  //     }
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   window.addEventListener("keydown", keyDownHandler);
+  //   return () => {
+  //     window.removeEventListener("keydown", keyDownHandler);
+  //   };
+  // }, []);
+
+  // temporary function here to delay loading.
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch({ type: "LOADING_FINISH" });
+    }, 2000);
+  }, []);
 
   /* 
     whenever a user selects a portion of text, this function
@@ -81,12 +128,26 @@ const Study = (props) => {
     if (!isReviewing && !isEveryQuestionAnswered) {
       console.log("not every question is answered. dialog should appear.");
       dispatch({ type: "DIALOG_OPEN" });
+    } else if (isEveryQuestionAnswered) {
+      dispatch({ type: "FETCH_ANSWERS_SUCCESS" });
+    } else if (isReviewing) {
+      console.log("finished with review. redirecting.");
+      dispatch({ type: "FINISH_REVIEW" });
     }
   };
 
   let titleText;
   if (isReviewing) {
-    titleText = "review";
+    let numberCorrect = 0;
+    let totalNumberOfQuestions = chosenAnswers.length;
+    for (let i = 0; i < chosenAnswers.length; i++) {
+      if (chosenAnswers[i] === correctAnswers[i]) {
+        numberCorrect++;
+      } else {
+        continue;
+      }
+    }
+    titleText = `review: ${numberCorrect} / ${totalNumberOfQuestions} correct`;
   } else if (location === "/sample") {
     titleText = "sample question";
   } else {
@@ -94,6 +155,10 @@ const Study = (props) => {
   }
 
   console.log(correctAnswers);
+
+  if (isFinished) {
+    return <SuccessScreen />;
+  }
 
   return (
     <StudyContext.Provider value={{ state, dispatch }}>
@@ -108,6 +173,9 @@ const Study = (props) => {
           onDialogClose={() => dispatch({ type: "DIALOG_CLOSE" })}
           onProceedAnyways={() => dispatch({ type: "FETCH_ANSWERS_SUCCESS" })}
         ></Dialog>
+      )}
+      {isLoading && (
+        <Dialog type="loading" message="fetching questions..."></Dialog>
       )}
       <TextSelectionTooltip
         selectedWord={highlightedWord}
@@ -130,6 +198,7 @@ const Study = (props) => {
             activeIndex={activeIndex}
             dispatch={dispatch}
             correctAnswers={isReviewing ? correctAnswers : undefined}
+            chosenAnswers={chosenAnswers}
           />
           <PrevNextNavigator
             maxIndex={questions.length - 1}
@@ -137,7 +206,7 @@ const Study = (props) => {
             dispatch={dispatch}
           />
           <Button
-            option="submit"
+            option={!isReviewing ? "submit" : "finish"}
             size="large"
             color="pink"
             onClick={submitHandler}

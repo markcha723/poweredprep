@@ -21,9 +21,21 @@ const Question = (props) => {
   } = activeQuestion;
   const currentChosenAnswer = chosenAnswers[activeIndex];
   const currentCorrectAnswer = correctAnswers[activeIndex];
+  const gotCurrentQuestionCorrect =
+    currentChosenAnswer === currentCorrectAnswer;
+
+  let badgeStyling = classes["question-number-badge"];
+  if (isReviewing) {
+    if (gotCurrentQuestionCorrect) {
+      badgeStyling = `${classes["question-number-badge"]} ${classes["badge-correct"]}`;
+    } else {
+      badgeStyling = `${classes["question-number-badge"]} ${classes["badge-incorrect"]}`;
+    }
+  }
 
   return (
     <article className={classes["question-and-answer"]}>
+      <div className={badgeStyling}>{activeIndex + 1}</div>
       <p
         className={classes["question-body"]}
         onMouseUp={props.onWordHighlight || null}

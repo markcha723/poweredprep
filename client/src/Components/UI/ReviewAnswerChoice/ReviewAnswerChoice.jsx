@@ -13,6 +13,7 @@ const ReviewAnswerChoice = (props) => {
   const wasCorrectAndSelected =
     currentChosenAnswer === currentCorrectAnswer &&
     choiceLetter === currentCorrectAnswer;
+  const wasChosenAnswerThisChoice = currentChosenAnswer === choiceLetter;
   const wasIncorrect = currentChosenAnswer === currentCorrectAnswer;
 
   let containerStyling;
@@ -20,6 +21,8 @@ const ReviewAnswerChoice = (props) => {
     containerStyling = `${classes.container} ${classes["was-correct"]}`;
   } else if (wasCorrectAnswer) {
     containerStyling = `${classes.container} ${classes["was-correct"]}`;
+  } else if (wasChosenAnswerThisChoice) {
+    containerStyling = `${classes.container} ${classes["was-incorrect-and-chosen"]}`;
   } else {
     containerStyling = `${classes.container} ${classes["was-incorrect"]}`;
   }
@@ -29,8 +32,8 @@ const ReviewAnswerChoice = (props) => {
         type="radio"
         name="answers"
         id={`answer-${choiceLetter}`}
-        checked={currentChosenAnswer === choiceLetter}
-        onChange={() => console.log("nothing should change.")}
+        checked={wasChosenAnswerThisChoice}
+        disabled
       />
       <label className={classes.choice} htmlFor={`answer-${choiceLetter}`}>
         <span>{choiceLetter})</span>

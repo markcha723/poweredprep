@@ -23,6 +23,11 @@
   background-color: #ddd;
 }
 
+.was-incorrect-and-chosen {
+  border: solid 2px var(--error);
+  background-color: #ddd;
+}
+
 .was-right-but-not-selected-lol {
   background-color: #fff;
 }

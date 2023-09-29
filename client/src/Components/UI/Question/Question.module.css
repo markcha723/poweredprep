@@ -1,11 +1,39 @@
+@import url(../../../constants.css);
+
 .question-and-answer {
+  position: relative;
   width: 600px;
-  min-width: 500px;
+  min-width: 600px;
   height: 100%;
   flex-direction: column;
   border: solid 2px var(--grey);
 }
 
+.question-number-badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  font-size: 3.2rem;
+  position: absolute;
+  z-index: 3;
+  background-color: #fff;
+  border-radius: 100%;
+  border: solid 2px var(--grey);
+  top: 0;
+  transform: translate(-50%, -50%);
+}
+
+.badge-correct {
+  color: var(--nice);
+  border: solid 2px var(--nice);
+}
+
+.badge-incorrect {
+  border: solid 2px var(--error);
+  color: var(--error);
+}
 .question-body {
   padding: 24px;
   font-size: 1.8rem;
