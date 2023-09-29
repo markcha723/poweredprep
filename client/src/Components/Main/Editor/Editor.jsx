@@ -145,7 +145,12 @@ const Editor = (props) => {
           }`}
         >
           <span className={classes["page-title"]}>editor</span>
-          <QuestionNavigator />
+          <QuestionNavigator
+            maxIndex={questions.length - 1}
+            activeIndex={activeIndex}
+            dispatch={dispatch}
+            questionErrors={questionErrors}
+          />
           <PrevNextNavigator
             maxIndex={questions.length - 1}
             activeIndex={activeIndex}
