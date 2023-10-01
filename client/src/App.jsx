@@ -14,23 +14,23 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import SamplePage, {
   loader as sampleQuestionsLoader,
 } from "./pages/SamplePage/SamplePage";
+import RootLayout from "./pages/RootLayout/RootLayout";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingPage />,
+    element: <RootLayout />,
     errorElement: <ErrorPage />,
-  },
-  { path: "/login", element: <LoginPage /> },
-  {
-    path: "/sample",
-    element: <SamplePage />,
-    id: "sample-page",
-    loader: sampleQuestionsLoader,
-  },
-  {
-    path: "/dashboard",
-    element: <p>dashboard</p>,
+    children: [
+      { index: true, element: <LandingPage /> },
+      { path: "/login", element: <LoginPage /> },
+      {
+        path: "/sample",
+        element: <SamplePage />,
+        id: "sample-page",
+        loader: sampleQuestionsLoader,
+      },
+    ],
   },
   {
     path: "/main",
@@ -48,7 +48,12 @@ const router = createBrowserRouter([
           },
           {
             path: "success",
-            element: <SuccessScreen />,
+            element: (
+              <SuccessScreen
+                messages={["Thanks for helping.", "Every little bit counts."]}
+                destinations={[{ text: "dash", address: "/main" }]}
+              />
+            ),
           },
         ],
       },

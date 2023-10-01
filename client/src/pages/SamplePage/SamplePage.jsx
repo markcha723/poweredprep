@@ -1,34 +1,20 @@
-import React, { useEffect, useReducer, Suspense } from "react";
+import React, { Suspense } from "react";
 import { json, defer, useLoaderData, Await } from "react-router-dom";
-import Header from "../../Components/Main/Header/Header";
-import LoadingSpinner from "../../Components/UI/LoadingSpinner/LoadingSpinner";
 import Study from "../../Components/Main/StudyView/Study";
 import ErrorPage from "../ErrorPage/ErrorPage";
-import classes from "./SamplePage.module.css";
 
 const SamplePage = () => {
   const { questions } = useLoaderData("sample-page");
 
-  const adjustedQuestions = questions.map((item) => {
-    return {
-      ...item,
-      answerChoices: item.answerChoices.map((answer) => {
-        return { ...answer, chosenByStudent: false };
-      }),
-    };
-  });
   return (
-    <main className={classes.main}>
-      <Header />
-      <Suspense fallback={<p>loading...</p>}>
-        <Await
-          resolve={questions}
-          errorElement={<ErrorPage sendTo="/" destinationText="back" />}
-        >
-          {(questions) => <Study questionSet={adjustedQuestions} />}
-        </Await>
-      </Suspense>
-    </main>
+    <Suspense fallback={<p>loading...</p>}>
+      <Await
+        resolve={questions}
+        errorElement={<ErrorPage sendTo="/" destinationText="back" />}
+      >
+        {(questions) => <Study questionSet={questions} />}
+      </Await>
+    </Suspense>
   );
 };
 

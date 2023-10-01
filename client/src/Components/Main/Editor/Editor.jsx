@@ -113,7 +113,7 @@ const Editor = (props) => {
         );
       }
       if (response.ok) {
-        navigate("success");
+        navigate("/main/create/success");
       }
     } catch (error) {
       //temporary. needs to be re-evaluated to properly communicate error to user later.

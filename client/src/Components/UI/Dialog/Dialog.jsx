@@ -54,7 +54,7 @@ const Dialog = (props) => {
               <Button
                 color="warning"
                 option="submit anyways"
-                size="small"
+                size="medium"
                 onClick={onProceedAnyways}
               ></Button>
             </React.Fragment>

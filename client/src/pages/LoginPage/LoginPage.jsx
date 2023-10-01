@@ -53,50 +53,47 @@ const LoginPage = () => {
   };
 
   return (
-    <main className={classes.login}>
-      <Header />
-      <div className={classes.card}>
-        <h1>login</h1>
-        {signInError && (
-          <p className={classes["error-text"]}>invalid credentials!</p>
+    <main className={classes.card}>
+      <h1>login</h1>
+      {signInError && (
+        <p className={classes["error-text"]}>invalid credentials!</p>
+      )}
+      <form onSubmit={submitHandler} className={classes["login-form"]}>
+        <label htmlFor="username">username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          onBlur={usernameBlurHandler}
+          onChange={usernameChangeHandler}
+          value={enteredUsername}
+        />
+        {usernameHasError && (
+          <p className={classes["error-text"]}>Name cannot be empty.</p>
         )}
-        <form onSubmit={submitHandler} className={classes["login-form"]}>
-          <label htmlFor="username">username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            onBlur={usernameBlurHandler}
-            onChange={usernameChangeHandler}
-            value={enteredUsername}
+        <label htmlFor="password">password</label>
+        <input
+          type="text"
+          id="password"
+          name="password"
+          onBlur={passwordBlurHandler}
+          onChange={passwordChangeHandler}
+          value={enteredPassword}
+        />
+        {passwordHasError && (
+          <p className={classes["error-text"]}>Password cannot be empty.</p>
+        )}
+        <div className={classes.options}>
+          <Link to="/">go back</Link>
+          <Button
+            type="submit"
+            size="medium"
+            option="login"
+            color="pink"
+            disabled={!formIsValid}
           />
-          {usernameHasError && (
-            <p className={classes["error-text"]}>Name cannot be empty.</p>
-          )}
-          <label htmlFor="password">password</label>
-          <input
-            type="text"
-            id="password"
-            name="password"
-            onBlur={passwordBlurHandler}
-            onChange={passwordChangeHandler}
-            value={enteredPassword}
-          />
-          {passwordHasError && (
-            <p className={classes["error-text"]}>Password cannot be empty.</p>
-          )}
-          <div className={classes.options}>
-            <Link to="/">go back</Link>
-            <Button
-              type="submit"
-              size="medium"
-              option="login"
-              color="pink"
-              disabled={!formIsValid}
-            />
-          </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </main>
   );
 };

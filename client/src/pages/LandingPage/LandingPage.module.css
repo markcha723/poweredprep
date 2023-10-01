@@ -1,4 +1,4 @@
-.main-container {
+.container {
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -11,22 +11,22 @@
   height: 80vh;
   padding: 48px;
   line-height: 1.2;
-}
 
-.section h1 {
-  font-size: 6.4rem;
-}
+  .description {
+    margin-top: 36px;
+    line-height: 2;
+  }
 
-.section h2 {
-  font-size: 3.2rem;
-  opacity: 0.8;
-}
+  & h1 {
+    font-size: 6.4rem;
+  }
 
-.description {
-  margin-top: 36px;
-  line-height: 2;
-}
+  & h2 {
+    font-size: 3.2rem;
+    opacity: 0.8;
+  }
 
-.description p {
-  font-size: 2.2rem;
+  & p {
+    font-size: 2.2rem;
+  }
 }

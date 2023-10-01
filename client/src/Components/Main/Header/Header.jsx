@@ -26,7 +26,7 @@ const Header = (props) => {
 
   return (
     <header className={classes.header}>
-      <div className={classes.logo}>
+      <div className={classes.logo} onClick={() => navigate("/")}>
         <span>powered prep</span>
         <span>✨</span>
       </div>
