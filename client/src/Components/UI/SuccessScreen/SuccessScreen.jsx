@@ -4,33 +4,42 @@ import { useNavigate } from "react-router-dom";
 
 import classes from "../LoadingScreen/LoadingScreen.module.css";
 
+/* 
+  takes in two props:
+    messages: string[]
+    destinations: string[] <--- inputs should be relative paths.
+*/
 const SuccessScreen = (props) => {
+  const { messages, destinationsText, destinations } = props;
   const navigate = useNavigate();
-
-  const navigateHomeHandler = () => {
-    navigate("/main");
-  };
-
-  const navigateDashHandler = () => {
-    navigate("/dashboard");
-  };
 
   return (
     <div className={classes["loading-screen"]}>
-      <p>your questions have been successfully uploaded.</p>
-      <p>thank you for helping.</p>
-      <Button
-        size="medium"
-        color="pink"
-        option="go to home"
-        onClick={navigateHomeHandler}
-      />
-      <Button
-        size="medium"
-        color="teal"
-        option="go to dash"
-        onClick={navigateDashHandler}
-      />
+      {messages.map((message) => (
+        <p key={message}>{message}</p>
+      ))}
+      <div
+        style={{
+          display: "flex",
+          width: "50%",
+          justifyContent: "space-evenly",
+        }}
+      >
+        {destinations.map((destination, index) => {
+          const { text, address } = destination;
+          return (
+            <Button
+              size="medium"
+              key={text}
+              color={(index + 1) % 2 > 1 ? "pink" : "teal"}
+              option={`go to ${text}`}
+              onClick={() => {
+                navigate(address);
+              }}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

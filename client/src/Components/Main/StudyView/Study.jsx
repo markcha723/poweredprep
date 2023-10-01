@@ -126,7 +126,15 @@ const Study = (props) => {
   console.log(correctAnswers);
 
   if (isFinished) {
-    return <SuccessScreen />;
+    return (
+      <SuccessScreen
+        messages={[
+          "Thank you for trying out the sample.",
+          "Contact the admin if you'd like to try more.",
+        ]}
+        destinations={[{ text: "home page", address: "/" }]}
+      />
+    );
   }
 
   if (isLoading) {
