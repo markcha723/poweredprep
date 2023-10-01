@@ -12,44 +12,55 @@ const Overlay = (props) => {
 const portalElement = document.getElementById("dialog-root");
 
 const Dialog = (props) => {
+  const { type, onDialogClose, onProceedAnyways, message } = props;
+
+  let backgroundColorStyling;
+  if (type === "warning") {
+    backgroundColorStyling = `${classes["title-background"]} ${classes.warning}`;
+  } else if (type === "error") {
+    backgroundColorStyling = `${classes["title-background"]} ${classes.error}`;
+  } else {
+    backgroundColorStyling = `${classes["title-background"]}`;
+  }
+
   return (
     <React.Fragment>
-      {createPortal(<Overlay onClick={props.onDialogClose} />, portalElement)}
+      {createPortal(<Overlay onClick={onDialogClose} />, portalElement)}
       {createPortal(
         <div className={classes.dialog}>
-          <div className={classes.titleBackground}></div>
-          <h2>{props.type}</h2>
-          <p>{props.message}</p>
+          <div className={backgroundColorStyling}></div>
+          <h2>{type}</h2>
+          <p>{message}</p>
 
-          {props.type === "about" && (
+          {type === "about" && (
             <Button
               color="teal"
               option="okay"
-              size="small"
-              onClick={props.onDialogClose}
+              size="medium"
+              onClick={onDialogClose}
             >
               OK
             </Button>
           )}
 
-          {props.type === "warning" && (
+          {type === "warning" && (
             <React.Fragment>
               <Button
                 color="teal"
                 option="go back"
                 size="medium"
-                onClick={props.onDialogClose}
+                onClick={onDialogClose}
               ></Button>
               <Button
                 color="warning"
                 option="submit anyways"
                 size="small"
-                onClick={props.onProceedAnyways}
+                onClick={onProceedAnyways}
               ></Button>
             </React.Fragment>
           )}
 
-          {props.type === "loading" && <LoadingSpinner size="large" />}
+          {type === "loading" && <LoadingSpinner size="large" />}
         </div>,
         portalElement
       )}
