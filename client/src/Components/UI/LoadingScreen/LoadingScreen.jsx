@@ -20,7 +20,7 @@ const LoadingScreen = (props) => {
     props.retryFunction();
   };
 
-  if (error.exists) {
+  if (error && error.exists) {
     let messageContent = (
       <React.Fragment>
         <p>something went wrong.</p>
@@ -62,7 +62,7 @@ const LoadingScreen = (props) => {
     content = (
       <React.Fragment>
         <LoadingSpinner size="large" />
-        <p>generating...</p>
+        <p>loading...</p>
         <p>please wait warmly.</p>
       </React.Fragment>
     );

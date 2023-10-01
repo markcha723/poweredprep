@@ -9,6 +9,7 @@ import WordBank from "../../UI/WordBank/WordBank";
 import Button from "../../UI/Button/Button";
 import classes from "./Study.module.css";
 import Dialog from "../../UI/Dialog/Dialog";
+import LoadingScreen from "../../UI/LoadingScreen/LoadingScreen";
 import SuccessScreen from "../../UI/SuccessScreen/SuccessScreen";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -55,38 +56,6 @@ const Study = (props) => {
     wasError,
     isFinished,
   } = state;
-
-  // this part is to-be-developed. as an accessibility issue.
-  // const keyDownHandler = (event) => {
-  //   console.log(event.code);
-  //   switch (event.code) {
-  //     case "ArrowLeft": {
-  //       if (activeIndex - 1 < 0) {
-  //         console.log("ArrowLeft can't go back further.");
-  //       } else {
-  //         console.log("Dispatching INDEX_CHANGE for ArrowLeft.");
-  //         dispatch({ type: "INDEX_CHANGE", index: activeIndex - 1 });
-  //       }
-  //       break;
-  //     }
-  //     case "ArrowRight": {
-  //       if (activeIndex + 1 >= questions.length) {
-  //         console.log("ArrowRight can't go back further.");
-  //       } else {
-  //         console.log("Dispatching INDEX_CHANGE for ArrowRight.");
-  //         dispatch({ type: "INDEX_CHANGE", index: activeIndex + 1 });
-  //       }
-  //       break;
-  //     }
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener("keydown", keyDownHandler);
-  //   return () => {
-  //     window.removeEventListener("keydown", keyDownHandler);
-  //   };
-  // }, []);
 
   // temporary function here to delay loading.
   useEffect(() => {
@@ -160,6 +129,10 @@ const Study = (props) => {
     return <SuccessScreen />;
   }
 
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <StudyContext.Provider value={{ state, dispatch }}>
       {isDialogOpen && (
@@ -174,8 +147,10 @@ const Study = (props) => {
           onProceedAnyways={() => dispatch({ type: "FETCH_ANSWERS_SUCCESS" })}
         ></Dialog>
       )}
-      {isLoading && (
-        <Dialog type="loading" message="fetching questions..."></Dialog>
+      {isGrading && (
+        <Dialog type="grading" message="grading. please wait warmly.">
+          <LoadingSpinner size="large" />
+        </Dialog>
       )}
       <TextSelectionTooltip
         selectedWord={highlightedWord}

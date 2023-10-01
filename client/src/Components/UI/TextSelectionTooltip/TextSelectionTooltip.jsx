@@ -65,10 +65,6 @@ const TextSelectionTooltip = (props) => {
     }
   };
 
-  const placeHolderHandler = () => {
-    console.log("placeholding!");
-  };
-
   return (
     <div
       className={`${classes.tooltip} ${classes.active}`}

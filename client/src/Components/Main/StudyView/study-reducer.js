@@ -95,14 +95,20 @@ const studyReducer = (state, action) => {
         isDialogOpen: false,
       };
     }
+    case "GRADE": {
+      return {
+        ...state,
+        isGrading: true,
+      };
+    }
     /* 
       note that this one should be rewritten once it's hooked up properly
       with a backend.
     */
     case "FETCH_ANSWERS_SUCCESS": {
-      console.log("EVALUATE_QUESTIONS is a WIP.");
       return {
         ...state,
+        isGrading: false,
         isDialogOpen: false,
         isReviewing: true,
         correctAnswers: state.questions.map((question) => {
