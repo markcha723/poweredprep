@@ -8,7 +8,8 @@ import { GptQuestionDB } from "../models/questionModel";
 import { RequestConfigurations } from "../interfaces";
 import { GptPrompt } from "../interfaces";
 import generateGptPrompts from "../middleware/generateGptPrompts";
-import { parseGptCompletion } from "../middleware/scripts";
+import { parseGptCompletion } from "../middleware/parseGptCompletions";
+import { evaluateReadingDifficulty } from "../middleware/utils";
 import { OPENAI_KEY, OPENAI_MODEL, OPENAI_MAX_TOKENS } from "../config/config";
 
 //this is only here for testing
@@ -85,4 +86,19 @@ router.post("/", async (req, res) => {
   }
 });
 
+// dummy route to ensure that evaluateReadingDifficulty is working
+router.post("/test-difficulty-evaluator", async (req, res) => {
+  try {
+    Logging.info(
+      "A POST request was made to the endpoint /test-difficulty-evaluator."
+    );
+    const { body } = req;
+    res.status(200).send(evaluateReadingDifficulty(body.testString));
+  } catch (error) {
+    if (error.cause.code) {
+      res.status(error.cause.code).send(error.message);
+    }
+    res.status(500).send(error.message);
+  }
+});
 export default router;
