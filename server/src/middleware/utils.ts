@@ -28,9 +28,9 @@ export const evaluateReadingDifficulty = (questionBody: string): string => {
   );
   const numberOfCharacters = punctuationlessString.replace(/\s/g, "").length;
 
-  console.log("# of words: " + numberOfWords);
-  console.log("# of sentences: " + numberOfSentences);
-  console.log("# of characters: " + numberOfCharacters);
+  // console.log("# of words: " + numberOfWords);
+  // console.log("# of sentences: " + numberOfSentences);
+  // console.log("# of characters: " + numberOfCharacters);
 
   const ariScore = computeARIScore(
     numberOfWords,
@@ -38,22 +38,21 @@ export const evaluateReadingDifficulty = (questionBody: string): string => {
     numberOfCharacters
   );
 
-  console.log(ariScore);
-  // "easy" is the default value of each question's difficulty.
   let evaluatedDifficulty = "easy";
-  if (ariScore < 9.5) {
+  if (ariScore < 10) {
     evaluatedDifficulty = "easy";
   }
-  if (ariScore >= 9.5 && ariScore <= 10.5) {
+  if (ariScore >= 10 && ariScore <= 11.5) {
     evaluatedDifficulty = "medium";
   }
-  if (ariScore > 10.5) {
+  if (ariScore > 11.5) {
     evaluatedDifficulty = "hard";
   }
 
   return evaluatedDifficulty;
 };
 
+// computes ARI score of a selected string
 const computeARIScore = (
   numberOfWords: number,
   numberOfSentences: number,
@@ -64,5 +63,4 @@ const computeARIScore = (
     0.5 * (numberOfWords / numberOfSentences) -
     21.43
   );
-  //19.5622,12.5
 };
