@@ -30,9 +30,15 @@ const Main = (props) => {
         />
         <Button
           color="teal"
-          option="create ✍️"
+          option="generate 🤖"
           size="large"
           onClick={() => navigateHandler("/main/create")}
+        />
+        <Button
+          color="pink"
+          option="write ✍️"
+          size="large"
+          onClick={() => navigateHandler("/main/write")}
         />
       </Selector>
     </div>

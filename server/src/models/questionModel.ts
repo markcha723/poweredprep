@@ -47,3 +47,7 @@ export const QuestionsWithErrorsDB = mongoose.model(
   QuestionSchema
 );
 export const GptQuestionDB = mongoose.model("gpt-questions", QuestionSchema);
+export const HUMAN_QUESTIONS_COLLECTION = mongoose.model(
+  "human-questions",
+  QuestionSchema
+);

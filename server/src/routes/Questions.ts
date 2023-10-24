@@ -4,6 +4,7 @@ import {
   GptQuestionDB,
   GptQuestionsApprovedDB,
   QuestionsWithErrorsDB,
+  HUMAN_QUESTIONS_COLLECTION,
 } from "../models/questionModel";
 import RequestConfigurationsDB from "../models/questionConfigurations";
 import GptCompletionDB from "../models/gptCompletionModel";
@@ -12,6 +13,7 @@ import { DELETE_PASSWORD } from "../config/config";
 
 const router = express.Router();
 
+// GET
 // returns all questions
 router.get("/", async (req, res) => {
   try {
@@ -37,25 +39,53 @@ router.get("/question/:id", async (req, res) => {
   }
 });
 
+// POST
 // pushes any submitted questions to MongoDB. currently only works for a single question.
-router.post("/create", async (req, res) => {
+router.post("/", async (req, res) => {
   Logging.info(
     "A POST request was made to push new questions to the database."
   );
   try {
-    const question = await GptQuestionsApprovedDB.insertMany(req.body);
-    Logging.info(question);
-    Logging.info(
-      "A POST request was approved, and the question has been added to the database."
-    );
-    res.status(200).json({
-      questionsSaved: "Saved one question.",
-      questionsDeleted: "No questions deleted.",
-    });
+    const { creationType } = req.body;
+    if (creationType === undefined) {
+      Logging.error(
+        "Request was malformed, and did not contain property 'questionType'."
+      );
+      throw new Error("Request must contain property 'creationType'.", {
+        cause: { code: 400 },
+      });
+    }
+
+    switch (creationType) {
+      case "generated":
+        Logging.info("Creation type is 'generated'.");
+        delete req.body.creationType;
+        await GptQuestionsApprovedDB.insertMany(req.body);
+        Logging.info(
+          `A POST request was approved, and the questions have been added to collection ${GptQuestionsApprovedDB.collection.collectionName}`
+        );
+        res.status(200).json({
+          message:
+            "Thank you for approving some questions! They have been saved.",
+        });
+      case "written":
+        Logging.info("Creation type is 'written'.");
+        delete req.body.creationType;
+        await HUMAN_QUESTIONS_COLLECTION.insertMany(req.body);
+        Logging.info(
+          `A POST request was approved, and the questions have been added to collection ${HUMAN_QUESTIONS_COLLECTION.collection.collectionName}`
+        );
+        res.status(200).json({
+          message:
+            "Thank you for writing some questions! They have been saved.",
+        });
+    }
   } catch (error) {
-    console.log(error.message);
-    Logging.error("The POST request was denied.");
-    res.status(500).json({ message: error.message });
+    if (error.cause.code) {
+      res.status(error.cause.code).json(error.message);
+    } else {
+      res.status(500).json({ message: error.message });
+    }
   }
 });
 
@@ -78,7 +108,7 @@ router.delete("/delete/:id", async (req, res) => {
 // a dummy route, used for clearly processing data
 // and making sure that the flow of info from client to the backend is clean.
 // using a POST request because this should take a password to actually delete!
-router.post("/delete/", async (req, res) => {
+router.post("/delete", async (req, res) => {
   Logging.info(
     "A POST request was made to wipe the database. Verifying password..."
   );
