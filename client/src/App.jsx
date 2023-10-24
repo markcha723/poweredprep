@@ -8,6 +8,7 @@ import Create from "./pages/CreatePage/Create";
 
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Editor from "./Components/Main/Editor/Editor";
+import BlankEditor from "./Components/Main/Editor/BlankEditor";
 import SuccessScreen from "./Components/UI/SuccessScreen/SuccessScreen";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
@@ -55,7 +56,7 @@ const router = createBrowserRouter([
       },
       {
         path: "write",
-        element: <p>asd</p>,
+        element: <BlankEditor />,
       },
       {
         path: "test",

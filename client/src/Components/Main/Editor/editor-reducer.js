@@ -251,6 +251,8 @@ const editorReducer = (state, action) => {
           }
         }),
       };
+    case "DELETE":
+      console.log("delete pressed!");
   }
 };
 
@@ -297,7 +299,7 @@ const evaluateActiveQuestionForErrors = (activeQuestion) => {
   };
 };
 
-const evaluateAllQuestionsForErrors = (questions) => {
+export const evaluateAllQuestionsForErrors = (questions) => {
   const evaluationResults = questions.map((question) =>
     evaluateActiveQuestionForErrors(question)
   );
