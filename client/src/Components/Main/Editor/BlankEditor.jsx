@@ -1,13 +1,12 @@
-import React, { useContext, useEffect, useCallback, useReducer } from "react";
+import React, { useCallback, useReducer } from "react";
 
-import QuestionNavigator from "../../UI/Editor/QuestionNavigator/QuestionNavigator";
+import QuestionNavigatorForWrite from "../../UI/QuestionNavigatorForWrite/QuestionNavigatorForWrite";
 import PrevNextNavigator from "../../UI/Editor/PrevNextNavigator/PrevNextNavigator";
 import EditableQuestion from "../../UI/Editor/EditableQuestion/EditableQuestion";
 import DifficultyAdjuster from "../../UI/Editor/DifficultyAdjuster/DifficultyAdjuster";
 import TopicSelector from "../../UI/Editor/TopicSelector/TopicSelector";
 import StyleSelector from "../../UI/Editor/StyleSelector/StyleSelector";
 import Button from "../../UI/Button/Button";
-import SuccessScreen from "../../UI/SuccessScreen/SuccessScreen";
 import Dialog from "../../UI/Dialog/Dialog";
 
 import editorReducer from "./editor-reducer";
@@ -45,8 +44,8 @@ export const blankQuestion = {
   ],
   section: "reading",
   difficulty: "easy",
-  subject: topicOptions[0],
-  style: styleOptions[0],
+  subject: undefined,
+  style: undefined,
   approved: true,
 };
 
@@ -62,6 +61,8 @@ const BlankEditor = (props) => {
       message: null,
     },
     isDialogOpen: false,
+    dialogType: "",
+    dialogMessage: "",
     isEditing: true,
   });
 
@@ -73,6 +74,8 @@ const BlankEditor = (props) => {
     isSending,
     error,
     isDialogOpen,
+    dialogType,
+    dialogMessage,
     approved,
   } = state;
 
@@ -105,7 +108,13 @@ const BlankEditor = (props) => {
 
   const deleteHandler = () => {
     if (questions.length === 1) {
-      console.log("You can't delete this!");
+      dispatch({
+        type: "OPEN_DIALOG",
+        payload: {
+          type: "warning",
+          message: "You only have one question, so you can't delete this one.",
+        },
+      });
     } else {
       dispatch({ type: "DELETE", payload: activeIndex });
     }
@@ -115,20 +124,24 @@ const BlankEditor = (props) => {
     <EditorContext.Provider value={{ state, dispatch }}>
       {isDialogOpen && (
         <Dialog
-          type="warning"
-          message="placeholder"
-          onDialogClose={() => dispatch({ type: "DIALOG_CLOSE" })}
-          onProceedAnyways={() => dispatch({ type: "FETCH_ANSWERS_SUCCESS" })}
+          type={dialogType}
+          message={dialogMessage}
+          onDialogClose={() => dispatch({ type: "CLOSE_DIALOG" })}
+          onProceedAnyways={() => {
+            dispatch({ type: "CLOSE_DIALOG" });
+            submitHandler();
+          }}
         />
       )}
       <main className={classes.editor}>
         <div className={classes.misc}>
           <span className={classes["page-title"]}>editor</span>
-          <QuestionNavigator
+          <QuestionNavigatorForWrite
             maxIndex={questions.length - 1}
             activeIndex={activeIndex}
             dispatch={dispatch}
             questionErrors={questionErrors}
+            allQuestionsValid={allQuestionsValid}
           />
           <PrevNextNavigator
             maxIndex={questions.length - 1}
@@ -144,7 +157,7 @@ const BlankEditor = (props) => {
             title={
               allQuestionsValid
                 ? "Click to submit."
-                : "Make sure to fill all the questions' fields out, or disapprove of the ones that don't work."
+                : "Make sure to fill all the questions' fields out, or remove the questions that you don't plan to use."
             }
             endPosition
           />
