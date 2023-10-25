@@ -38,7 +38,6 @@
   min-width: 333px;
   height: 100%;
   padding-top: 24px;
-  padding-bottom: 24px;
 }
 
 .editing-tools--inner {
@@ -54,4 +53,8 @@
   opacity: 20%;
   transition: opacity 0.2s;
   user-select: none;
+}
+
+.gap {
+  gap: 48px;
 }

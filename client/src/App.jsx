@@ -8,6 +8,7 @@ import Create from "./pages/CreatePage/Create";
 
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Editor from "./Components/Main/Editor/Editor";
+import BlankEditor from "./Components/Main/Editor/BlankEditor";
 import SuccessScreen from "./Components/UI/SuccessScreen/SuccessScreen";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Main /> },
+      { path: "study", element: <ErrorPage /> },
       {
         path: "create",
         element: <Create />,
@@ -52,7 +54,10 @@ const router = createBrowserRouter([
           },
         ],
       },
-      { path: "study", element: <ErrorPage /> },
+      {
+        path: "write",
+        element: <BlankEditor />,
+      },
       {
         path: "test",
         element: <p>wip...</p>,

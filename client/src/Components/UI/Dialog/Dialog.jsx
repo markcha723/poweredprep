@@ -1,5 +1,6 @@
 import React from "react";
 import { createPortal } from "react-dom";
+import { useNavigate } from "react-router-dom";
 
 import Button from "../Button/Button";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
@@ -12,6 +13,8 @@ const Overlay = (props) => {
 const portalElement = document.getElementById("dialog-root");
 
 const Dialog = (props) => {
+  const navigate = useNavigate();
+
   return (
     <React.Fragment>
       {createPortal(<Overlay onClick={props.onDialogClose} />, portalElement)}
@@ -46,6 +49,23 @@ const Dialog = (props) => {
                 size="small"
                 onClick={props.onProceedAnyways}
               ></Button>
+            </React.Fragment>
+          )}
+
+          {props.type === "success" && (
+            <React.Fragment>
+              <Button
+                color="pink"
+                option="keep going."
+                size="large"
+                onClick={props.onDialogClose}
+              />
+              <Button
+                color="teal"
+                option="return to home"
+                size="large"
+                onClick={() => navigate("/main")}
+              />
             </React.Fragment>
           )}
 

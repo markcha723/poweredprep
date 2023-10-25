@@ -2,23 +2,11 @@ import {
   topicOptions,
   styleOptions,
 } from "../../../hooks/use-config-validator";
+import { blankQuestion } from "./BlankEditor";
 
 /* 
   editor reducer
-  currently consumed in editor.jsx, 
-  note that this should always return a state object of the following shape:
-  {
-    questions: Question[]
-    activeQuestions: questions[activeIndex]
-    activeIndex: number
-    error: {
-      exists: boolean
-      message: null | string
-    }
-    isLoading: boolean
-    isSending: boolean
-    isEditing: boolean
-  }
+  currently consumed in both Editor.jsx and BlankEditor.jsx.
 */
 
 const editorReducer = (state, action) => {
@@ -132,6 +120,7 @@ const editorReducer = (state, action) => {
         ...state,
         questions: questionBodyUpdated,
         activeQuestion: questionBodyUpdated[state.activeIndex],
+        questionErrors: evaluateAllQuestionsForErrors(questionBodyUpdated),
       };
     case "PROMPT_CHANGE":
       const promptBodyUpdated = updateQuestionsByKey(
@@ -144,6 +133,7 @@ const editorReducer = (state, action) => {
         ...state,
         questions: promptBodyUpdated,
         activeQuestion: promptBodyUpdated[state.activeIndex],
+        questionErrors: evaluateAllQuestionsForErrors(promptBodyUpdated),
       };
     case "CORRECT_ANSWER_CHANGE":
       const previousCorrectAnswers =
@@ -175,6 +165,7 @@ const editorReducer = (state, action) => {
         ...state,
         questions: updatedAnswerArray,
         activeQuestion: updatedAnswerArray[state.activeIndex],
+        questionErrors: evaluateAllQuestionsForErrors(updatedAnswerArray),
       };
     case "ANSWER_TEXT_CHANGE":
       const previousAnswerTexts =
@@ -203,6 +194,7 @@ const editorReducer = (state, action) => {
         ...state,
         questions: updatedAnswerTextArray,
         activeQuestion: updatedAnswerTextArray[state.activeIndex],
+        questionErrors: evaluateAllQuestionsForErrors(updatedAnswerTextArray),
       };
     case "SUCCESSFUL_SAVE":
       return {
@@ -251,6 +243,65 @@ const editorReducer = (state, action) => {
           }
         }),
       };
+    case "OPEN_DIALOG":
+      return {
+        ...state,
+        isDialogOpen: true,
+        dialogType: action.payload.type,
+        dialogMessage: action.payload.message,
+      };
+    case "CLOSE_DIALOG":
+      return {
+        ...state,
+        isDialogOpen: false,
+        dialogType: "",
+        dialogMessage: "",
+      };
+    case "DELETE":
+      const deletedArray = state.questions.filter(
+        (question, index) => action.payload !== index
+      );
+      let newIndex;
+      if (action.payload === 0) {
+        newIndex = 0;
+      } else if (action.payload === state.questions.length - 1) {
+        newIndex = deletedArray.length - 1;
+      } else {
+        newIndex = action.payload;
+      }
+      return {
+        ...state,
+        questions: deletedArray,
+        activeIndex: newIndex,
+        activeQuestion: deletedArray[newIndex],
+        questionErrors: evaluateAllQuestionsForErrors(deletedArray),
+      };
+    case "ADD_QUESTION":
+      const addedArray = [...state.questions, blankQuestion];
+      return {
+        ...state,
+        questions: addedArray,
+        activeIndex: addedArray.length - 1,
+        activeQuestion: addedArray[addedArray.length - 1],
+        questionErrors: evaluateAllQuestionsForErrors(addedArray),
+      };
+    // notifies user AND initializes the form
+    case "POST_SUCCESS":
+      return {
+        questions: [blankQuestion],
+        activeQuestion: blankQuestion,
+        questionErrors: evaluateAllQuestionsForErrors([blankQuestion]),
+        activeIndex: 0,
+        isSending: false,
+        error: {
+          exists: false,
+          message: null,
+        },
+        isDialogOpen: true,
+        dialogType: "success",
+        dialogMessage: action.payload.message,
+        isEditing: true,
+      };
   }
 };
 
@@ -297,7 +348,7 @@ const evaluateActiveQuestionForErrors = (activeQuestion) => {
   };
 };
 
-const evaluateAllQuestionsForErrors = (questions) => {
+export const evaluateAllQuestionsForErrors = (questions) => {
   const evaluationResults = questions.map((question) =>
     evaluateActiveQuestionForErrors(question)
   );
