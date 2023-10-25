@@ -11,8 +11,6 @@ import Dialog from "../../UI/Dialog/Dialog";
 
 import editorReducer from "./editor-reducer";
 import EditorContext from "../../../store/editor-context";
-import { styleOptions } from "../../../hooks/use-config-validator";
-import { topicOptions } from "../../../hooks/use-config-validator";
 import { evaluateAllQuestionsForErrors } from "./editor-reducer";
 
 import classes from "./Editor.module.css";
@@ -86,23 +84,39 @@ const BlankEditor = (props) => {
   const submitHandler = useCallback(async () => {
     console.log("submitting questions...");
     try {
+      const questionsCopy = [...questions];
+      const cleanedQuestions = questionsCopy.map((question) => {
+        const questionCopy = { ...question };
+        delete questionCopy.approved;
+        return questionCopy;
+      });
       const settings = {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...questions, creationType: "written" }),
+        body: JSON.stringify({
+          creationType: "written",
+          questions: cleanedQuestions,
+        }),
       };
-
       const response = await fetch("/questions", settings);
       if (!response.ok) {
         throw new Error("Unable to POST.", {
           cause: { code: response.status },
         });
       }
+      const data = await response.json();
+      dispatch({ type: "POST_SUCCESS", payload: data });
     } catch (error) {
-      dispatch({ type: "FETCH_ERROR", payload: error.message });
+      dispatch({
+        type: "OPEN_DIALOG",
+        payload: {
+          type: "warning",
+          message: `unable to fetch: ${error.cause.code}`,
+        },
+      });
     }
   });
 

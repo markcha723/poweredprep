@@ -15,7 +15,6 @@ const QuestionNavigatorForWrite = (props) => {
   } = props;
 
   const addQuestionHandler = () => {
-    console.log("test");
     if (allQuestionsValid) {
       dispatch({ type: "ADD_QUESTION" });
     } else {
@@ -37,7 +36,7 @@ const QuestionNavigatorForWrite = (props) => {
         <button
           className={`${classes.button} ${
             i === activeIndex ? classes.active : ""
-          }`}
+          } ${questionErrors[i].exists ? classes["error-highlight"] : ""}`}
           onClick={() => dispatch({ type: "INDEX_CHANGE", index: i })}
           key={`buttonForQuestionNumber${i}`}
         >

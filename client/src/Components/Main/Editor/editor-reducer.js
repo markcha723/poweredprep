@@ -258,17 +258,16 @@ const editorReducer = (state, action) => {
         dialogMessage: "",
       };
     case "DELETE":
-      console.log(state.questions);
       const deletedArray = state.questions.filter(
         (question, index) => action.payload !== index
       );
-      console.log(deletedArray);
       let newIndex;
       if (action.payload === 0) {
         newIndex = 0;
-      }
-      if (action.payload === state.questions.length - 1) {
+      } else if (action.payload === state.questions.length - 1) {
         newIndex = deletedArray.length - 1;
+      } else {
+        newIndex = action.payload;
       }
       return {
         ...state,
@@ -282,9 +281,26 @@ const editorReducer = (state, action) => {
       return {
         ...state,
         questions: addedArray,
-        activeIndex: state.activeIndex + 1,
-        activeQuestion: addedArray[state.activeIndex + 1],
+        activeIndex: addedArray.length - 1,
+        activeQuestion: addedArray[addedArray.length - 1],
         questionErrors: evaluateAllQuestionsForErrors(addedArray),
+      };
+    // notifies user AND initializes the form
+    case "POST_SUCCESS":
+      return {
+        questions: [blankQuestion],
+        activeQuestion: blankQuestion,
+        questionErrors: evaluateAllQuestionsForErrors([blankQuestion]),
+        activeIndex: 0,
+        isSending: false,
+        error: {
+          exists: false,
+          message: null,
+        },
+        isDialogOpen: true,
+        dialogType: "success",
+        dialogMessage: action.payload.message,
+        isEditing: true,
       };
   }
 };

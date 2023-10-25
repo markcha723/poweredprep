@@ -59,8 +59,7 @@ router.post("/", async (req, res) => {
     switch (creationType) {
       case "generated":
         Logging.info("Creation type is 'generated'.");
-        delete req.body.creationType;
-        await GptQuestionsApprovedDB.insertMany(req.body);
+        await GptQuestionsApprovedDB.insertMany(req.body.questions);
         Logging.info(
           `A POST request was approved, and the questions have been added to collection ${GptQuestionsApprovedDB.collection.collectionName}`
         );
@@ -70,8 +69,7 @@ router.post("/", async (req, res) => {
         });
       case "written":
         Logging.info("Creation type is 'written'.");
-        delete req.body.creationType;
-        await HUMAN_QUESTIONS_COLLECTION.insertMany(req.body);
+        await HUMAN_QUESTIONS_COLLECTION.insertMany(req.body.questions);
         Logging.info(
           `A POST request was approved, and the questions have been added to collection ${HUMAN_QUESTIONS_COLLECTION.collection.collectionName}`
         );
@@ -81,11 +79,7 @@ router.post("/", async (req, res) => {
         });
     }
   } catch (error) {
-    if (error.cause.code) {
-      res.status(error.cause.code).json(error.message);
-    } else {
-      res.status(500).json({ message: error.message });
-    }
+    res.status(500).json({ message: error.message });
   }
 });
 
